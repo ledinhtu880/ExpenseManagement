@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-light-purple elevation-4" style="background-color: #6C63FF">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
+    <a href="#" class="brand-link border-0">
         <div class="d-flex align-items-center justify-content-center gap-3">
             <svg width="62" height="63" viewBox="0 0 62 63" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -15,26 +15,26 @@
     </a>
 
     <!-- Sidebar -->
-    <div class="sidebar px-0">
+    <div class="sidebar px-0 mt-5">
         <!-- Sidebar Menu -->
-        <nav class="mt-2">
+        <nav>
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item text-center">
-                    <a href="#" class="nav-link rounded-0 text-white fw-bold text-uppercase active">
+                    <a href="#" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase active">
                         Tổng quan
                     </a>
                 </li>
                 <li class="nav-item text-center">
-                    <a href="#" class="nav-link rounded-0 text-white fw-bold text-uppercase ">
+                    <a href="#" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase">
                         Sổ giao dịch
                     </a>
                 </li>
                 <li class="nav-item text-center">
-                    <a href="#" class="nav-link rounded-0 text-white fw-bold text-uppercase ">
+                    <a href="#" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase">
                         Ngân sách </a>
                 </li>
                 <li class="nav-item text-center">
-                    <a href="#" class="nav-link rounded-0 text-white fw-bold text-uppercase ">
+                    <a href="#" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase">
                         Tài khoản
                     </a>
                 </li>
@@ -43,4 +43,6 @@
         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
+
+    <a href="#" class="text-white position-absolute w-100 text-center py-3 text-white text-uppercase fw-bold" style="bottom: 0; left: 0;">Đăng xuất</a>
 </aside>
