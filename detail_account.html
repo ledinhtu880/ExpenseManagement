@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaction Details</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f9f9f9;
+      }
+
+      .transaction-container {
+        width: 500px;
+        height: 500px;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .transaction-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #6c63ff;
+      }
+
+      .transaction-header button {
+        background: none;
+        border: none;
+        color: #6c63ff;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .transaction-header button:hover {
+        text-decoration: underline;
+      }
+
+      .transaction-content {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+
+      .transaction-content gach{
+        border-bottom: 1px solid #6c63ff;
+      }
+
+      .transaction-content h5 {
+        margin: 0;
+        font-size: 18px;
+        color: #000;
+      }
+
+      .transaction-content .amount {
+        font-size: 20px;
+        color: #ff0000;
+        font-weight: bold;
+      }
+
+      .transaction-content .details {
+        margin-top: 30px;
+        color: #6b6b6b;
+        font-size: 15px;
+      }
+
+      .transaction-content .details i {
+        margin-right: 5px;
+      }
+
+      .delete-transaction {
+        display: flex;
+        justify-content: center;
+      }
+
+      .delete-transaction button {
+        background-color: #6c63ff;
+        color: #ffffff;
+        font-size: 16px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .delete-transaction button:hover {
+        background-color: #5757d1;
+      }
+    
+    </style>
+  </head>
+  <body>
+    <div class="transaction-container">
+      <!-- Header -->
+      <div class="transaction-header">
+        <button onclick="closeTransaction()">Đóng</button>
+        <button onclick="editTransaction()">Sửa</button>
+      </div>
+
+      <!-- Transaction Details -->
+      <div class="transaction-content">
+        
+        <div class="gach" style="border-bottom: 1px solid black;">
+           
+            <img src="https://via.placeholder.com/50" alt="Avatar" style="border-radius: 100px;"/>
+            <h5>Ăn uống</h5>
+            <div class="amount">2,000.00</div>
+        </div>
+        
+        <div class="details">
+          <div><i class="fas fa-user"></i> Thứ Sáu, 27 tháng 12 2024</div><br>
+          <div><i class="fas fa-user"></i> Tiền mặt</div>
+        </div>
+      </div>
+
+      <!-- Delete Button -->
+      <div class="delete-transaction">
+        <button onclick="deleteTransaction()">XÓA GIAO DỊCH</button>
+      </div>
+    </div>
+
+    <script>
+      function closeTransaction() {
+        alert("Đóng giao dịch");
+      }
+
+      function editTransaction() {
+        alert("Sửa giao dịch");
+      }
+
+      function deleteTransaction() {
+        if (confirm("Bạn có chắc muốn xóa giao dịch này?")) {
+          alert("Giao dịch đã bị xóa");
+        }
+      }
+    </script>
+  </body>
+</html>

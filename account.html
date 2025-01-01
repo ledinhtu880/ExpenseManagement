@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaction Form</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f9f9f9;
+      }
+
+      .form-container {
+        width: 500px;
+        background-color: #ffffff;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .form-header h5 {
+        color: #6c63ff;
+        margin: 0;
+        font-size: 18px;
+        flex: 1;
+        text-align: center;
+        border-bottom: 1px solid #6c63ff; 
+        padding-bottom: 10px;
+      }
+
+      .form-header button {
+        background-color: #6c63ff;
+        color: #ffffff;
+        font-size: 14px;
+        padding: 3px 9px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        position: absolute; /* Đặt nút hủy ở vị trí cố định */
+        left: 2px; /* Căn sang trái */
+      }
+
+      .form-header button:hover {
+        background-color: #5757d1;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 14px;
+        color: #6b6b6b;
+        margin-bottom: 5px;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 70%;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+      }
+
+      .form-group textarea {
+        width: 95%;
+        resize: none;
+        height: 60px;
+        border-radius: 15px;
+      }
+
+      .form-inline {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .form-inline span {
+        margin-right: 10px;
+        font-size: 20px;
+        color: #6b6b6b;
+      }
+
+      .form-inline input {
+        width: 50px;
+        flex: 1;
+        padding: 10px;
+        font-size: 15px;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+      }
+
+      .form-submit {
+        display: flex;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .form-submit button {
+        background-color: #6c63ff;
+        color: #ffffff;
+        font-size: 16px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .form-submit button:hover {
+        background-color: #5757d1;
+      }
+      
+      .form-group button {
+            width: 40%;
+            padding: 10px;
+            background-color: #6b6bff;
+            color: #ffffff;
+            font-size: 16px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .form-group button:hover {
+            background-color: #5757d1;
+        }
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        width: 400px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .modal-header h5 {
+        color: #6c63ff;
+        margin: 0;
+        font-size: 18px;
+      }
+
+      .modal-header button {
+        background: none;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        color: #6c63ff;
+      }
+
+      .modal-header button:hover {
+        color: #5757d1;
+      }
+
+      .modal-group {
+        margin-bottom: 15px;
+      }
+
+      .modal-group label {
+        display: block;
+        font-size: 14px;
+        color: #6b6b6b;
+        margin-bottom: 5px;
+      }
+
+      .modal-group input {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+      }
+      /* Make modal dialog centered */
+
+  /* Make modal dialog centered */
+  .modal-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+  }
+
+  /* Ensure modal content takes up proper width and height */
+  .modal-content {
+    width: 80%; /* or any value you prefer */
+    max-width: 500px; /* set max width if needed */
+  }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <!-- Tiêu đề và nút hủy -->
+      <div class="form-header">
+        <button type="button" onclick="goBackToMenu()">Hủy</button>
+        <h5>Thêm Giao Dịch</h5>
+      </div>
+
+      <!-- Nội dung form -->
+      <form>
+        <div class="form-inline">
+          <span><i class="fa-brands fa-btc"></i></span>
+          <input type="number" placeholder="Số tiền" min="0" required />
+        </div>
+
+        <div class="form-group">
+          <select id="group">
+            <option value="" disabled selected>Chọn nhóm</option>
+            <optgroup label="Khoản chi">
+              <option value="food">Ăn uống</option>
+              <option value="bills_utilities">Hóa đơn & Tiện ích</option>
+              <option value="shopping">Mua sắm</option>
+              <option value="family">Gia đình</option>
+              <option value="transportation">Di chuyển</option>
+              <option value="health">Sức khỏe</option>
+              <option value="education">Giáo dục</option>
+              <option value="entertainment">Giải trí</option>
+              <option value="gifts_donations">Quà tặng quyên góp</option>
+              <option value="insurance">Bảo hiểm</option>
+              <option value="investment">Đầu tư</option>
+              <option value="other_expenses">Các chi phí khác</option>
+              <option value="money_sent">Tiền chuyển đi</option>
+              <option value="interest_payment">Trả lãi</option>
+              <option value="unclassified_expenses">
+                Khoản chi chưa phân loại
+              </option>
+            </optgroup>
+            <optgroup label="Khoản thu">
+              <option value="salary">Lương</option>
+              <option value="other_income">Thu nhập khác</option>
+              <option value="money_received">Tiền chuyển đến</option>
+              <option value="interest_income">Thu lãi</option>
+              <option value="unclassified_income">
+                Khoản thu chưa phân loại
+              </option>
+            </optgroup>
+            <optgroup label="Vay/nợ">
+              <option value="lend">Cho vay</option>
+              <option value="debt_payment">Trả nợ</option>
+              <option value="debt_collection">Thu nợ</option>
+              <option value="borrow">Đi vay</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <textarea id="note" placeholder="Ghi chú"></textarea>
+        </div>
+
+        <div class="form-group">
+          <input type="date" id="date" required />
+        </div>
+
+        <div class="form-group">
+          <input
+            type="number"
+            id="payment"
+            placeholder="Tiền mặt"
+            required
+            min="0"
+          />
+        </div>
+
+        <div class="form-group">
+          <input type="text" id="location" placeholder="Đặt vị trí" />
+        </div>
+<!-- Input Field -->
+<div class="form-group">
+  <input type="text" id="event" placeholder="Chọn sự kiện" readonly />
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thêm mới sự kiện</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form thêm mới sự kiện -->
+        <form id="eventForm">
+          <div class="form-group">
+         
+            <input type="text" class="form-control" id="eventName" placeholder="tên sự kiện" required />
+          </div>
+          <div class="form-group">
+            
+            <input type="date" class="form-control" id="endDate" placeholder="Ngày kết thúc"required />
+          </div>
+          <div class="form-group">
+            <label for="amount"><i class="fa-brands fa-btc"></i>Việt Nam đồng</label>
+          
+          </div>
+          <div class="form-group">
+            <label for="paymentMethod">Phương thức thanh toán:</label>
+            <select class="form-control" id="paymentMethod" required>
+              <option value="cash">Tiền mặt</option>
+              <option value="card">Thẻ ngân hàng</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary" onclick="saveEvent()">Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="form-group"style="text-align: center;">
+  <button type="submit">Lưu</button>
+</div>
+
+<!-- Script to open and close modal -->
+<script>
+  // When input field is clicked, show the modal
+  document.getElementById('event').addEventListener('click', function () {
+    $('#eventModal').modal('show');
+  });
+
+  // Function to save event and close the modal
+  function saveEvent() {
+    const eventName = document.getElementById('eventName').value;
+    const endDate = document.getElementById('endDate').value;
+    const amount = document.getElementById('amount').value;
+    const paymentMethod = document.getElementById('paymentMethod').value;
+
+    if (eventName && endDate && amount && paymentMethod) {
+      // Save event logic here (e.g., send data to server)
+
+      // Show saved information (for demonstration)
+      alert(`Sự kiện: ${eventName}\nNgày kết thúc: ${endDate}\nSố tiền: ${amount} VND\nPhương thức thanh toán: ${paymentMethod}`);
+
+      // Close the modal
+      $('#eventModal').modal('hide');
+    } else {
+      alert('Vui lòng điền đầy đủ thông tin.');
+    }
+  }
+</script>
+
+<!-- Bootstrap JS and jQuery (Ensure these scripts are included) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom CSS -->
+
+
+
+    <script>
+      function goBackToMenu() {
+        window.location.href = "../menu.html";
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var today = new Date().toISOString().split("T")[0];
+        document.getElementById("date").value = today;
+      });
+    </script>
+  </body>
+</html>
