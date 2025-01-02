@@ -17,9 +17,9 @@ return new class extends Migration
       $table->unsignedInteger('user_id');
       $table->unsignedInteger('category_id');
       $table->unsignedInteger('event_id');
-      $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-      $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-      $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+      $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+      $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('cascade');
+      $table->foreign('event_id')->references('event_id')->on('events')->onDelete('cascade');
       $table->decimal('amount', 10, 2);
       $table->dateTime('date')->useCurrent();
       $table->string('note')->nullable();

@@ -14,12 +14,12 @@ return new class extends Migration
     Schema::create('debts', function (Blueprint $table) {
       $table->unsignedInteger('debt_id', true)->primary();
       $table->unsignedInteger('user_id');
-      $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
       $table->decimal('amount', 10, 2)->default(0);
       $table->string('lender_borrower_name');
       $table->unsignedInteger('category_id');
-      $table->foreign('category_id')->references('id')->on('categories')->onDelete('');
       $table->date('date');
+      $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+      $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('cascade');
     });
   }
 

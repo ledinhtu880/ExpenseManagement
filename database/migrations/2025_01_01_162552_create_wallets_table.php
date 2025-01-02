@@ -16,7 +16,7 @@ return new class extends Migration
       $table->unsignedInteger('user_id');
       $table->string('name');
       $table->decimal('balance', 10, 2)->default(0);
-      $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+      $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
     });
   }
 

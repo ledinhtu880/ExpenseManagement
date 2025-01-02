@@ -6,22 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('interest_rates', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+  /**
+   * Run the migrations.
+   */
+  public function up(): void
+  {
+    Schema::create('interest_rates', function (Blueprint $table) {
+      $table->unsignedInteger('rate_id', true)->primary();
+      $table->float('rate_percentage');
+      $table->decimal('amount', 10, 2);
+      $table->dateTime('start_date');
+      $table->dateTime('end_date')->nullable();
+      $table->enum('interest_type', ['Lãi đơn ', 'Lãi kép']);
+      $table->enum('time_period', ['Hàng tuần', 'Hàng tháng', 'Hàng quý', 'Nửa năm', 'Hàng năm']);
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('interest_rates');
-    }
+  /**
+   * Reverse the migrations.
+   */
+  public function down(): void
+  {
+    Schema::dropIfExists('interest_rates');
+  }
 };

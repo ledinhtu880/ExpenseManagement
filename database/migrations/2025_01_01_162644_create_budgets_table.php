@@ -15,8 +15,11 @@ return new class extends Migration
       $table->unsignedInteger('budget_id', true)->primary();
       $table->unsignedInteger('user_id');
       $table->unsignedInteger('category_id');
-      $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-      $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+      $table->decimal('amount', 10, 2);
+      $table->dateTime('start_date');
+      $table->dateTime('end_date')->nullable();
+      $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+      $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('cascade');
     });
   }
 

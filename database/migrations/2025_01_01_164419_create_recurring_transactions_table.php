@@ -15,9 +15,9 @@ return new class extends Migration
       $table->unsignedInteger('recurring_transaction_idw', true)->primary();
       $table->unsignedInteger('user_id');
       $table->unsignedInteger('category_id');
-      $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-      $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-      $table->enum('frequency', ['Hằng ngày', 'Hàng tuần', 'Hàng tháng', 'Hàng năm']);
+      $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+      $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('cascade');
+      $table->enum('frequency', ['Hàng ngày', 'Hàng tuần', 'Hàng tháng', 'Hàng năm']);
       $table->date('start_date');
       $table->date('end_date')->nullable();
     });

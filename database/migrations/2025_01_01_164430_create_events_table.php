@@ -14,7 +14,7 @@ return new class extends Migration
     Schema::create('events', function (Blueprint $table) {
       $table->unsignedInteger('event_id', true)->primary();
       $table->unsignedInteger('user_id');
-      $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+      $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
       $table->string('name');
       $table->dateTime('date');
       $table->decimal('spent_amount', 10, 2);
