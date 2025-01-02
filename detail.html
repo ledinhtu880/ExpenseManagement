@@ -1,0 +1,158 @@
+<!-- Giao diện Sự Kiện -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sự Kiện</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 500px;
+        margin: 20px auto;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .header h2 {
+        font-size: 18px;
+        color: #6c63ff;
+      }
+
+      .header button {
+        background: none;
+        border: none;
+        color: #6c63ff;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .event-card {
+        margin-top: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .event-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .event-header img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+
+      .event-header .title {
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .event-details {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding-left: 10px;
+      }
+
+      .event-details div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .event-details img {
+        width: 20px;
+        height: 20px;
+      }
+
+      .actions {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 10px; /* Khoảng cách giữa các button */
+        margin-top: 20px;
+      }
+
+      .actions button {
+        padding: 20px;
+        border: none;
+        border-radius: 15px;
+        font-size: 15px;
+        cursor: pointer;
+        width: 50%;
+        margin: 0 auto; /* Căn giữa button */
+      }
+
+      .actions .complete {
+        background-color: #6c63ff;
+        color: white;
+      }
+
+      .actions .transactions {
+        background-color: #0084ff;
+        color: white;
+      }
+
+      .actions .delete {
+        background-color: #ff4d4d;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <button>Quay lại</button>
+        <h2>Sự kiện</h2>
+        <button>Sửa</button>
+      </div>
+
+      <div class="event-card">
+        <div class="event-header">
+          <img src="https://via.placeholder.com/50" alt="" />
+          <span class="title">Đà Nẵng</span>
+        </div>
+
+        <div class="event-details">
+          <div>
+            <img src="https://via.placeholder.com/20" alt="User Icon" />
+            <span>31/12/2024</span>
+            <span style="color: gray">Còn 2 ngày</span>
+          </div>
+          <div>
+            <img src="https://via.placeholder.com/20" alt="Flag Icon" />
+            <span>Tất cả các ví</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="complete">Đánh dấu hoàn tất</button>
+        <button class="transactions">Số giao dịch</button>
+        <button class="delete">XÓA</button>
+      </div>
+    </div>
+  </body>
+</html>
