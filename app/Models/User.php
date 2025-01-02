@@ -5,44 +5,62 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+  use HasFactory;
+  public $timestamps = false;
+  protected $primaryKey = 'user_id';
+  protected $fillable = [
+    'name',
+    'email',
+    'email_education',
+    'gender',
+    'birthday',
+    'identify_card',
+    'password',
+  ];
+  protected $hidden = [
+    'password',
+  ];
+  protected function casts(): array
+  {
+    return [
+      'password' => 'hashed',
     ];
+  }
+  public function wallets()
+  {
+    return $this->hasMany(Wallet::class, 'user_id', 'user_id');
+  }
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+  public function budgets()
+  {
+    return $this->hasMany(Budget::class, 'user_id', 'user_id');
+  }
+  public function recurringTransactions()
+  {
+    return $this->hasMany(RecurringTransaction::class, 'user_id', 'user_id');
+  }
+  public function events()
+  {
+    return $this->hasMany(Event::class, 'user_id', 'user_id');
+  }
+  public function transactions()
+  {
+    return $this->hasMany(Transaction::class, 'user_id', 'user_id');
+  }
+  public function debts()
+  {
+    return $this->hasMany(Debt::class, 'user_id', 'user_id');
+  }
+  public function getAgeAttribute()
+  {
+    return Carbon::parse($this->birthday)->age;
+  }
+  public function getFormattedBirthdayAttribute()
+  {
+    return Carbon::parse($this->birthday)->format('d/m/Y');
+  }
 }
