@@ -67,7 +67,7 @@
 
             <div class="profile-container">
                 <div class="profile-info">
-                    <img src="public/images/logouser.jpg" alt="Profile" class="profile-image">
+                    <img src="{{ asset('storage/images/logouser.jpg') }}" alt="Profile" class="profile-image">
                     <h4>dphuongha212003</h4>
                     <p class="text-muted">dphuongha212003@gmail.com</p>
                 </div>

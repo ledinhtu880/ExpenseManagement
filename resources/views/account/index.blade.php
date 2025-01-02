@@ -145,7 +145,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <div class="user-panel text-center">
                 <i class="fas fa-edit edit-profile"></i>
-                <img src="public/images/logouser.jpg" alt="User Image" class="img-circle elevation-2">
+                <img src="{{ asset('storage/images/logouser.jpg') }}" alt="User Image" class="img-circle elevation-2">
                 <div class="user-info">
                     <h5 class="mb-1">dphuongha212003</h5>
                     <span class="email-text">dphuongha212003@gmail.com</span>

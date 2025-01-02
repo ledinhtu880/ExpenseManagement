@@ -4,55 +4,55 @@
 
 
 @push('css')
-<style>
+    <style>
         .dashboard-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px;
         }
-        
+
         .total-balance {
             font-size: 1.5rem;
             font-weight: bold;
         }
-        
+
         .wallet-section {
             background: #fff;
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .wallet-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
         }
-        
+
         .wallet-item {
             display: flex;
             align-items: center;
             padding: 10px 0;
             border-bottom: 1px solid #eee;
         }
-        
+
         .wallet-icon {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             margin-right: 15px;
         }
-        
+
         .report-section {
             background: #fff;
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 20px;
         }
-        
+
         .tab-navigation {
             display: flex;
             background: #f8f9fa;
@@ -60,7 +60,7 @@
             padding: 5px;
             margin-bottom: 15px;
         }
-        
+
         .tab-item {
             flex: 1;
             text-align: center;
@@ -68,23 +68,23 @@
             cursor: pointer;
             border-radius: 15px;
         }
-        
+
         .tab-item.active {
             background: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
+
         .expense-chart {
             height: 200px;
             background: #f8f9fa;
             border-radius: 10px;
             margin: 15px 0;
         }
-        
+
         .top-expenses {
             margin-top: 20px;
         }
-        
+
         .expense-item {
             display: flex;
             justify-content: space-between;
@@ -94,21 +94,21 @@
             margin-bottom: 10px;
             border-radius: 8px;
         }
-        
+
         .expense-info {
             display: flex;
             align-items: center;
         }
-        
+
         .expense-percentage {
             color: #dc3545;
             font-weight: bold;
         }
-        
+
         .recent-transactions {
             margin-top: 20px;
         }
-        
+
         .transaction-item {
             display: flex;
             justify-content: space-between;
@@ -116,15 +116,15 @@
             padding: 10px;
             border-bottom: 1px solid #eee;
         }
-        
+
         .amount-positive {
             color: #28a745;
         }
-        
+
         .amount-negative {
             color: #dc3545;
         }
-        
+
         .add-transaction-btn {
             position: fixed;
             bottom: 20px;
@@ -136,7 +136,7 @@
             color: white;
             border: none;
             font-size: 24px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
     </style>
 @endpush
@@ -153,7 +153,7 @@
                         <div class="total-balance">9.9991.000 đ</div>
                     </div>
                     <div class="user-profile">
-                        <img src="path/to/profile.jpg" alt="Profile" class="img-circle" style="width: 40px;">
+                        <img src="{{ asset('storage/images/logouser.jpg') }}" alt="Profile" class="img-circle" style="width: 40px;">
                     </div>
                 </div>
 
@@ -176,7 +176,7 @@
                         <h5>Báo cáo tháng này</h5>
                         <a href="#" class="text-primary">Xem báo cáo</a>
                     </div>
-                    
+
                     <div class="tab-navigation">
                         <div class="tab-item active">Tuần</div>
                         <div class="tab-item">Tháng</div>
@@ -275,9 +275,9 @@
     <!-- Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Tab navigation
-            $('.tab-item').click(function() {
+            $('.tab-item').click(function () {
                 $('.tab-item').removeClass('active');
                 $(this).addClass('active');
             });
@@ -311,7 +311,7 @@
             }
 
             // Add transaction button
-            $('.add-transaction-btn').click(function() {
+            $('.add-transaction-btn').click(function () {
                 // Add your logic for adding a new transaction
                 alert('Adding new transaction...');
             });
@@ -319,11 +319,3 @@
     </script>
 </body>
 @endsection
-
-
-@push('js')
-    <script>
-        $(document).ready(function () {
-        })
-    </script>
-@endpush
