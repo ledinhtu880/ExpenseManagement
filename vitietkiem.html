@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaction Form</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f9f9f9;
+      }
+
+      .form-container {
+        width: 500px;
+        background-color: #ffffff;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        height: 90vh;
+      }
+
+      .form-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .form-header h5 {
+        color: #6c63ff;
+        margin: 0;
+        font-size: 18px;
+        flex: 1;
+        text-align: center;
+        border-bottom: 1px solid #6c63ff; 
+        padding-bottom: 10px;
+      }
+
+      .form-header button {
+        background-color: #6c63ff;
+        color: #ffffff;
+        font-size: 14px;
+        padding: 3px 9px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .form-header .btn-close {
+        position: absolute;
+        left: 10px;
+      }
+
+      .form-header .btn-save {
+        position: absolute;
+        right: 10px;
+      }
+
+      .form-header button:hover {
+        background-color: #5757d1;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 14px;
+        color: #6b6b6b;
+        margin-bottom: 5px;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 70%;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+      }
+
+      .form-group textarea {
+        width: 95%;
+        resize: none;
+        height: 60px;
+        border-radius: 15px;
+      }
+
+      .form-inline {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .form-inline span {
+        margin-right: 10px;
+        font-size: 20px;
+        color: #6b6b6b;
+      }
+
+      .form-inline input {
+        width: 50px;
+        flex: 1;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+      }
+
+      .form-submit {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .form-submit button {
+        background-color: #6c63ff;
+        color: #ffffff;
+        font-size: 16px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .form-submit button:hover {
+        background-color: #5757d1;
+      }
+
+      .form-group button {
+        width: 100%;
+        padding: 10px;
+        background-color: #6b6bff;
+        color: #ffffff;
+        font-size: 16px;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      .form-group button:hover {
+        background-color: #5757d1;
+      }
+
+      .center-buttons {
+        display: flex;
+        justify-content: center; /* Căn giữa Ví cơ bản và Ví liên kết */
+        gap: 10px; /* Khoảng cách giữa 2 button */
+        margin-bottom: 40px; /* Khoảng cách giữa nhóm và button tiếp theo */
+      }
+      .edit-wallet {
+            border-radius: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd; /* Add border */
+            margin: 20px 0; /* Add margin for spacing */
+        }
+
+        .wallet-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .wallet-info img {
+            margin-right: 10px;
+        }
+
+        .wallet-info p {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .input {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input input {
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%; /* Ensure the input fields take the full width */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        .input label {
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #6b6b6b;
+        }
+        .add-wallet {
+            margin-top: 10px;
+            background: none;
+            border: 1px dashed #6c63ff;
+            color: #6c63ff;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <!-- Tiêu đề và nút hủy -->
+      <div class="form-header">
+        <button type="button" class="btn-close" onclick="window.location.href='add_wallet.html'">Đóng</button>
+        <h5>Thêm Ví</h5>
+        <button type="button" class="btn-save">Lưu</button>
+      </div>
+
+      <!-- Nội dung form -->
+      <div class="edit-wallet"style="border-radius: 20px;">
+        
+        
+        <div class="wallet-info">
+            <img src="https://via.placeholder.com/50" alt="User Avatar" style="border-radius: 100px;">
+            <p>Tên</p>
+        </div>
+        
+      <div class="input" >
+        <input type="text" id="wallet-currency" value=""placeholder="Đơn vị tiền tệ">
+        <label for="wallet-amount">Mục tiêu</label>
+        <input type="text" id="wallet-amount" value="0.00 đ">
+        <label for="wallet-amount">Số tiền ban đầu</label>
+        <input type="text" id="wallet-amount" value="0.00 đ">
+        <label for="">Ngày kết thúc</label>
+        <input type="date" id="date" required="">
+      </div>
+        
+    </div>
+    <button class="add-wallet">Liên kết dịch vụ</button>
+    </div>
+     
+
+    <script>
+
+
+     
+    </script>
+    
+  </body>
+</html>

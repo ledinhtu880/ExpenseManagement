@@ -1,0 +1,143 @@
+<!-- Trang Sửa -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sửa Ví</title>
+    <style>
+        /* CSS giữ nguyên như trước */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            height: 90vh;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h2 {
+            font-size: 20px;
+            color: #6c63ff;
+        }
+        .header button {
+            background: none;
+            border: none;
+            color: #6c63ff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .edit-wallet {
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .edit-wallet label {
+            font-size: 14px;
+            color: gray;
+        }
+        .edit-wallet input {
+            width: 100%;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        .save-button {
+            margin-top: 20px;
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .save-button:hover {
+            background-color: #574bcc;
+        }
+        .wallet-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .wallet-info img {
+            margin-right: 10px;
+        }
+
+        .wallet-info p {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+        .input {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input input {
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%; /* Ensure the input fields take the full width */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        .input label {
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #6b6b6b;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header"style="border-bottom: 1px solid #6c63ff; " >
+        <button onclick="window.location.href ='detail_wallet.html' ">Đóng</button>
+        <h2>Sửa Ví</h2>
+        <button>Lưu</button>
+    </div>
+
+    <div class="edit-wallet"style="border-radius: 20px;">
+        
+        
+        <div class="wallet-info">
+            <img src="https://via.placeholder.com/50" alt="User Avatar" style="border-radius: 100px;">
+            <p>Tiên mặt</p>
+        </div>
+        
+      <div class="input" >
+        <input type="text" id="wallet-currency" value="Việt Nam Đồng">
+        <label for="wallet-amount">Nhập số dư hiện tại của ví</label>
+        <input type="text" id="wallet-amount" value="9.999.000 đ">
+
+      </div>
+        
+    </div>
+
+    
+</div>
+
+<script>
+
+    
+</script>
+</body>
+</html>
