@@ -10,7 +10,7 @@
     />
     <style>
       body {
-        font-family: Arial, sans-serif;
+        font-family: 'Inter', sans-serif;
         margin: 0;
         padding: 0;
         display: flex;
@@ -47,10 +47,11 @@
       }
 
       .form-header button {
-        background-color: #6c63ff;
-        color: #ffffff;
+        background-color: transparent;
+        color:rgba(154, 151, 151, 1) ;
         font-size: 14px;
         padding: 3px 9px;
+        font-size: 15px;
         border: none;
         border-radius: 5px;
         cursor: pointer;
@@ -59,7 +60,7 @@
       }
 
       .form-header button:hover {
-        background-color: #5757d1;
+        background-color: underline;
       }
 
       .form-group {
@@ -105,14 +106,14 @@
         width: 50px;
         flex: 1;
         padding: 10px;
-        font-size: 14px;
+        font-size: 15px;
         border: 1px solid #ddd;
         border-radius: 15px;
       }
 
       .form-submit {
         display: flex;
-        justify-content: center;
+        text-align: center;
         margin-top: 20px;
       }
 
@@ -129,8 +130,9 @@
       .form-submit button:hover {
         background-color: #5757d1;
       }
-        .form-group button {
-            width: 100%;
+      
+      .form-group button {
+            width: 40%;
             padding: 10px;
             background-color: #6b6bff;
             color: #ffffff;
@@ -223,6 +225,71 @@
     width: 80%; /* or any value you prefer */
     max-width: 500px; /* set max width if needed */
   }
+  .form-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Khoảng cách giữa các phần tử */
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+.form-inline span {
+  color: #000;
+  font-weight: bold;
+}
+
+.form-inline input {
+  border: none; /* Loại bỏ border */
+  outline: none; /* Loại bỏ viền khi focus */
+  font-size: 16px;
+  color: #000;
+  width: 100px; /* Chiều rộng ô nhập */
+  padding: 4px 0; /* Khoảng cách bên trong */
+  background-color: transparent; /* Đảm bảo nền trong suốt */
+  text-align: left; /* Căn chữ sang trái */
+}
+
+.form-inline input::placeholder {
+  color: #aaa; /* Màu placeholder */
+  font-style: italic;
+}
+.selected-label {
+      display: inline-block;
+      margin-left: 10px;
+      font-weight: bold;
+      color: #007bff;
+    }
+    .form-group {
+            position: relative;
+            margin-bottom: 15px;
+            
+        }
+
+        .form-group i {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #6b6b6b;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 10px 10px 30px; /* Add padding to make space for the icon */
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: none;
+            box-sizing: border-box;
+        }
+        .form-group in {
+            width: 100%;
+            padding: 10px 10px 10px 30px; /* Add padding to make space for the icon */
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: none;
+            box-sizing: border-box;
+        }
     </style>
   </head>
   <body>
@@ -236,59 +303,31 @@
       <!-- Nội dung form -->
       <form>
         <div class="form-inline">
-          <span><i class="fa-brands fa-btc"></i></span>
-          <input type="number" placeholder="Số tiền" min="0" required />
+          <span>VND</span>
+          2,000
         </div>
 
         <div class="form-group">
-          <select id="group">
-            <option value="" disabled selected>Chọn nhóm</option>
-            <optgroup label="Khoản chi">
-              <option value="food">Ăn uống</option>
-              <option value="bills_utilities">Hóa đơn & Tiện ích</option>
-              <option value="shopping">Mua sắm</option>
-              <option value="family">Gia đình</option>
-              <option value="transportation">Di chuyển</option>
-              <option value="health">Sức khỏe</option>
-              <option value="education">Giáo dục</option>
-              <option value="entertainment">Giải trí</option>
-              <option value="gifts_donations">Quà tặng quyên góp</option>
-              <option value="insurance">Bảo hiểm</option>
-              <option value="investment">Đầu tư</option>
-              <option value="other_expenses">Các chi phí khác</option>
-              <option value="money_sent">Tiền chuyển đi</option>
-              <option value="interest_payment">Trả lãi</option>
-              <option value="unclassified_expenses">
-                Khoản chi chưa phân loại
-              </option>
-            </optgroup>
-            <optgroup label="Khoản thu">
-              <option value="salary">Lương</option>
-              <option value="other_income">Thu nhập khác</option>
-              <option value="money_received">Tiền chuyển đến</option>
-              <option value="interest_income">Thu lãi</option>
-              <option value="unclassified_income">
-                Khoản thu chưa phân loại
-              </option>
-            </optgroup>
-            <optgroup label="Vay/nợ">
-              <option value="lend">Cho vay</option>
-              <option value="debt_payment">Trả nợ</option>
-              <option value="debt_collection">Thu nợ</option>
-              <option value="borrow">Đi vay</option>
-            </optgroup>
-          </select>
+      
+
+          
+            <input type="text" id="location" placeholder="Ăn uống" />
+              
+        
         </div>
 
         <div class="form-group">
-          <textarea id="note" placeholder="Ghi chú"></textarea>
+          <i class="fas fa-user"></i>
+          <textarea id="note" placeholder="Ghi chú">asdasdasd</textarea>
         </div>
 
         <div class="form-group">
+         
           <input type="date" id="date" required />
         </div>
 
         <div class="form-group">
+        
           <input
             type="number"
             id="payment"
@@ -320,16 +359,16 @@
         <!-- Form thêm mới sự kiện -->
         <form id="eventForm">
           <div class="form-group">
-            <label for="eventName">Tên sự kiện:</label>
-            <input type="text" class="form-control" id="eventName" placeholder="Nhập tên sự kiện" required />
+         
+            <input type="text" class="form-control" id="eventName" placeholder="tên sự kiện" required />
           </div>
           <div class="form-group">
-            <label for="endDate">Ngày kết thúc:</label>
-            <input type="date" class="form-control" id="endDate" required />
+            
+            <input type="date" class="form-control" id="endDate" placeholder="Ngày kết thúc"required />
           </div>
           <div class="form-group">
-            <label for="amount">Việt Nam đồng:</label>
-            <input type="number" class="form-control" id="amount" placeholder="Nhập số tiền" required />
+            <label for="amount"><span>VND</span> Việt Nam đồng</label>
+          
           </div>
           <div class="form-group">
             <label for="paymentMethod">Phương thức thanh toán:</label>
@@ -347,7 +386,7 @@
     </div>
   </div>
 </div>
-<div class="form-group">
+<div class="form-group"style="text-align: center;">
   <button type="submit">Lưu</button>
 </div>
 
