@@ -27,20 +27,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
-
-    <style>
-        .error-message {
-            color: #dc3545;
-            font-size: 14px;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .form-control.is-invalid {
-            border-color: #dc3545;
-            background-image: none;
-        }
-    </style>
 </head>
 
 <body class="bg-light">
@@ -51,12 +37,12 @@
                 <main>
                     @csrf
                     <div class="mb-3">
-                        <label for="name" class="form-label">Họ và tên (*)</label>
+                        <label for="name" class="form-label">Họ và tên <span class="text-danger">(*)</span></label>
                         <input type="text" class="form-control" id="name" name="name"
                             placeholder="Nhập họ và tên" required>
                     </div>
                     <div class="mb-3">
-                        <label for="birthday" class="form-label">Ngày sinh (*)</label>
+                        <label for="birthday" class="form-label">Ngày sinh <span class="text-danger">(*)</span></label>
                         <input type="date" class="form-control" id="birthday" name="birthday" required>
                     </div>
                     <div class="mb-3">
@@ -75,17 +61,18 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email (*)</label>
+                        <label for="email" class="form-label">Email <span class="text-danger">(*)</span></label>
                         <input type="email" class="form-control" id="email" name="email"
                             placeholder="Nhập email" required>
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Mật khẩu (*)</label>
+                        <label for="password" class="form-label">Mật khẩu <span class="text-danger">(*)</span></label>
                         <input type="password" class="form-control" id="password" name="password"
                             placeholder="Nhập mật khẩu" required>
                     </div>
                     <div class="mb-3">
-                        <label for="confirm-password" class="form-label">Nhập lại mật khẩu (*)</label>
+                        <label for="confirm-password" class="form-label">Nhập lại mật khẩu <span
+                                class="text-danger">(*)</span></label>
                         <input type="password" class="form-control" id="confirm-password" name="password_confirmation"
                             placeholder="Nhập lại mật khẩu" required>
                     </div>

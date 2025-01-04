@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
 
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register', [AuthController::class, 'handleRegister'])->name('handleRegister');
+Route::get('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'handleRegister']);
 Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'handleLogin']);
+Route::get('/logout', [AuthController::class, 'logout']);
 
-Route::get('/budgets', [HomeController::class, 'indexBudget'])->name('indexBudget');
+Route::get('/', [HomeController::class, 'indexBudget'])->name('indexBudget');

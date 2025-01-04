@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -14,7 +15,11 @@ class AuthController extends Controller
 {
   public function register()
   {
-    return view("auth.register");
+    if (Auth::check()) {
+      return redirect()->intended('');
+    } else {
+      return view('auth.register');
+    }
   }
   public function handleRegister(Request $request)
   {
@@ -46,9 +51,46 @@ class AuthController extends Controller
       return response()->json(['status' => 'danger', 'message' => 'Có lỗi xảy ra, xin vui lòng thử lại!']);
     }
   }
-
+  public function handleLogin(Request $request)
+  {
+    try {
+      $email = $request->input('email');
+      $user = User::where('email', $email)->first();
+      if (!$user) {
+        return response()->json(['status' => 'danger', 'message' => 'Tài khoản không tồn tại']);
+      } else if (Hash::check($request->input('password'), $user->password)) {
+        Auth::login($user);
+        return response()->json([
+          'status' => 'success',
+          'url' => redirect()->intended('')
+            ->with('type', 'success')
+            ->with('message', 'Đăng nhập thành công')->getTargetUrl(),
+        ]);
+      } else {
+        return response()->json([
+          'status' => 'warning',
+          'message' => 'Mật khẩu không chính xác',
+        ]);
+      }
+    } catch (Exception $e) {
+      return response()->json([
+        'status' => 'danger',
+        'message' => $e->getMessage(),
+      ]);
+    }
+  }
   public function login()
   {
-    return view('auth.login');
+    if (Auth::check()) {
+      return redirect()->intended('');
+    } else {
+      return view('auth.login');
+    }
+  }
+  public function logout()
+  {
+    Auth::logout();
+    session()->flush();
+    return redirect()->route('login')->with('type', 'success')->with('message', 'Đăng xuất thành công');
   }
 }
