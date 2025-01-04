@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giao dịch định kì</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f9f9f9;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            height: 90vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            font-size: 20px;
+            color: #6c63ff;
+        }
+
+        .header button {
+            background: none;
+            border: none;
+            color: #6c63ff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .wallet {
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .wallet img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .wallet .info {
+            flex-grow: 1;
+        }
+
+        .wallet .info h3 {
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .wallet .info p {
+            font-size: 14px;
+            color: gray;
+            margin: 0;
+        }
+
+        .add-wallet {
+            margin-top: 10px;
+            background: none;
+            border: 1px dashed #6c63ff;
+            color: #6c63ff;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .edit-wallet {
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .edit-wallet input {
+            width: 100%;
+            border: 1px solid #e0e0e0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .save-btn {
+            margin-top: 20px;
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .button {
+        display: flex;
+        justify-content: center; /* Center horizontally */
+        width: 100%; /* Ensure it takes the full width */
+        margin-top: 400px;
+      }
+
+      .button .add-wallet {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #6c63ff;
+        color: #ffffff;
+        cursor: pointer;
+      }
+
+      .button .add-wallet:hover {
+        background-color: #5757d1;
+      }
+    </style>
+</head>
+<body>
+
+<div class="container">
+   
+    <div class="header" style="border-bottom: 1px solid #6c63ff; "  >
+        <button>Đóng</button>
+        <h2>Giao dịch định kì</h2>
+        <button onclick="window.location.href='edit_wallet.html'">Sửa</button>
+    </div>
+
+    <div class="wallet">
+        <img src="https://via.placeholder.com/40" alt="Tiền mặt">
+        <div class="info">
+            <h3>Hóa đơn nước</h3>
+            <p>30/12/2024</p>
+        </div>
+       1,000.00
+    </div>
+
+   <div class="button"  >
+    
+    <button class="add-wallet">Lưu</button>
+   </div>
+    
+</div>
+
+
+</body>
+</html>
