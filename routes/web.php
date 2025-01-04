@@ -11,4 +11,6 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'handleLogin']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
-Route::get('/', [HomeController::class, 'indexBudget'])->name('indexBudget');
+Route::middleware('checkLogin')->group(function () {
+  Route::get('/', [HomeController::class, 'indexBudget'])->name('indexBudget');
+});
