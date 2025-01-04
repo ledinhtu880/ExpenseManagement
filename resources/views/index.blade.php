@@ -1,5 +1,5 @@
 @extends('layouts.master')
-
+@include('layouts.sidebar')
 @section('title', 'Bảng xếp hạng')
 
 
@@ -153,7 +153,7 @@
                         <div class="total-balance">9.9991.000 đ</div>
                     </div>
                     <div class="user-profile">
-                        <img src="{{ asset('storage/images/logouser.jpg') }}" alt="Profile" class="img-circle" style="width: 40px;">
+                        <img src="{{ asset('storage/images/logouser.jpg') }}" alt="Profile" class="img-circle" style="width: 45px; height: 45px;">
                     </div>
                 </div>
 

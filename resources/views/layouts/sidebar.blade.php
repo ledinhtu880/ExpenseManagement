@@ -20,21 +20,21 @@
         <nav>
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item text-center">
-                    <a href="#" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase active">
+                    <a href="{{route('dashboard.index') }}" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase active">
                     TỔNG QUAN
                     </a>
                 </li>
                 <li class="nav-item text-center">
-                    <a href="#" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase">
+                    <a href="{{route('transaction.index') }}"  class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase">
                     SỐ GIAO DỊCH
                     </a>
                 </li>
                 <li class="nav-item text-center">
-                    <a href="#" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase">
+                    <a href="{{route('indexBudget') }}"  class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase">
                     NGÂN SÁCH </a>
                 </li>
                 <li class="nav-item text-center">
-                    <a href="../resources/views/account/index.blade.php" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase">
+                    <a href="{{route('account.index') }}" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase">
                     TÀI KHOẢN
                     </a>
                 </li>

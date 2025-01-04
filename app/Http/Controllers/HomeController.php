@@ -14,4 +14,17 @@ class HomeController extends Controller
     {
         return view('budget.index');
     }
-}
+    public function indexAccount()
+    {
+        return view('account.index');
+    }
+    public function indexTransaction()
+    {
+        return view('transaction.index');
+    }
+    public function indexDashboard()
+    {
+        return view('dashboard.index');
+    }
+
+    }

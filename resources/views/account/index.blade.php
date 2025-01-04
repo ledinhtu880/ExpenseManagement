@@ -1,3 +1,5 @@
+@include('layouts.sidebar')
+@extends('layouts.master')
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -92,6 +94,7 @@
 
         .content-wrapper {
             background-color: #f4f6f9;
+            justify-self: unset;
         }
 
         .content-header {
@@ -124,7 +127,7 @@
 
         /* Dark mode styles */
         .dark-mode .content-wrapper {
-            background-color: #1a1a1a;
+            background-color white;
             color: white;
         }
 
