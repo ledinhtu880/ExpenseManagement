@@ -1,5 +1,6 @@
 :root {
     --primary-color: #6c63ff;
+    --hover-color: #5a55e0;
 }
 
 .text-primary-color {
@@ -12,6 +13,81 @@ body {
     font-style: normal;
 }
 
+.nav-sidebar > .nav-item > .nav-link.active {
+    background-color: #fff !important;
+    color: #6c63ff !important;
+}
+
 .bg-primary-color {
-    background-color: var(--primary) !important;
+    background-color: var(--primary-color) !important;
+}
+
+.border-primary-color {
+    border: 1px solid var(--primary-color) !important;
+}
+
+.btn-primary-color {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: #fff !important;
+}
+
+.btn-primary-color:hover {
+    background-color: var(--hover-color) !important;
+    border-color: var(--hover-color) !important;
+    color: #fff !important;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    background-color: var(--primary-color);
+    opacity: 0.8;
+    margin-block: 2px;
+}
+.tab-navigation-wrapper .nav-pills .nav-link.active {
+    background-color: #fff !important;
+}
+
+.list-transaction .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-transaction.nav-underline .nav-link.active {
+    border-bottom-color: var(--primary-color) !important;
+}
+
+.list-feature-account .list-group .list-group-item {
+    transition: background-color 0.25s linear;
+    cursor: pointer;
+    position: relative;
+
+    border-radius: 24px;
+    border: 1px solid var(--primary-color);
+    padding-block: 12px;
+
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 8px;
+}
+
+.list-feature-account .list-group .list-group-item::after {
+    content: "";
+
+    position: absolute;
+    width: 0;
+    height: 0;
+    right: 16px;
+
+    border-top: 8px solid transparent; /* Adjust height */
+    border-bottom: 8px solid transparent; /* Adjust height */
+    border-left: 12px solid #ddd; /* Adjust width and color */
+}
+
+.list-feature-account .list-group .list-group-item:hover {
+    background-color: var(--hover-color);
+    color: #fff;
 }

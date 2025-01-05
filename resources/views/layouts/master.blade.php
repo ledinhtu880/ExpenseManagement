@@ -35,16 +35,16 @@
 </head>
 
 <body class="wrapper">
-    <!-- Navbar -->
-    <!-- /.navbar -->
-
     <!-- Main Sidebar Container -->
     @include('layouts.sidebar')
     <!-- Content Wrapper. Contains page content -->
     <main class="content-wrapper bg-white p-3">
-        <header class="mb-3">
-            @include('layouts.header')
-        </header>
+        @if (request()->routeIs('account.*'))
+        @else
+            <header class="mb-3">
+                @include('layouts.header')
+            </header>
+        @endif
 
         <section class="content">
             @yield('content')

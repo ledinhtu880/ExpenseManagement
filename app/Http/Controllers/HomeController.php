@@ -11,25 +11,9 @@ class HomeController extends Controller
   public function index()
   {
     if (Auth::check()) {
-      return redirect()->route('indexBudget');
+      return redirect()->route('budget.index');
     } else {
       return view('home.welcome');
     }
-  }
-  public function indexBudget()
-  {
-    return view('budget.index');
-  }
-  public function indexAccount()
-  {
-    return view('account.index');
-  }
-  public function indexTransaction()
-  {
-    return view('transaction.index');
-  }
-  public function indexDashboard()
-  {
-    return view('dashboard.index');
   }
 }

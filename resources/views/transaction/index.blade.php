@@ -1,268 +1,143 @@
-<!-- transaction.index.php -->
+@extends('layouts.master')
 
-<!DOCTYPE html>
-<html lang="en">
+@section('title', 'Quan ly giao dich')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transaction List</title>
-    <!-- AdminLTE 3 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        .transaction-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+@section('content')
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <select class="form-select form-select-lg border-primary-color" style="width: 250px;"
+                    aria-label="Default select example">
+                    <option selected>Tong cong</option>
+                    <option value="1">Vi 1</option>
+                    <option value="2">Vi 2</option>
+                    <option value="3">Vi 3</option>
+                </select>
 
-        .transaction-header img {
-            width: 500px;
-            align-items: right;
-            justify-content: right;
-        }
-
-        .month-navigation {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .month-item {
-            padding: 5px 15px;
-            cursor: pointer;
-            color: #6c757d;
-        }
-
-        .month-item.active {
-            color: #6f42c1;
-            border-bottom: 2px solid #6f42c1;
-        }
-
-        .balance-summary {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .balance-row {
-            display: flex;
-            justify-content: space-between;
-            margin: 5px 0;
-        }
-
-        .transaction-day {
-            margin: 20px 0;
-        }
-
-        .day-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .transaction-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .transaction-info {
-            display: flex;
-            align-items: center;
-        }
-
-        .transaction-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-
-        .transaction-amount {
-            color: #dc3545;
-        }
-
-        .transaction-amount.positive {
-            color: #28a745;
-        }
-
-        .add-transaction-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: #6f42c1;
-            color: white;
-            border: none;
-            font-size: 24px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .view-report-link {
-            color: #6f42c1;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-            padding: 10px;
-        }
-    </style>
-</head>
-
-<body class="hold-transition sidebar-mini">
-    <div class="wrapper">
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
+                <ul class="nav nav-underline list-transaction nav-fill mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link text-dark active" id="pills-current-month-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-current-month" type="button" role="tab"
+                            aria-controls="pills-current-month" aria-selected="false">Tháng trước</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link text-dark" id="pills-last-month-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-last-month" type="button" role="tab"
+                            aria-controls="pills-last-month" aria-selected="false">Tháng này</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-current-month" role="tabpanel"
+                        aria-labelledby="pills-current-month-tab" tabindex="0">
+                        <div class="card rounded-3 border-primary-color">
                             <div class="card-body">
-                                <div class="transaction-header">
-                                    <img src="path/to/vietnam-flag.png" alt="Flag">
-                                    <div class="dropdown">
-                                        <button class="btn btn-light dropdown-toggle" type="button" id="totalDropdown"
-                                            data-toggle="dropdown">
-                                            Tổng cộng
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">Option 1</a>
-                                            <a class="dropdown-item" href="#">Option 2</a>
-                                        </div>
-                                    </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5>Số dư đầu</h5>
+                                    <h5>0d</h5>
                                 </div>
-
-                                <div class="month-navigation">
-                                    <div class="month-item">9/2024</div>
-                                    <div class="month-item">10/2024</div>
-                                    <div class="month-item">Tháng trước</div>
-                                    <div class="month-item active">Tháng này</div>
-                                    <div class="month-item">Tương lai</div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5>Số dư cuối cùng</h5>
+                                    <h5>0d</h5>
                                 </div>
-
-                                <div class="balance-summary">
-                                    <div class="balance-row">
-                                        <span>Số dư đầu</span>
-                                        <span>0.00 đ</span>
-                                    </div>
-                                    <div class="balance-row">
-                                        <span>Số dư cuối</span>
-                                        <span>+9,991,000.00 đ</span>
-                                    </div>
-                                    <div class="balance-row">
-                                        <strong>Tổng cộng</strong>
-                                        <strong>+9,991,000.00 đ</strong>
-                                    </div>
+                                <div class="d-flex justify-content-center align-items-end flex-column">
+                                    <div class="line mb-2" style="width: 200px; height: 2px;"></div>
+                                    <h5>0d</h5>
                                 </div>
-
-                                <a href="#" class="view-report-link">Xem báo cáo cho giai đoạn này</a>
-
-                                <div class="transaction-day">
-                                    <div class="day-header">
-                                        <h5>20</h5>
-                                        <span>Thứ 6, tháng 12 2024</span>
-                                        <span>-4,000.00</span>
-                                    </div>
-                                    <div class="transaction-item">
-                                        <div class="transaction-info">
-                                            <img src="path/to/icon.png" alt="Transaction" class="transaction-icon">
-                                            <div>
-                                                <div>Cho vay</div>
-                                            </div>
-                                        </div>
-                                        <div class="transaction-amount">2,000.00</div>
-                                    </div>
-                                    <div class="transaction-item">
-                                        <div class="transaction-info">
-                                            <img src="path/to/icon.png" alt="Transaction" class="transaction-icon">
-                                            <div>
-                                                <div>Ăn uống</div>
-                                            </div>
-                                        </div>
-                                        <div class="transaction-amount">2,000.00</div>
-                                    </div>
+                                <div class="text-center">
+                                    <a href="#" class="text-primary-color fw-bold">Xem báo cáo cho giai đoạn
+                                        này</a>
                                 </div>
+                            </div>
+                        </div>
 
-                                <div class="transaction-day">
-                                    <div class="day-header">
-                                        <h5>18</h5>
-                                        <span>Thứ 6, tháng 12 2024</span>
-                                        <span>-4,000.00</span>
+                        {{-- List transaction --}}
+                        <div class="card rounded-3 border-primary-color">
+                            <div class="card-header border-0">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-end justify-content-center gap-2">
+                                        <h5 class="h5 mb-0">05/01/2024</h5>
+                                        <span class="text-muted text-sm fw-medium">Chủ Nhật, ngày 5 tháng 1 năm
+                                            2025</span>
                                     </div>
-                                    <div class="transaction-item">
-                                        <div class="transaction-info">
-                                            <img src="path/to/icon.png" alt="Transaction" class="transaction-icon">
-                                            <div>
-                                                <div>Cho vay</div>
-                                            </div>
+                                    <h5 class="h5 mb-0">-4.000</h5>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex flex-column gap-2">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center justify-content-center gap-3">
+                                            <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                                class="img-circle elevation-2" width="60" alt="User Image">
+                                            <h5 class="h5 mb-0">Cho vay</h5>
                                         </div>
-                                        <div class="transaction-amount">2,000.00</div>
+                                        <h5 class="h5 mb-0 text-danger">2.000</h5>
                                     </div>
-                                    <div class="transaction-item">
-                                        <div class="transaction-info">
-                                            <img src="path/to/icon.png" alt="Transaction" class="transaction-icon">
-                                            <div>
-                                                <div>Ăn uống</div>
-                                            </div>
+                                    <div class="line"></div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center justify-content-center gap-3">
+                                            <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                                class="img-circle elevation-2" width="60" alt="User Image">
+                                            <h5 class="h5 mb-0">Cho vay</h5>
                                         </div>
-                                        <div class="transaction-amount">2,000.00</div>
+                                        <h5 class="h5 mb-0 text-danger">2.000</h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="card rounded-3 border-primary-color">
+                            <div class="card-header border-0">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-end justify-content-center gap-2">
+                                        <h5 class="h5 mb-0">05/01/2024</h5>
+                                        <span class="text-muted text-sm fw-medium">Chủ Nhật, ngày 5 tháng 1 năm
+                                            2025</span>
+                                    </div>
+                                    <h5 class="h5 mb-0">-4.000</h5>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex flex-column gap-2">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center justify-content-center gap-3">
+                                            <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                                class="img-circle elevation-2" width="60" alt="User Image">
+                                            <h5 class="h5 mb-0">Cho vay</h5>
+                                        </div>
+                                        <h5 class="h5 mb-0 text-danger">2.000</h5>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center justify-content-center gap-3">
+                                            <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                                class="img-circle elevation-2" width="60" alt="User Image">
+                                            <h5 class="h5 mb-0">Cho vay</h5>
+                                        </div>
+                                        <h5 class="h5 mb-0 text-danger">2.000</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- /.list transaction --}}
                     </div>
                 </div>
             </div>
-        </section>
-
-        <button class="add-transaction-btn">
-            <i class="fas fa-plus"></i>
+        </div>
+        <button type="button" class="position-absolute btn btn-primary-color rounded-circle p-5"
+            style="bottom: 50px; right: 50px;">
+            <i class="fa-solid fa-plus" style="font-size: 30px;"></i>
         </button>
     </div>
+@endsection
 
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/js/adminlte.min.js"></script>
+@push('js')
     <script>
         $(document).ready(function() {
-            // Month navigation
-            $('.month-item').click(function() {
-                $('.month-item').removeClass('active');
-                $(this).addClass('active');
-            });
+            const message = '{{ session('message') }}';
+            const type = '{{ session('type') }}';
 
-            // Format currency
-            function formatCurrency(amount) {
-                return new Intl.NumberFormat('vi-VN', {
-                    style: 'decimal',
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }).format(amount) + ' đ';
+            if (message && type) {
+                showToast(message, type);
             }
-
-            // Add transaction button
-            $('.add-transaction-btn').click(function() {
-                // Add your logic for adding a new transaction
-                alert('Adding new transaction...');
-            });
-
-            // Initialize tooltips
-            $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
-</body>
-
-</html>
+@endpush

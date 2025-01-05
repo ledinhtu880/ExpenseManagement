@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Budget')
+@section('title', 'Ngan sach')
 
 @push('css')
     <style>
@@ -95,118 +95,33 @@
 @endpush
 
 @section('content')
-    <div class="container-fluid">
-        <div class="card p-3">
-            <div class="d-flex gap-2 align-items-between justify-content-center flex-column">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="text-md fw-bold m-0">Ví của tôi</h5>
-                    <a href="#" class="text-primary-color text-sm fw-bold">Xem tất cả</a>
-                </div>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex gap-3 align-items-center justify-content-center">
+    <div class="card rounded-3 border-primary-color">
+        <div class="card-body">
+            <div class="d-flex flex-column gap-3">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center justify-content-center gap-3">
                         <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg" class="img-circle elevation-2"
-                            width="36" alt="Wallet icon">
-                        <span class="text-lg fw-semibold">Tiền mặt</span>
+                            width="60" alt="User Image">
+                        <h5 class="h5 mb-0">Ăn uống</h5>
                     </div>
-                    <h5 class="text-lg fw-semibold m-0">9.9991.000 đ</h5>
-                </div>
-            </div>
-        </div>
-
-        <div class="report-section">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5>Báo cáo tháng này</h5>
-                <a href="#" class="text-primary">Xem báo cáo</a>
-            </div>
-
-            <div class="tab-navigation">
-                <div class="tab-item active">Tuần</div>
-                <div class="tab-item">Tháng</div>
-            </div>
-
-            <div>
-                <div class="text-muted">Tổng đã chi tháng này</div>
-                <h4>28.000.00 đ</h4>
-            </div>
-
-            <div class="expense-chart"></div>
-        </div>
-
-        <div class="top-expenses">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5>Chi tiêu nhiều nhất</h5>
-                <a href="#" class="text-primary">Xem chi tiết</a>
-            </div>
-
-            <div class="expense-item">
-                <div class="expense-info">
-                    <img src="path/to/icon.png" alt="Category" class="wallet-icon" />
-                    <div>
-                        <div>Hóa đơn & Tiện ích</div>
-                        <div class="text-muted">20.000.00 đ</div>
+                    <div class="d-flex align-items-end justify-content-center flex-column gap-1">
+                        <h5 class="h5 mb-0 text-danger">1.000.000</h5>
+                        <h6 class="h6 mb-0 text-muted fw-normal">Còn lại 900.000</h6>
                     </div>
                 </div>
-                <div class="expense-percentage">72%</div>
-            </div>
-
-            <div class="expense-item">
-                <div class="expense-info">
-                    <img src="path/to/icon.png" alt="Category" class="wallet-icon" />
-                    <div>
-                        <div>Ăn uống</div>
-                        <div class="text-muted">8.000.00 đ</div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <div class="progress rounded-5 w-50 border-primary-color" role="progressbar" aria-label="Basic example"
+                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar bg-primary-color" style="width: 25%"></div>
                     </div>
                 </div>
-                <div class="expense-percentage">28%</div>
-            </div>
-        </div>
-
-        <div class="recent-transactions">
-            <div class="d-flex justify-content-between align-items-center">
-                <h5>Giao dịch gần đây</h5>
-                <a href="#" class="text-primary">Xem tất cả</a>
-            </div>
-
-            <div class="transaction-item">
-                <div class="expense-info">
-                    <img src="path/to/icon.png" alt="Transaction" class="wallet-icon" />
-                    <div>
-                        <div>Cho vay</div>
-                        <div class="text-muted">
-                            Thứ 6, 20 tháng 12 2024
-                        </div>
-                    </div>
-                </div>
-                <div class="amount-negative">2,000.00</div>
-            </div>
-
-            <div class="transaction-item">
-                <div class="expense-info">
-                    <img src="path/to/icon.png" alt="Transaction" class="wallet-icon" />
-                    <div>
-                        <div>Ăn uống</div>
-                        <div class="text-muted">
-                            Thứ 6, 20 tháng 12 2024
-                        </div>
-                    </div>
-                </div>
-                <div class="amount-negative">2,000.00</div>
-            </div>
-
-            <div class="transaction-item">
-                <div class="expense-info">
-                    <img src="path/to/icon.png" alt="Transaction" class="wallet-icon" />
-                    <div>
-                        <div>Thu nhập khác</div>
-                        <div class="text-muted">
-                            Thứ 6, 20 tháng 12 2024
-                        </div>
-                    </div>
-                </div>
-                <div class="amount-positive">5,010,000.00</div>
             </div>
         </div>
     </div>
+    <button type="button" class="position-absolute btn btn-primary-color rounded-circle p-5"
+        style="bottom: 50px; right: 50px;">
+        <i class="fa-solid fa-plus" style="font-size: 30px;"></i>
+    </button>
 @endsection
 
 @push('js')
@@ -218,45 +133,6 @@
             if (message && type) {
                 showToast(message, type);
             }
-
-            $('.tab-item').click(function() {
-                $('.tab-item').removeClass('active');
-                $(this).addClass('active');
-            });
-
-            // Initialize expense chart
-            const ctx = document.createElement('canvas');
-            $('.expense-chart').append(ctx);
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
-                    datasets: [{
-                        label: 'Chi tiêu',
-                        data: [12, 19, 3, 5, 2, 3, 8],
-                        backgroundColor: '#6f42c1'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
-                }
-            });
-
-            // Format currency
-            function formatCurrency(amount) {
-                return new Intl.NumberFormat('vi-VN', {
-                    style: 'decimal',
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }).format(amount) + ' đ';
-            }
-
-            // Add transaction button
-            $('.add-transaction-btn').click(function() {
-                // Add your logic for adding a new transaction
-                alert('Adding new transaction...');
-            });
         });
     </script>
 @endpush

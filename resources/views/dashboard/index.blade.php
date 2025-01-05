@@ -1,211 +1,210 @@
-<!-- main.index.php -->
-@include('layouts.sidebar')
 @extends('layouts.master')
-<!DOCTYPE html>
-<html lang="vi">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý tài khoản</title>
-    <!-- AdminLTE 3 CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+@section('title', 'Budget')
 
-    <style>
-        .user-panel {
-            border-bottom: 1px solid #4f5962;
-            padding: 1rem;
-        }
-
-        .user-panel img {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-
-        .sidebar-menu .nav-item {
-            border-bottom: 1px solid #f8f9fa;
-        }
-
-        .sidebar-menu .nav-link {
-            color: #343a40;
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .sidebar-menu .nav-link:hover {
-            background-color: #f8f9fa;
-        }
-
-        .sidebar-menu .nav-link i {
-            margin-right: 10px;
-        }
-
-        .nav-link.active {
-            color: #007bff !important;
-            background-color: #f8f9fa;
-        }
-
-        .content-wrapper {
-            background-color: #f4f6f9;
-            min-height: 100vh;
-        }
-
-        .main-content {
-            padding: 20px;
-        }
-    </style>
-</head>
-
-<body class="sidebar-mini layout-fixed">
-    <div class="wrapper">
-        <!-- Main Sidebar -->
-        <aside class="main-sidebar sidebar-light-primary elevation-4">
-            <!-- User Panel -->
-            <div class="user-panel">
-                <div class="d-flex align-items-center">
-                    <div class="image">
-                        <img src="/api/placeholder/50/50" alt="User Image" class="img-circle elevation-2">
+@section('content')
+    <div class="container-fluid">
+        <div class="card rounded-3 border-primary-color">
+            <div class="card-body">
+                <div class="d-flex gap-2 align-items-between justify-content-center flex-column">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="text-md fw-bold m-0">Ví của tôi</h5>
+                        <a href="#" class="text-primary-color text-sm fw-bold">Xem tất cả</a>
                     </div>
-                    <div class="info ml-3">
-                        <div>dphuongha212003</div>
-                        <small class="text-muted">dphuongha212003@gmail.com</small>
+                    <div class="line"></div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex gap-3 align-items-center justify-content-center">
+                            <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                class="img-circle elevation-2" width="36" alt="Wallet icon">
+                            <span class="text-lg fw-semibold">Tiền mặt</span>
+                        </div>
+                        <h5 class="text-lg fw-semibold m-0">9.9991.000 đ</h5>
                     </div>
-                </div>
-            </div>
-
-            <!-- Sidebar Menu -->
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column sidebar-menu">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link active">
-                            <i class="fas fa-user"></i>
-                            <p>Quản lý tài khoản</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-wallet"></i>
-                            <p>Ví của tôi</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-users"></i>
-                            <p>Nhóm</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-university"></i>
-                            <p>Liên kết ngân hàng</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-calendar-alt"></i>
-                            <p>Sự kiện</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-clock"></i>
-                            <p>Giao dịch định kỳ</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-file-invoice"></i>
-                            <p>Hóa đơn</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-file-alt"></i>
-                            <p>Sổ nợ</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-tools"></i>
-                            <p>Công cụ</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-plane"></i>
-                            <p>Chế độ du lịch</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-file-export"></i>
-                            <p>Xuất dữ liệu tới Google Trang tính</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-store"></i>
-                            <p>Cửa hàng</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-question-circle"></i>
-                            <p>Hỗ trợ</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-cog"></i>
-                            <p>Cài đặt</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-info-circle"></i>
-                            <p>Giới thiệu</p>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
-
-        <!-- Content Wrapper -->
-        <div class="content-wrapper">
-            <div class="main-content">
-                <div class="container-fluid">
-                    <h1 class="h3 mb-4">Quản lý tài khoản</h1>
-                    <!-- Add your main content here -->
                 </div>
             </div>
         </div>
+
+        <!-- Report -->
+        <div class="card rounded-3 border-primary-color">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Báo cáo tháng này</h5>
+                    <a href="#" class="text-primary-color text-sm fw-bold">Xem báo cáo</a>
+                </div>
+                <div class="d-flex align-items-center justify-content-center tab-navigation-wrapper">
+                    <ul class="nav nav-pills nav-fill mb-3 w-25 bg-body-secondary rounded-3 p-2" id="report-pills-tab"
+                        role="tablist">
+                        <li class="nav-item text-lg" role="presentation">
+                            <button class="nav-link text-dark rounded-3 active" id="report-pills-week-tab"
+                                data-bs-toggle="pill" data-bs-target="#report-pills-week" type="button" role="tab"
+                                aria-controls="report-pills-week" aria-selected="true">Tuần</button>
+                        </li>
+                        <li class="nav-item text-lg" role="presentation">
+                            <button class="nav-link text-dark rounded-3" id="report-pills-month-tab" data-bs-toggle="pill"
+                                data-bs-target="#report-pills-month" type="button" role="tab"
+                                aria-controls="report-pills-month" aria-selected="false">Tháng</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="report-pills-tabContent">
+                    <div class="tab-pane fade show active" id="report-pills-week" role="tabpanel"
+                        aria-labelledby="report-pills-week-tab" tabindex="0">
+                        <div class="expense-chart"></div>
+                    </div>
+                    <div class="tab-pane fade" id="report-pills-month" role="tabpanel"
+                        aria-labelledby="report-pills-month-tab" tabindex="0">...</div>
+                </div>
+            </div>
+        </div>
+        <!-- /.report -->
+
+        <!-- Most spend -->
+        <div class="card rounded-3 border-primary-color">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Chi tiêu nhiều nhất</h5>
+                    <a href="#" class="text-primary-color text-sm fw-bold">Xem chi tiết</a>
+                </div>
+                <div class="d-flex align-items-center justify-content-center tab-navigation-wrapper">
+                    <ul class="nav nav-pills nav-fill mb-3 w-25 bg-body-secondary rounded-3 p-2" id="category-pills-tab"
+                        role="tablist">
+                        <li class="nav-item text-lg" role="presentation">
+                            <button class="nav-link text-dark rounded-3 active" id="category-pills-week-tab"
+                                data-bs-toggle="pill" data-bs-target="#category-pills-week" type="button" role="tab"
+                                aria-controls="category-pills-week" aria-selected="true">Tuần</button>
+                        </li>
+                        <li class="nav-item text-lg" role="presentation">
+                            <button class="nav-link text-dark rounded-3" id="category-pills-month-tab" data-bs-toggle="pill"
+                                data-bs-target="#category-pills-month" type="button" role="tab"
+                                aria-controls="category-pills-month" aria-selected="false">Tháng</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content list-transaction" id="category-pills-tabContent">
+                    <div class="tab-pane fade show active" id="category-pills-week" role="tabpanel"
+                        aria-labelledby="category-pills-week-tab" tabindex="0">
+                        <div class="list-group">
+                            <div class="list-group-item border-0 bg-body-secondary rounded-4">
+                                <div class="d-flex justify-content-between align-items-center gap-3">
+                                    <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                        class="img-circle elevation-2" width="80" alt="User Image">
+                                    <div class="d-flex align-items-between justify-content-center flex-column">
+                                        <h6>Transaction name</h6>
+                                        <strong class="text-muted">20.000.000</strong>
+                                    </div>
+                                </div>
+                                <h5 class="fw-bold text-danger">72%</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="category-pills-month" role="tabpanel"
+                        aria-labelledby="category-pills-month-tab" tabindex="0">
+                        Category tuan'
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.most spend -->
+
+        <!-- Recent transaction -->
+        <div class="card rounded-3 border-primary-color">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Chi tiêu nhiều nhất</h5>
+                    <a href="#" class="text-primary-color text-sm fw-bold">Xem chi tiết</a>
+                </div>
+
+                <div class="list-transaction mt-3">
+                    <div class="list-group">
+                        <div class="list-group-item border-0 bg-body-secondary rounded-4">
+                            <div class="d-flex justify-content-between align-items-center gap-3">
+                                <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                    class="img-circle elevation-2" width="80" alt="User Image">
+                                <div class="d-flex align-items-between justify-content-center flex-column">
+                                    <h6>Transaction name</h6>
+                                    <strong class="text-muted">20.000.000</strong>
+                                </div>
+                            </div>
+                            <h5 class="fw-bold text-danger">72%</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.recent transaction -->
+
+        <button type="button" class="position-absolute btn btn-primary-color rounded-circle p-5"
+            style="bottom: 50px; right: 50px;">
+            <i class="fa-solid fa-plus" style="font-size: 30px;"></i>
+        </button>
     </div>
+@endsection
 
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/js/adminlte.min.js"></script>
-
+@push('js')
     <script>
         $(document).ready(function() {
-            // Handle sidebar menu item clicks
-            $('.nav-link').click(function(e) {
-                e.preventDefault();
-                $('.nav-link').removeClass('active');
+            const message = '{{ session('message') }}';
+            const type = '{{ session('type') }}';
+
+            if (message && type) {
+                showToast(message, type);
+            }
+
+            $('.tab-item').click(function() {
+                $('.tab-item').removeClass('active');
                 $(this).addClass('active');
             });
 
-            // Initialize AdminLTE
-            $('body').Layout('fixLayoutHeight');
+            // Initialize expense chart
+            const ctx = document.createElement('canvas');
+            $('.expense-chart').append(ctx);
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+                    datasets: [{
+                        label: 'Chi tiêu',
+                        data: [12, 19, 3, 5, 2, 3, 8],
+                        backgroundColor: '#6f42c1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Format currency
+            function formatCurrency(amount) {
+                return new Intl.NumberFormat('vi-VN', {
+                    style: 'decimal',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }).format(amount) + ' đ';
+            }
+
+            $('#report-pills-tab button').on('shown.bs.tab', function(e) {
+                const targetId = $(e.target).attr('data-bs-target'); // Lấy tab được chọn
+
+                // Chuyển tab của thẻ thứ hai
+                if (targetId === '#report-pills-week') {
+                    $('#category-pills-week-tab').tab('show');
+                } else if (targetId === '#report-pills-month') {
+                    $('#category-pills-month-tab').tab('show');
+                }
+            });
+
+            // Xử lý khi tab ở thẻ thứ hai được thay đổi
+            $('#category-pills-tab button').on('shown.bs.tab', function(e) {
+                const targetId = $(e.target).attr('data-bs-target'); // Lấy tab được chọn
+
+                // Chuyển tab của thẻ đầu tiên
+                if (targetId === '#category-pills-week') {
+                    $('#report-pills-week-tab').tab('show');
+                } else if (targetId === '#category-pills-month') {
+                    $('#report-pills-month-tab').tab('show');
+                }
+            });
         });
     </script>
-</body>
-
-</html>
+@endpush

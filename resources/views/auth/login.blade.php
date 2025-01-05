@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Đăng ký tài khoản</title>
+    <title>Đăng nhập tài khoản</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -128,38 +128,6 @@
 </head>
 
 <body class="bg-light">
-    {{-- <div class="container">
-        <div class="row justify-content-center align-items-center min-vh-100">
-            <div class="col-md-6 col-lg-4">
-                <div id="cover-spin"></div>
-                <div class="card shadow">
-                    <div class="card-body p-5">
-                        <h3 class="card-title text-center mb-4">Đăng nhập</h3>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                placeholder="Nhập email" value="{{ old('email') }}">
-                            <div class="error-message" id="email-error"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Mật khẩu</label>
-                            <input type="password" class="form-control" id="password" name="password"
-                                placeholder="Nhập mật khẩu">
-                            <div class="error-message" id="password-error"></div>
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="rememberMe">
-                            <label class="form-check-label" for="rememberMe">Ghi nhớ đăng nhập</label>
-                        </div>
-                        <div class="mb-3 d-grid">
-                            <button id="btnLogin" class="btn btn-primary">Đăng nhập</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
     <!-- Logo -->
     <div class="logo-container">
         <img src="{{ asset('images/pigmoney.png') }}" alt="Logo">
@@ -171,12 +139,12 @@
         <div class="login-header">
             <h2>Đăng Nhập</h2>
         </div>
-        <form id="frm-login" method="POST" action="{{ route('login') }}">
+        <form novalidate id="frm-login" method="POST" action="{{ route('login') }}">
             @csrf
             <!-- Email -->
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email"
+                <input type="text" class="form-control" id="email" name="email" placeholder="Nhập email"
                     value="{{ old('email') }}">
             </div>
 
@@ -226,26 +194,25 @@
             const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/;
 
             $('#email').on('input', function() {
-                hideError($(this).next());
+                hideError($(this));
             });
 
             $('#password').on('input', function() {
-                hideError($(this).next());
+                hideError($(this));
             });
 
             $(document).on('keypress', function(e) {
                 if (e.which == 13) { // Enter key
-                    $('#btnLogin').click();
+                    $('#frm-login').submit();
                 }
             });
 
             $('#frm-login').on('submit', function(e) {
-                e.preventDefault();
                 const isEmailValid = validateEmail($('#email'));
                 const isPasswordValid = validatePassword($('#password'));
 
-                if (isEmailValid && isPasswordValid) {
-                    $(this).submit();
+                if (!isEmailValid || !isPasswordValid) {
+                    e.preventDefault();
                 }
             });
 
@@ -280,17 +247,17 @@
                     return false;
                 }
 
-                hideError(errorElement);
+                hideError(input);
                 return true;
             }
 
             function showError(input, message) {
-                const errorDiv = input.next('.error-message');
+                let errorDiv = input.next('.error-message');
                 if (errorDiv.length === 0) {
-                    $('<div class="error-message"></div>').insertAfter(input);
+                    errorDiv = $('<div class="error-message"></div>').insertAfter(input);
                 }
                 input.addClass('is-invalid');
-                input.next('.error-message').text(message).show();
+                errorDiv.text(message).show();
             }
 
             function hideError(input) {
