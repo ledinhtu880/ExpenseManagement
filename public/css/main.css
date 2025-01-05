@@ -35,7 +35,6 @@ body {
 .btn-primary-color:hover {
     background-color: var(--hover-color) !important;
     border-color: var(--hover-color) !important;
-    color: #fff !important;
 }
 
 .line {
@@ -77,6 +76,9 @@ body {
     height: 0;
     right: 16px;
 
+    top: 50%;
+    transform: translateY(-50%);
+
     border-top: 8px solid transparent; /* Adjust height */
     border-bottom: 8px solid transparent; /* Adjust height */
     border-left: 12px solid #ddd; /* Adjust width and color */
@@ -86,6 +88,26 @@ body {
     background-color: var(--hover-color);
 }
 
-.list-feature-account .list-group .list-group-item:hover a {
+.list-feature-account .list-group .list-group-item:hover {
     color: #fff !important;
+}
+
+#btnBack {
+    transition: all 0.25s linear;
+}
+
+#btnBack::after {
+    content: "";
+
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -4px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 12px solid #ddd;
 }

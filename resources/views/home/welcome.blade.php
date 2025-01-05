@@ -187,7 +187,7 @@
     <div class="container">
         <!-- Slideshow -->
         <div class="carousel-container">
-            <div id="slideshow" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+            <div id="slideshow" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
                 <!-- Indicators -->
                 <div class="carousel-indicators">
                     <button type="button" data-bs-target="#slideshow" data-bs-slide-to="0" class="active"

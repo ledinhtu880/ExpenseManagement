@@ -26,7 +26,7 @@ Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'handleRegister']);
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'handleLogin']);
-Route::get('/logout', [AuthController::class, 'logout']);
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('checkLogin')->group(function () {
   // Route lien quan den HomeController
@@ -38,6 +38,8 @@ Route::middleware('checkLogin')->group(function () {
   // Route lien quan den AccountController
   Route::group(['prefix' => 'accounts/', 'as' => 'accounts.'], function () {
     Route::get('', [AccountController::class, 'index'])->name('index');
+    Route::get('profile', [AccountController::class, 'edit'])->name('edit');
+    Route::put('profile/{id}', [AccountController::class, 'update'])->name('update');
   });
 
   // Currency

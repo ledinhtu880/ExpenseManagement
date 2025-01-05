@@ -340,8 +340,6 @@
                     formData[id] = input.val();
                 });
 
-                formData['gender'] = $('input[name="gender"]:checked').val();
-
                 if (isValid) {
                     $("#cover-spin").show();
                     $.ajax({

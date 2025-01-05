@@ -39,16 +39,16 @@
     @include('layouts.sidebar')
     <!-- Content Wrapper. Contains page content -->
     <main class="content-wrapper bg-white p-3">
-        @if (request()->routeIs('home.account'))
+        @if (request()->routeIs('home.account') || request()->routeIs('accounts.*'))
         @else
             <header class="mb-3">
                 @include('layouts.header')
             </header>
         @endif
 
-        <section class="content">
+        <article class="content">
             @yield('content')
-        </section>
+        </article>
     </main>
     <!-- /.content-wrapper -->
 

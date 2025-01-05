@@ -22,24 +22,24 @@
                 data-accordion="false">
                 <li class="nav-item text-center">
                     <a href="{{ route('home.dashboard') }}"
-                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('home.dashboard') ? ' active' : '' }}">
+                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('home.dashboard') || request()->routeIs('dashboards.*') ? ' active' : '' }}">
                         TỔNG QUAN
                     </a>
                 </li>
                 <li class="nav-item text-center">
                     <a href="{{ route('home.transaction') }}"
-                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('home.transaction') ? ' active' : '' }}">
+                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('home.transaction') || request()->routeIs('transactions.*') ? ' active' : '' }}">
                         SỐ GIAO DỊCH
                     </a>
                 </li>
                 <li class="nav-item text-center">
                     <a href="{{ route('home.budget') }}"
-                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('home.budget') ? ' active' : '' }}">
+                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('home.budget') || request()->routeIs('budgets.*') ? ' active' : '' }}">
                         NGÂN SÁCH </a>
                 </li>
                 <li class="nav-item text-center">
                     <a href="{{ route('home.account') }}"
-                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('home.account') ? ' active' : '' }}">
+                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('home.account') || request()->routeIs('accounts.*') ? ' active' : '' }}">
                         TÀI KHOẢN
                     </a>
                 </li>

@@ -34,7 +34,6 @@ class User extends Authenticatable
   {
     return $this->hasMany(Wallet::class, 'user_id', 'user_id');
   }
-
   public function budgets()
   {
     return $this->hasMany(Budget::class, 'user_id', 'user_id');
@@ -58,6 +57,10 @@ class User extends Authenticatable
   public function getAgeAttribute()
   {
     return Carbon::parse($this->birthday)->age;
+  }
+  public function getFormattedGenderAttribute()
+  {
+    return $this->gender == 0 ? "Nam" : "Nữ";
   }
   public function getFormattedBirthdayAttribute()
   {
