@@ -19,6 +19,10 @@
                     class="list-group-item fw-bold text-primary-color text-lg text-medium text-center border-primary-color">
                     Cập nhật thông tin
                 </a>
+                <a href="#"
+                    class="list-group-item fw-bold text-primary-color text-lg text-medium text-center border-primary-color">
+                    Thay đổi mật khẩu
+                </a>
                 <div class="my-4"></div>
                 <a href="{{ route('logout') }}"
                     class="list-group-item fw-bold text-danger text-lg text-medium text-center border-primary-color">
@@ -31,18 +35,6 @@
             </ul>
         </div>
     </div>
-
-    {{-- <button class="action-button change-password" data-toggle="modal" data-target="#passwordModal">
-        <i class="fas fa-key mr-2"></i> Thay Đổi Mật Khẩu
-    </button>
-
-    <button class="action-button logout">
-        <i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất
-    </button>
-
-    <button class="action-button delete-account" data-toggle="modal" data-target="#deleteModal">
-        <i class="fas fa-trash-alt mr-2"></i> Xóa tài khoản
-    </button> --}}
 @endsection
 
 @push('js')

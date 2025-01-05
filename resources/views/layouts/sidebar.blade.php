@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-light-purple elevation-4" style="background-color: var(--primary-color)">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link border-0">
+    <a href="{{ route('home.dashboard') }}" class="brand-link border-0">
         <div class="d-flex align-items-end justify-content-center gap-3">
             <svg width="62" height="63" viewBox="0 0 62 63" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path

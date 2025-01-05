@@ -132,10 +132,10 @@
         </div>
         <!-- /.recent transaction -->
 
-        {{-- <button type="button" class="position-absolute btn btn-primary-color rounded-circle p-5"
+        <button type="button" class="position-absolute btn btn-primary-color rounded-circle p-5"
             style="bottom: 50px; right: 50px;">
             <i class="fa-solid fa-plus" style="font-size: 30px;"></i>
-        </button> --}}
+        </button>
     </div>
 @endsection
 

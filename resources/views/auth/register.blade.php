@@ -153,15 +153,15 @@
 
             <!-- Email cá nhân -->
             <div class="mb-3">
-                <label for="email" class="form-label">Email cá nhân<span class="text-danger ms-2">(*)</span></label>
-                <input type="email" class="form-control" id="email" name="email"
-                    placeholder="Nhập email cá nhân" required>
+                <label for="email" class="form-label">Email<span class="text-danger ms-2">(*)</span></label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email"
+                    required>
             </div>
             <!-- Giới tính -->
             <div class="mb-3">
                 <label for="gender" class="form-label">Giới tính<span class="text-danger ms-2">(*)</span></label>
                 <select class="form-select" id="gender" name="gender" required>
-                    <option value="" disabled selected>Chọn giới tính</option>
+                    <option disabled selected>Chọn giới tính</option>
                     <option value="0">Nam</option>
                     <option value="1">Nữ</option>
                 </select>

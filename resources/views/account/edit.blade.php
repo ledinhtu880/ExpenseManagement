@@ -1,9 +1,10 @@
 @extends('layouts.master')
 
-@section('title', 'Quản lý tài khoản')
+@section('title', 'Chinh sua thong tin nguoi dung')
 
 @section('content')
     <div class="container-fluid">
+        <x-header-tab text="Chỉnh sửa thông tin người dùng" />
         <div class="card">
             <div class="card-body py-0">
                 <div class="row">
@@ -22,8 +23,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="name" class="form-label">Họ và tên</label>
-                                        <input type="text" name="name" id="name"
+                                        <input type="text" name="name" id="name" disabled
                                             class="form-control form-control-lg" value="{{ $user->name }}">
+                                        <input type="hidden" name="name" value="{{ $user->name }}">
+                                        <span class="text-danger">
+                                            @if ($errors->has('name'))
+                                                {{ $errors->first('name') }}
+                                            @endif
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -32,28 +39,52 @@
                                         <input type="date" name="birthday" id="birthday"
                                             class="form-control form-control-lg"
                                             value="{{ \Carbon\Carbon::parse($user->birthday)->format('Y-m-d') }}">
+                                        <span class="text-danger">
+                                            @if ($errors->has('birthday'))
+                                                {{ $errors->first('birthday') }}
+                                            @endif
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="email" class="form-label">Email cá nhân</label>
-                                        <input type="text" name="email" id="email"
-                                            class="form-control form-control-lg" value="{{ $user->email }}" disabled>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="email_education" class="form-label">Email sinh viên</label>
-                                        <input type="text" name="email_education" id="email_education"
-                                            class="form-control form-control-lg"
-                                            value="{{ $user->email_education ?? 'Chưa có thông tin' }}">
+                                        <label for="isStudent" class="form-label">Xác nhận sinh viên (Chọn thẻ sinh
+                                            viên)</label>
+                                        <input type="file" name="isStudent" id="isStudent"
+                                            class="form-control form-control-lg">
+                                        <span class="text-danger">
+                                            @if ($errors->has('isStudent'))
+                                                {{ $errors->first('isStudent') }}
+                                            @endif
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="gender" class="form-label">Giới tính</label>
-                                        <input type="text" name="gender" id="gender"
-                                            class="form-control form-control-lg" value="{{ $user->formatted_gender }}">
+                                        <select class="form-select form-select-lg" id="gender" name="gender" required>
+                                            <option disabled>Chọn giới tính</option>
+                                            <option {{ $user->gender == 1 ? 'selected' : '' }} value="1">Nữ</option>
+                                            <option {{ $user->gender == 0 ? 'selected' : '' }} value="0">Nam</option>
+                                        </select>
+                                        <span class="text-danger">
+                                            @if ($errors->has('gender'))
+                                                {{ $errors->first('gender') }}
+                                            @endif
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="text" name="email" id="email"
+                                            class="form-control form-control-lg" disabled value="{{ $user->email }}">
+                                        <input type="hidden" name="email" value="{{ $user->email }}">
+                                        <span class="text-danger">
+                                            @if ($errors->has('email'))
+                                                {{ $errors->first('email') }}
+                                            @endif
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -61,11 +92,11 @@
                                         <label for="identify_card" class="form-label">Căn cước công dân</label>
                                         <input type="text" name="identify_card" id="identify_card"
                                             class="form-control form-control-lg"
-                                            value="{{ $user->identify_card ?? 'Chưa có thông tin' }}">
+                                            value="{{ $user->identify_card ?? 'Chưa có thông tin' }}"
+                                            {{ $user->identify_card ? 'disabled' : '' }}>
                                     </div>
                                 </div>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <input type="file" name="" id="" class="form-control form-lg">
+                                <div class="d-flex align-items-center justify-content-end">
                                     <button class="btn btn-primary-color btn-lg" type="submit">Cập nhật</button>
                                 </div>
                             </div>
@@ -76,6 +107,3 @@
         </div>
     </div>
 @endsection
-
-@push('js')
-@endpush

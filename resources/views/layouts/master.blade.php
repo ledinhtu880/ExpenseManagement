@@ -67,5 +67,15 @@
     <script type="text/javascript" src="{{ asset('js/adminlte.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/toast.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const message = '{{ session('message') }}';
+            const type = '{{ session('type') }}';
+
+            if (message && type) {
+                showToast(message, type);
+            }
+        })
+    </script>
     @stack('js')
 </body>

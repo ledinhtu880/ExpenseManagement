@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\GroupController;
+
+Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
+
 // Route cho màn hình Loading
 Route::get('/loading', function () {
   return view('home.loading');
