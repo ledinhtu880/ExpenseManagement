@@ -23,7 +23,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Report -->
         <div class="card rounded-3 border-primary-color">
             <div class="card-body">
@@ -110,7 +109,7 @@
         <div class="card rounded-3 border-primary-color">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h5>Chi tiêu nhiều nhất</h5>
+                    <h5>Giao dịch gần đây</h5>
                     <a href="#" class="text-primary-color text-sm fw-bold">Xem chi tiết</a>
                 </div>
 
@@ -133,10 +132,10 @@
         </div>
         <!-- /.recent transaction -->
 
-        <button type="button" class="position-absolute btn btn-primary-color rounded-circle p-5"
+        {{-- <button type="button" class="position-absolute btn btn-primary-color rounded-circle p-5"
             style="bottom: 50px; right: 50px;">
             <i class="fa-solid fa-plus" style="font-size: 30px;"></i>
-        </button>
+        </button> --}}
     </div>
 @endsection
 

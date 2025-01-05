@@ -60,18 +60,13 @@ body {
 }
 
 .list-feature-account .list-group .list-group-item {
-    transition: background-color 0.25s linear;
+    transition: all 0.25s linear;
     cursor: pointer;
     position: relative;
 
     border-radius: 24px;
     border: 1px solid var(--primary-color);
     padding-block: 12px;
-
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 8px;
 }
 
 .list-feature-account .list-group .list-group-item::after {
@@ -89,5 +84,8 @@ body {
 
 .list-feature-account .list-group .list-group-item:hover {
     background-color: var(--hover-color);
-    color: #fff;
+}
+
+.list-feature-account .list-group .list-group-item:hover a {
+    color: #fff !important;
 }

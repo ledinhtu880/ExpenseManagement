@@ -39,7 +39,7 @@
     @include('layouts.sidebar')
     <!-- Content Wrapper. Contains page content -->
     <main class="content-wrapper bg-white p-3">
-        @if (request()->routeIs('account.*'))
+        @if (request()->routeIs('home.account'))
         @else
             <header class="mb-3">
                 @include('layouts.header')

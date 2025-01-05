@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
             margin: 20px auto;
             padding: 20px;
         }
+
         .profile-image {
             width: 120px;
             height: 120px;
@@ -20,12 +22,14 @@
             margin: 0 auto 20px;
             display: block;
             border: 3px solid #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .profile-info {
             text-align: center;
             margin-bottom: 30px;
         }
+
         .action-button {
             width: 100%;
             padding: 15px;
@@ -34,26 +38,33 @@
             border-radius: 8px;
             transition: all 0.3s;
         }
+
         .action-button:hover {
             transform: translateX(5px);
         }
+
         .change-password {
             background: #f8f9fa;
             color: #007bff;
         }
+
         .logout {
             background: #f8f9fa;
             color: #dc3545;
         }
+
         .delete-account {
             background: #f8f9fa;
             color: #dc3545;
         }
-        .modal-header, .modal-footer {
+
+        .modal-header,
+        .modal-footer {
             border: none;
         }
     </style>
 </head>
+
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <div class="content-wrapper">
@@ -169,7 +180,7 @@
         }
 
         $('.logout').click(function() {
-            if(confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+            if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
                 // Add logout logic here
                 alert('Đăng xuất thành công');
                 // Redirect to login page
@@ -177,4 +188,5 @@
         });
     </script>
 </body>
+
 </html>

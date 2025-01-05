@@ -16,7 +16,7 @@ class AuthController extends Controller
   public function register()
   {
     if (Auth::check()) {
-      return redirect()->route('budget.index');
+      return redirect()->route('home.dashboard');
     } else {
       return view('auth.register');
     }
@@ -76,7 +76,7 @@ class AuthController extends Controller
   public function login()
   {
     if (Auth::check()) {
-      return redirect()->route('budget.index');
+      return redirect()->route('home.dashboard');
     } else {
       return view('auth.login');
     }

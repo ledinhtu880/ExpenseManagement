@@ -21,25 +21,25 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <li class="nav-item text-center">
-                    <a href="{{ route('dashboard.index') }}"
-                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('dashboard.*') ? ' active' : '' }}">
+                    <a href="{{ route('home.dashboard') }}"
+                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('home.dashboard') ? ' active' : '' }}">
                         TỔNG QUAN
                     </a>
                 </li>
                 <li class="nav-item text-center">
-                    <a href="{{ route('transaction.index') }}"
-                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('transaction.*') ? ' active' : '' }}">
+                    <a href="{{ route('home.transaction') }}"
+                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('home.transaction') ? ' active' : '' }}">
                         SỐ GIAO DỊCH
                     </a>
                 </li>
                 <li class="nav-item text-center">
-                    <a href="{{ route('budget.index') }}"
-                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('budget.*') ? ' active' : '' }}">
+                    <a href="{{ route('home.budget') }}"
+                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('home.budget') ? ' active' : '' }}">
                         NGÂN SÁCH </a>
                 </li>
                 <li class="nav-item text-center">
-                    <a href="{{ route('account.index') }}"
-                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('account.*') ? ' active' : '' }}">
+                    <a href="{{ route('home.account') }}"
+                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('home.account') ? ' active' : '' }}">
                         TÀI KHOẢN
                     </a>
                 </li>
@@ -49,6 +49,9 @@
     </div>
     <!-- /.sidebar -->
 
-    <a href="#" class="position-absolute w-100 text-center py-3 text-white text-uppercase fw-bold"
-        style="bottom: 0; left: 0;">Đăng xuất</a>
+    <a href="#"
+        class="position-absolute start-0 end-0 bottom-0 py-3 text-white text-uppercase fw-bold text-center">
+        <i class="position-absolute top-50 start-0 ms-3 translate-middle fa-solid fa-arrow-right-from-bracket"></i>
+        <span class="mx-auto">Đăng xuất</span>
+    </a>
 </aside>
