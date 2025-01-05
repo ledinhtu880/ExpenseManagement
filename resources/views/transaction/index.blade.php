@@ -1,4 +1,5 @@
 <!-- transaction.index.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,8 +19,9 @@
         }
 
         .transaction-header img {
-            width: 30px;
-            margin-right: 10px;
+            width: 500px;
+            align-items: right;
+            justify-content: right;
         }
 
         .month-navigation {

@@ -27,10 +27,12 @@
             border-radius: 15px;
         }
 
-        .tab-item.active {
-            background: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+        @extends('layouts.master')
+
+        @section('title', 'Budget')
+
+        @push('css')
+
 
         .expense-chart {
             height: 200px;

@@ -1,3 +1,5 @@
+@include('layouts.sidebar')
+@extends('layouts.master')
 <!DOCTYPE html>
 <html lang="vi">
 

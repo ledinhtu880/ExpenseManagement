@@ -1,5 +1,5 @@
 @extends('layouts.master')
-
+@include('layouts.sidebar')
 @section('title', 'Bảng xếp hạng')
 
 

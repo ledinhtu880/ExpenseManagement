@@ -12,5 +12,8 @@ Route::post('/login', [AuthController::class, 'handleLogin']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('checkLogin')->group(function () {
-  Route::get('/', [HomeController::class, 'indexBudget'])->name('indexBudget');
+  Route::get('/budget', [HomeController::class, 'indexBudget'])->name("indexBudget");
+  Route::get('/account', [HomeController::class, 'indexAccount'])->name('account.index');
+  Route::get('/transaction', [HomeController::class, 'indexTransaction'])->name('transaction.index');
+  Route::get('/dashboard', [HomeController::class, 'indexDashboard'])->name('dashboard.index');
 });
