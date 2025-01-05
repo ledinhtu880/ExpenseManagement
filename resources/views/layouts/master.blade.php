@@ -21,33 +21,37 @@
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Google Font: Poppins -->
+    <!-- Google Font: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/sidebar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
     @stack('css')
 </head>
 
-    <div class="wrapper">
-        <!-- Navbar -->
-        <!-- /.navbar -->
+<body class="wrapper">
+    <!-- Navbar -->
+    <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
-        @include('layouts.sidebar')
+    <!-- Main Sidebar Container -->
+    @include('layouts.sidebar')
+    <!-- Content Wrapper. Contains page content -->
+    <main class="content-wrapper bg-white p-3">
+        <header class="mb-3">
+            @include('layouts.header')
+        </header>
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <section class="content">
             @yield('content')
-        </div>
-        <!-- /.content-wrapper -->
+        </section>
+    </main>
+    <!-- /.content-wrapper -->
 
 
     <!-- Bootstrap Bundle -->
@@ -62,7 +66,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script type="text/javascript" src="{{ asset('js/adminlte.js') }}"></script>
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     @stack('js')
 </body>

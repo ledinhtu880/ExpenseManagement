@@ -1,191 +1,246 @@
-<!-- budget.index.php -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budget Tracker</title>
-    <!-- AdminLTE 3 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+@extends('layouts.master')
+
+@section('title', 'Budget')
+
+@push('css')
     <style>
-        .budget-circle {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 0 auto;
-        }
-        
-        .budget-amount {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-        
-        .budget-amount h3 {
-            color: #28a745;
-            font-size: 2rem;
-            margin-bottom: 0;
-        }
-        
-        .budget-amount p {
-            color: #6c757d;
-            margin-top: 0;
-        }
-        
-        .budget-stats {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        .budget-stat-item {
-            color: #6c757d;
-        }
-        
-        .budget-stat-item h4 {
-            margin-bottom: 5px;
-        }
-        
-        .budget-category {
+        .report-section {
             background: #fff;
             border-radius: 10px;
             padding: 15px;
-            margin-bottom: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        
-        .progress {
-            height: 8px;
-        }
-        
-        .create-budget-btn {
-            background: #6f42c1;
-            border: none;
-            color: white;
-            padding: 10px 30px;
-            border-radius: 20px;
-            margin: 20px 0;
-            width: 25%;
-            margin-left: 37.5%;
-        }
-        
-        .budget-header {
-            display: flex;
-            align-items: center;
             margin-bottom: 20px;
         }
-        
-        .budget-header img {
-            width: 30px;
-            margin-right: 10px;
+
+        .tab-navigation {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 5px;
+            margin-bottom: 15px;
+        }
+
+        .tab-item {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 15px;
+        }
+
+        .tab-item.active {
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .expense-chart {
+            height: 200px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .top-expenses {
+            margin-top: 20px;
+        }
+
+        .expense-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .expense-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .expense-percentage {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .recent-transactions {
+            margin-top: 20px;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .amount-positive {
+            color: #28a745;
+        }
+
+        .amount-negative {
+            color: #dc3545;
+        }
+
+        .add-transaction-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #6f42c1;
+            color: white;
+            border: none;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
     </style>
-</head>
-<body class="hold-transition sidebar-mini">
-    <div class="wrapper">
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="budget-header">
-                                    <img src="path/to/vietnam-flag.png" alt="Flag">
-                                    <div class="dropdown">
-                                        <button class="btn btn-light dropdown-toggle" type="button" id="budgetDropdown" data-toggle="dropdown">
-                                            Ngân sách đang áp dụng
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">Budget 1</a>
-                                            <a class="dropdown-item" href="#">Budget 2</a>
-                                        </div>
-                                    </div>
-                                </div>
+@endpush
 
-                                <div class="budget-circle">
-                                    <div class="budget-amount">
-                                        <h3>992,000.00</h3>
-                                        <p>Số tiền bạn có thể chi</p>
-                                    </div>
-                                </div>
+@section('content')
+    <div class="container-fluid">
+        <div class="card p-3">
+            <div class="d-flex gap-2 align-items-between justify-content-center flex-column">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="text-md fw-bold m-0">Ví của tôi</h5>
+                    <a href="#" class="text-primary-color text-sm fw-bold">Xem tất cả</a>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-3 align-items-center justify-content-center">
+                        <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg" class="img-circle elevation-2"
+                            width="36" alt="Wallet icon">
+                        <span class="text-lg fw-semibold">Tiền mặt</span>
+                    </div>
+                    <h5 class="text-lg fw-semibold m-0">9.9991.000 đ</h5>
+                </div>
+            </div>
+        </div>
 
-                                <div class="budget-stats">
-                                    <div class="budget-stat-item">
-                                        <h4>1 M</h4>
-                                        <p>Tổng ngân sách</p>
-                                    </div>
-                                    <div class="budget-stat-item">
-                                        <h4>8 K</h4>
-                                        <p>Tổng đã chi</p>
-                                    </div>
-                                    <div class="budget-stat-item">
-                                        <h4>4 ngày</h4>
-                                        <p>Đến cuối tháng</p>
-                                    </div>
-                                </div>
+        <div class="report-section">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5>Báo cáo tháng này</h5>
+                <a href="#" class="text-primary">Xem báo cáo</a>
+            </div>
 
-                                <button class="btn create-budget-btn btn-block">Tạo Ngân sách</button>
+            <div class="tab-navigation">
+                <div class="tab-item active">Tuần</div>
+                <div class="tab-item">Tháng</div>
+            </div>
 
-                                <div class="budget-categories">
-                                    <div class="budget-category">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex align-items-center">
-                                                <img src="path/to/food-icon.png" alt="Food" style="width: 40px; margin-right: 10px;">
-                                                <span>Ăn uống</span>
-                                            </div>
-                                            <div class="text-right">
-                                                <h5>1,000,000.00</h5>
-                                                <small class="text-muted">Còn lại 992,000.00</small>
-                                            </div>
-                                        </div>
-                                        <div class="progress mt-2">
-                                            <div class="progress-bar bg-primary" role="progressbar" style="width: 0.8%" aria-valuenow="0.8" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <div>
+                <div class="text-muted">Tổng đã chi tháng này</div>
+                <h4>28.000.00 đ</h4>
+            </div>
+
+            <div class="expense-chart"></div>
+        </div>
+
+        <div class="top-expenses">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5>Chi tiêu nhiều nhất</h5>
+                <a href="#" class="text-primary">Xem chi tiết</a>
+            </div>
+
+            <div class="expense-item">
+                <div class="expense-info">
+                    <img src="path/to/icon.png" alt="Category" class="wallet-icon" />
+                    <div>
+                        <div>Hóa đơn & Tiện ích</div>
+                        <div class="text-muted">20.000.00 đ</div>
+                    </div>
+                </div>
+                <div class="expense-percentage">72%</div>
+            </div>
+
+            <div class="expense-item">
+                <div class="expense-info">
+                    <img src="path/to/icon.png" alt="Category" class="wallet-icon" />
+                    <div>
+                        <div>Ăn uống</div>
+                        <div class="text-muted">8.000.00 đ</div>
+                    </div>
+                </div>
+                <div class="expense-percentage">28%</div>
+            </div>
+        </div>
+
+        <div class="recent-transactions">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5>Giao dịch gần đây</h5>
+                <a href="#" class="text-primary">Xem tất cả</a>
+            </div>
+
+            <div class="transaction-item">
+                <div class="expense-info">
+                    <img src="path/to/icon.png" alt="Transaction" class="wallet-icon" />
+                    <div>
+                        <div>Cho vay</div>
+                        <div class="text-muted">
+                            Thứ 6, 20 tháng 12 2024
                         </div>
                     </div>
                 </div>
+                <div class="amount-negative">2,000.00</div>
             </div>
-        </section>
-    </div>
 
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/js/adminlte.min.js"></script>
+            <div class="transaction-item">
+                <div class="expense-info">
+                    <img src="path/to/icon.png" alt="Transaction" class="wallet-icon" />
+                    <div>
+                        <div>Ăn uống</div>
+                        <div class="text-muted">
+                            Thứ 6, 20 tháng 12 2024
+                        </div>
+                    </div>
+                </div>
+                <div class="amount-negative">2,000.00</div>
+            </div>
+
+            <div class="transaction-item">
+                <div class="expense-info">
+                    <img src="path/to/icon.png" alt="Transaction" class="wallet-icon" />
+                    <div>
+                        <div>Thu nhập khác</div>
+                        <div class="text-muted">
+                            Thứ 6, 20 tháng 12 2024
+                        </div>
+                    </div>
+                </div>
+                <div class="amount-positive">5,010,000.00</div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@push('js')
     <script>
         $(document).ready(function() {
-            // Initialize tooltips
-            $('[data-toggle="tooltip"]').tooltip();
-
-            // Add budget category
-            $('.create-budget-btn').click(function() {
-                // Add your logic for creating a new budget
-                alert('Creating new budget...');
+            // Tab navigation
+            $('.tab-item').click(function() {
+                $('.tab-item').removeClass('active');
+                $(this).addClass('active');
             });
 
-            // Update progress bars
-            function updateProgress() {
-                $('.budget-category').each(function() {
-                    let total = parseFloat($(this).find('h5').text().replace(/,/g, ''));
-                    let remaining = parseFloat($(this).find('small').text().replace(/[^0-9.]/g, ''));
-                    let percentage = ((total - remaining) / total) * 100;
-                    $(this).find('.progress-bar').css('width', percentage + '%');
-                });
-            }
-
-            // Initial progress update
-            updateProgress();
+            // Initialize expense chart
+            const ctx = document.createElement('canvas');
+            $('.expense-chart').append(ctx);
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+                    datasets: [{
+                        label: 'Chi tiêu',
+                        data: [12, 19, 3, 5, 2, 3, 8],
+                        backgroundColor: '#6f42c1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
 
             // Format currency
             function formatCurrency(amount) {
@@ -193,9 +248,14 @@
                     style: 'decimal',
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
-                }).format(amount);
+                }).format(amount) + ' đ';
             }
+
+            // Add transaction button
+            $('.add-transaction-btn').click(function() {
+                // Add your logic for adding a new transaction
+                alert('Adding new transaction...');
+            });
         });
     </script>
-</body>
-</html>
+@endpush

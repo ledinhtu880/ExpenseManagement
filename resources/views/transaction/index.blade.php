@@ -1,6 +1,7 @@
 <!-- transaction.index.php -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,12 +16,12 @@
             align-items: center;
             margin-bottom: 20px;
         }
-        
+
         .transaction-header img {
             width: 30px;
             margin-right: 10px;
         }
-        
+
         .month-navigation {
             display: flex;
             justify-content: space-around;
@@ -28,42 +29,42 @@
             padding: 10px 0;
             border-bottom: 1px solid #eee;
         }
-        
+
         .month-item {
             padding: 5px 15px;
             cursor: pointer;
             color: #6c757d;
         }
-        
+
         .month-item.active {
             color: #6f42c1;
             border-bottom: 2px solid #6f42c1;
         }
-        
+
         .balance-summary {
             background: #f8f9fa;
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
         }
-        
+
         .balance-row {
             display: flex;
             justify-content: space-between;
             margin: 5px 0;
         }
-        
+
         .transaction-day {
             margin: 20px 0;
         }
-        
+
         .day-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
         }
-        
+
         .transaction-item {
             display: flex;
             justify-content: space-between;
@@ -71,27 +72,27 @@
             padding: 10px 15px;
             border-bottom: 1px solid #eee;
         }
-        
+
         .transaction-info {
             display: flex;
             align-items: center;
         }
-        
+
         .transaction-icon {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             margin-right: 15px;
         }
-        
+
         .transaction-amount {
             color: #dc3545;
         }
-        
+
         .transaction-amount.positive {
             color: #28a745;
         }
-        
+
         .add-transaction-btn {
             position: fixed;
             bottom: 20px;
@@ -103,9 +104,9 @@
             color: white;
             border: none;
             font-size: 24px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
-        
+
         .view-report-link {
             color: #6f42c1;
             text-decoration: none;
@@ -115,6 +116,7 @@
         }
     </style>
 </head>
+
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <!-- Main content -->
@@ -127,7 +129,8 @@
                                 <div class="transaction-header">
                                     <img src="path/to/vietnam-flag.png" alt="Flag">
                                     <div class="dropdown">
-                                        <button class="btn btn-light dropdown-toggle" type="button" id="totalDropdown" data-toggle="dropdown">
+                                        <button class="btn btn-light dropdown-toggle" type="button" id="totalDropdown"
+                                            data-toggle="dropdown">
                                             Tổng cộng
                                         </button>
                                         <div class="dropdown-menu">
@@ -259,4 +262,5 @@
         });
     </script>
 </body>
+
 </html>

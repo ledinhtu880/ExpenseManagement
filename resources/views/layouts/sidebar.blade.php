@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-light-purple elevation-4" style="background-color: #6C63FF">
+<aside class="main-sidebar sidebar-light-purple elevation-4" style="background-color: var(--primary-color)">
     <!-- Brand Logo -->
     <a href="#" class="brand-link border-0">
         <div class="d-flex align-items-center justify-content-center gap-3">
@@ -18,24 +18,25 @@
     <div class="sidebar px-0 mt-5">
         <!-- Sidebar Menu -->
         <nav>
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
                 <li class="nav-item text-center">
                     <a href="#" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase active">
-                    TỔNG QUAN
+                        TỔNG QUAN
                     </a>
                 </li>
                 <li class="nav-item text-center">
                     <a href="#" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase">
-                    SỐ GIAO DỊCH
+                        SỐ GIAO DỊCH
                     </a>
                 </li>
                 <li class="nav-item text-center">
                     <a href="#" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase">
-                    NGÂN SÁCH </a>
+                        NGÂN SÁCH </a>
                 </li>
                 <li class="nav-item text-center">
-                    <a href="../resources/views/account/index.blade.php" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase">
-                    TÀI KHOẢN
+                    <a href="#" class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase">
+                        TÀI KHOẢN
                     </a>
                 </li>
             </ul>
@@ -44,5 +45,6 @@
     </div>
     <!-- /.sidebar -->
 
-    <a href="#" class="position-absolute w-100 text-center py-3 text-white text-uppercase fw-bold" style="bottom: 0; left: 0;">Đăng xuất</a>
+    <a href="#" class="position-absolute w-100 text-center py-3 text-white text-uppercase fw-bold"
+        style="bottom: 0; left: 0;">Đăng xuất</a>
 </aside>
