@@ -16,7 +16,7 @@ class AuthController extends Controller
   public function register()
   {
     if (Auth::check()) {
-      return redirect()->intended('');
+      return redirect()->route('indexBudget');
     } else {
       return view('auth.register');
     }
@@ -54,23 +54,17 @@ class AuthController extends Controller
   public function handleLogin(Request $request)
   {
     try {
-      $email = $request->input('email');
+      $email = $request->get('email');
       $user = User::where('email', $email)->first();
       if (!$user) {
-        return response()->json(['status' => 'danger', 'message' => 'Tài khoản không tồn tại']);
-      } else if (Hash::check($request->input('password'), $user->password)) {
+        return redirect()->back()->with('type', 'warning')->with('message', 'Tài khoản chưa tồn tại. Vui lòng đăng ký');
+      } else if (Hash::check($request->get('password'), $user->password)) {
         Auth::login($user);
-        return response()->json([
-          'status' => 'success',
-          'url' => redirect()->intended('')
-            ->with('type', 'success')
-            ->with('message', 'Đăng nhập thành công')->getTargetUrl(),
-        ]);
+        return redirect()->intended('')
+          ->with('type', 'success')
+          ->with('message', 'Đăng nhập thành công');
       } else {
-        return response()->json([
-          'status' => 'warning',
-          'message' => 'Mật khẩu không chính xác',
-        ]);
+        return redirect()->back()->with('type', 'warning')->with('message', 'Đăng nhập không thành công. Sai thông tin tài khoản/mật khẩu. Hãy kiểm tra lại!');
       }
     } catch (Exception $e) {
       return response()->json([
@@ -82,7 +76,7 @@ class AuthController extends Controller
   public function login()
   {
     if (Auth::check()) {
-      return redirect()->intended('');
+      return redirect()->route('indexBudget');
     } else {
       return view('auth.login');
     }

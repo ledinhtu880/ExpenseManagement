@@ -21,74 +21,179 @@
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Google Font: Poppins -->
+    <!-- Google Font: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
         rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+        }
+
+        body {
+            font-family: "Inter", "Roboto", serif !important;
+            font-optical-sizing: auto;
+            font-style: normal;
+        }
+
+        /* Logo */
+        .logo-container {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            gap: 10px;
+            z-index: 1000;
+
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .logo-container img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .logo-container span {
+            font-size: 1.2rem;
+        }
+
+        /* Registration Container */
+        .registration-container {
+            max-width: 800px;
+            margin: 80px auto 50px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border: 1px solid var(--primary-color);
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .registration-header h2 {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background-color: #5a55e0;
+        }
+
+        .form-text {
+            color: var(--primary-color);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .form-text a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-text a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-control.is-invalid {
+            border-color: #dc3545;
+            background-image: none;
+        }
+    </style>
 </head>
 
 <body class="bg-light">
-    <div class="container">
-        <div class="row justify-content-center align-items-center min-vh-100">
-            <div class="col-md-6 col-lg-4">
-                <div id="cover-spin"></div>
-                <main>
-                    @csrf
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Họ và tên <span class="text-danger">(*)</span></label>
-                        <input type="text" class="form-control" id="name" name="name"
-                            placeholder="Nhập họ và tên" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="birthday" class="form-label">Ngày sinh <span class="text-danger">(*)</span></label>
-                        <input type="date" class="form-control" id="birthday" name="birthday" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="gender" class="form-label">Giới tính</label>
-                        <div class="d-flex gap-3">
-                            <div>
-                                <input class="form-check-input" type="radio" name="gender" id="male"
-                                    value="0" checked>
-                                <label for="male">Nam</label>
-                            </div>
-                            <div>
-                                <input class="form-check-input" type="radio" name="gender" id="female"
-                                    value="1">
-                                <label for="female">Nữ</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email <span class="text-danger">(*)</span></label>
-                        <input type="email" class="form-control" id="email" name="email"
-                            placeholder="Nhập email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Mật khẩu <span class="text-danger">(*)</span></label>
-                        <input type="password" class="form-control" id="password" name="password"
-                            placeholder="Nhập mật khẩu" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="confirm-password" class="form-label">Nhập lại mật khẩu <span
-                                class="text-danger">(*)</span></label>
-                        <input type="password" class="form-control" id="confirm-password" name="password_confirmation"
-                            placeholder="Nhập lại mật khẩu" required>
-                    </div>
-                    <button class="button btn-primary" id="btnSubmit">Register</button>
-                </main>
+    <!-- Logo -->
+    <div class="logo-container">
+        <img src="{{ asset('images/pigmoney.png') }}" alt="Logo">
+        <h5>Money Love</h5>
+    </div>
 
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-                    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-                    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-                <script>
-                    $(document).ready(function() {
-                        const btnSubmit = $("#btnSubmit");
-
-                    })
-                </script>
+    <!-- Registration Form -->
+    <div class="registration-container">
+        <div class="registration-header">
+            <h2>Đăng Ký Tài Khoản</h2>
+        </div>
+        <div>
+            <!-- Họ và tên -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Họ và tên<span class="text-danger ms-2">(*)</span></label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Nhập họ và tên"
+                    required>
             </div>
+
+            <!-- Email cá nhân -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email cá nhân<span class="text-danger ms-2">(*)</span></label>
+                <input type="email" class="form-control" id="email" name="email"
+                    placeholder="Nhập email cá nhân" required>
+            </div>
+            <!-- Giới tính -->
+            <div class="mb-3">
+                <label for="gender" class="form-label">Giới tính<span class="text-danger ms-2">(*)</span></label>
+                <select class="form-select" id="gender" name="gender" required>
+                    <option value="" disabled selected>Chọn giới tính</option>
+                    <option value="0">Nam</option>
+                    <option value="1">Nữ</option>
+                </select>
+            </div>
+            <!-- Ngày tháng năm sinh -->
+            <div class="mb-3">
+                <label for="birthday" class="form-label">Ngày sinh<span class="text-danger ms-2">(*)</span></label>
+                <input type="date" class="form-control" id="birthday" name="birthday" required>
+            </div>
+
+
+            <!-- Mật khẩu -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Mật khẩu<span class="text-danger ms-2">(*)</span></label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Nhập mật khẩu"
+                    required>
+            </div>
+            <!-- Nhập lại mật khẩu -->
+            <div class="mb-3">
+                <label for="confirm-password" class="form-label">Nhập lại mật khẩu
+                    <span class="text-danger ms-2">(*)</span></label>
+                <input type="password" class="form-control" id="confirm-password" name="password_confirmation"
+                    placeholder="Nhập lại mật khẩu" required>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid gap-2">
+                <button class="btn btn-primary" id="btnSubmit">Đăng ký</button>
+            </div>
+            <p class="form-text mt-3">
+                Bạn đã có tài khoản? <a href="{{ route('login') }}">Đăng nhập</a>
+            </p>
         </div>
     </div>
 
@@ -113,7 +218,7 @@
                 input.next('.error-message').text(message).show();
             }
 
-            function clearError(input) {
+            function hideError(input) {
                 input.removeClass('is-invalid');
                 input.next('.error-message').hide();
             }
@@ -131,7 +236,7 @@
                 } else if (!namePattern.test(name)) {
                     showError(input, 'Họ và tên chỉ được chứa chữ cái và khoảng trắng, độ dài 2-50 ký tự');
                 } else {
-                    clearError(input);
+                    hideError(input);
                 }
             }
 
@@ -156,7 +261,7 @@
                 } else if (birthday > minAge) {
                     showError(input, 'Bạn phải đủ 18 tuổi');
                 } else {
-                    clearError(input);
+                    hideError(input);
                 }
             }
 
@@ -167,7 +272,7 @@
                 } else if (!emailPattern.test(email)) {
                     showError(input, 'Email không hợp lệ');
                 } else {
-                    clearError(input);
+                    hideError(input);
                 }
             }
 
@@ -178,7 +283,7 @@
                 } else if (!passwordPattern.test(password)) {
                     showError(input, 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ và số');
                 } else {
-                    clearError(input);
+                    hideError(input);
                 }
             }
 
@@ -190,7 +295,7 @@
                 } else if (confirmPassword !== password) {
                     showError(input, 'Mật khẩu xác nhận không khớp');
                 } else {
-                    clearError(input);
+                    hideError(input);
                 }
             }
 

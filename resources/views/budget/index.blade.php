@@ -27,13 +27,6 @@
             border-radius: 15px;
         }
 
-        @extends('layouts.master')
-
-        @section('title', 'Budget')
-
-        @push('css')
-
-
         .expense-chart {
             height: 200px;
             background: #f8f9fa;
@@ -219,7 +212,13 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            // Tab navigation
+            const message = '{{ session('message') }}';
+            const type = '{{ session('type') }}';
+
+            if (message && type) {
+                showToast(message, type);
+            }
+
             $('.tab-item').click(function() {
                 $('.tab-item').removeClass('active');
                 $(this).addClass('active');
