@@ -6,11 +6,12 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\Auth\Register2Controller;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\GroupController;
+
+Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
 
 // Route cho màn hình Loading
-Route::get('/loading', function () {
-    return view('loading');
-})->name('loading');
+Route::get('/loading', function () {return view('loading');})->name('loading');
 
 // Route cho Home
 Route::get('/home', [HomeController::class, 'index'])->name('home');
