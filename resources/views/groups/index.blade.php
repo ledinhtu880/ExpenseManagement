@@ -199,56 +199,24 @@
                     </div>
                     <div class="group-card">
                         <div class="group-title"><i class="fas fa-receipt"></i> Hóa đơn & Tiện ích</div>
-                        {{-- <ul>
-                            <li class="group-item"><i class="fas fa-home"></i> <span>Thuê nhà</span></li>
-                            <li class="group-item"><i class="fas fa-tint"></i> <span>Hóa đơn nước</span></li>
-                            <li class="group-item"><i class="fas fa-phone"></i> <span>Hóa đơn điện thoại</span></li>
-                            <li class="group-item"><i class="fas fa-bolt"></i> <span>Hóa đơn điện</span></li>
-                            <li class="group-item"><i class="fas fa-fire"></i> <span>Hóa đơn gas</span></li>
-                            <li class="group-item"><i class="fas fa-tv"></i> <span>Hóa đơn TV</span></li>
-                            <li class="group-item"><i class="fas fa-wifi"></i> <span>Hóa đơn Internet</span></li>
-                            <li class="group-item"><i class="fas fa-tools"></i> <span>Hóa đơn tiện ích khác</span></li>
-                        </ul> --}}
                     </div>
                     <div class="group-card">
                         <div class="group-title"><i class="fas fa-shopping-cart"></i> Mua sắm</div>
-                        {{-- <ul>
-                            <li class="group-item"><i class="fas fa-tshirt"></i> <span>Đồ dùng cá nhân</span></li>
-                            <li class="group-item"><i class="fas fa-couch"></i> <span>Đồ gia dụng</span></li>
-                            <li class="group-item"><i class="fas fa-brush"></i> <span>Làm đẹp</span></li>
-                        </ul> --}}
                     </div>
                     <div class="group-card">
                         <div class="group-title"><i class="fas fa-home"></i> Gia đình</div>
-                        {{-- <ul>
-                            <li class="group-item"><i class="fas fa-tools"></i> <span>Sửa & Trang trí nhà</span></li>
-                            <li class="group-item"><i class="fas fa-concierge-bell"></i> <span>Dịch vụ gia đình</span>
-                            </li>
-                            <li class="group-item"><i class="fas fa-paw"></i> <span>Vật nuôi</span></li>
-                        </ul> --}}
                     </div>
                     <div class="group-card">
                         <div class="group-title"><i class="fas fa-car"></i> Di chuyển</div>
-                        {{-- <ul>
-                            <li class="group-item"><i class="fas fa-tools"></i> <span>Bảo dưỡng xe</span></li>
-                        </ul> --}}
                     </div>
                     <div class="group-card">
                         <div class="group-title"><i class="fas fa-heartbeat"></i> Sức khỏe</div>
-                        {{-- <ul>
-                            <li class="group-item"><i class="fas fa-user-md"></i> <span>Khám sức khỏe</span></li>
-                            <li class="group-item"><i class="fas fa-dumbbell"></i> <span>Thể dục thể thao</span></li>
-                        </ul> --}}
                     </div>
                     <div class="group-card">
                         <div class="group-title"><i class="fas fa-graduation-cap"></i> Giáo dục</div>
                     </div>
                     <div class="group-card">
                         <div class="group-title"><i class="fas fa-laugh-beam"></i> Giải trí</div>
-                        {{-- <ul>
-                            <li class="group-item"><i class="fas fa-desktop"></i> <span>Dịch vụ trực tuyến</span></li>
-                            <li class="group-item"><i class="fas fa-gamepad"></i> <span>Vui chơi</span></li>
-                        </ul> --}}
                     </div>
                     <div class="group-card">
                         <div class="group-title"><i class="fas fa-gift"></i> Quà tặng & Quyên góp</div>

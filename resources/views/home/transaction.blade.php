@@ -2,6 +2,25 @@
 
 @section('title', 'Quan ly giao dich')
 
+@push('css')
+    <style>
+        .category-item.active {
+            background-color: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+        }
+
+        #categoryTabs .active {
+            color: #333;
+            font-weight: 700;
+        }
+
+        #categoryTabs.nav-pills .nav-link:not(.active):hover {
+            color: var(--primary-color);
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="container-fluid">
         <div class="card">
@@ -168,12 +187,12 @@
         </div>
     </div>
 
-    <!-- Add transaction modal -->
-    <button type="button" class="position-absolute btn btn-primary-color rounded-circle p-5" data-bs-toggle="modal"
-        data-bs-target="#addTransaction" style="bottom: 50px; right: 50px;">
+    <button type="button" class="position-absolute btn btn-primary-color text-white rounded-circle p-5"
+        data-bs-toggle="modal" data-bs-target="#addTransaction" style="bottom: 50px; right: 50px;">
         <i class="fa-solid fa-plus" style="font-size: 30px;"></i>
     </button>
 
+    <!-- First modal - Transaction form -->
     <div class="modal fade" id="addTransaction" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="addTransactionLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -192,20 +211,21 @@
                                         <h5 class="h5 text-center m-0">{{ Auth::user()->currency }}</h5>
                                     </div>
                                     <input type="number" name="amount" id="amount"
-                                        class="form-control form-control-lg" shadow-none value="0" min="0">
+                                        class="form-control form-control-lg shadow-none" value="0" min="0">
                                 </div>
                                 <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
                                     <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
                                         class="img-circle elevation-2" width="60" alt="User Image"
                                         style="min-width: 80px;">
-                                    <select name="category_id" id="category_id"
-                                        class="form-select form-select-lg shadow-none">
-                                        <option default selected disabled value="default">Chọn nhóm</option>
-                                        @foreach ($categories as $each)
-                                            <option value="{{ $each->category_id }}">{{ $each->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="hidden" name="category_id" id="category_id" value="default">
+                                    <button type="button" id="categorySelector"
+                                        class="form-control form-control-lg text-start shadow-none" data-bs-toggle="modal"
+                                        data-bs-target="#selectCategory">
+                                        <span id="selectedCategoryText">Chọn nhóm</span>
+                                    </button>
                                 </div>
+
+                                <!-- Rest of the form remains the same -->
                                 <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
                                     <div class="p-1" style="min-width: 80px;">
                                         <div class="h4 text-center m-0"><i class="fa-solid fa-note-sticky"></i></div>
@@ -243,135 +263,279 @@
             </div>
         </div>
     </div>
-    {{-- /.add transaction --}}
+    <!-- /.first modal -->
+
+    <!-- Second modal - Category selection -->
+    <div class="modal fade" id="selectCategory" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="selectCategoryLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="text-primary-color fw-bold fs-5 m-0" id="addTransactionLabel">Chọn nhóm</h1>
+                    <button type="button" class="btn-close" data-bs-target="#addTransaction" data-bs-toggle="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Tabs -->
+                    <div class="tab-navigation-wrapper">
+                        <ul class="nav nav-pills nav-fill mb-3 bg-body-secondary rounded-3 p-2" id="categoryTabs"
+                            role="tablist">
+                            @foreach ($groupTypes as $groupType)
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link {{ $loop->first ? 'active' : '' }}"
+                                        id="tab-{{ $groupType->group_type_id }}" data-bs-toggle="tab"
+                                        data-bs-target="#content-{{ $groupType->group_type_id }}" type="button"
+                                        role="tab">
+                                        {{ $groupType->name }}
+                                    </button>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+
+                    <!-- Tab Contents -->
+                    <div class="tab-content" id="categoryTabsContent">
+                        @foreach ($groupTypes as $groupType)
+                            <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
+                                id="content-{{ $groupType->group_type_id }}" role="tabpanel">
+                                <div class="row g-3">
+                                    @foreach ($categories->where('group_type_id', $groupType->group_type_id) as $category)
+                                        <div class="col-md-6">
+                                            <button type="button"
+                                                class="category-item btn btn-outline-primary-color w-100 text-start p-3"
+                                                data-category-id="{{ $category->category_id }}"
+                                                data-category-name="{{ $category->name }}"
+                                                data-bs-target="#addTransaction" data-bs-toggle="modal">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                                        class="img-circle elevation-2" width="40"
+                                                        alt="Category Image">
+                                                    <span>{{ $category->name }}</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.second modal -->
 @endsection
 
 @push('js')
     <script>
-        $(document).ready(function() {
-            const message = '{{ session('message') }}';
-            const type = '{{ session('type') }}';
-
-            if (message && type) {
-                showToast(message, type);
+        // Constants
+        const CONFIG = {
+            DEFAULT_USER_IMAGE: 'https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg',
+            EXPENSE_TYPE: 'Khoản chi',
+            ENDPOINTS: {
+                TRANSACTIONS: '{{ route('home.transaction') }}'
+            },
+            SELECTORS: {
+                FORM: '#formTransaction',
+                AMOUNT: '#amount',
+                CATEGORY: '#category_id',
+                WALLET: '#wallet_id',
+                SAVE_BTN: '#saveBtn',
+                LOADER: '#loader',
+                CONTAINERS: {
+                    PREV_MONTH: '#previousMonthTransactionsContainer',
+                    CURR_MONTH: '#currentMonthTransactionsContainer'
+                },
+                BALANCES: {
+                    PREV_MONTH: {
+                        OPENING: '#previousMonthOpeningBalance',
+                        CLOSING: '#previousMonthClosingBalance',
+                        TOTAL: '#previousMonthTotalBalance'
+                    },
+                    CURR_MONTH: {
+                        OPENING: '#currentMonthOpeningBalance',
+                        CLOSING: '#currentMonthClosingBalance',
+                        TOTAL: '#currentMonthTotalBalance'
+                    }
+                }
             }
+        };
 
-            // Validate form before submission
-            $('#saveBtn').click(function() {
-                const amount = $('#amount').val();
-                const categoryId = $('#category_id').val();
-                if (amount <= 0) {
-                    showToast('Số tiền phải lớn hơn 0.', 'warning');
-                    return false;
-                }
+        const ToastManager = {
+            show(message, type) {
+                showToast(message, type);
+            },
+            showError(message) {
+                this.show(message, 'warning');
+            }
+        };
+
+        class TransactionFormValidator {
+            static validate() {
+                const amount = $(CONFIG.SELECTORS.AMOUNT).val();
+                const categoryId = $(CONFIG.SELECTORS.CATEGORY).val();
+
                 if (categoryId === 'default') {
-                    showToast('Vui lòng chọn nhóm.', 'warning');
+                    ToastManager.showError('Vui lòng chọn nhóm.');
                     return false;
                 }
-                $('#formTransaction').submit();
-            });
+                if (amount <= 0) {
+                    ToastManager.showError('Số tiền phải lớn hơn 0.');
+                    return false;
+                }
+                return true;
+            }
+        }
 
-            // Constants
-            const CONFIG = {
-                DEFAULT_USER_IMAGE: 'https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg',
-                EXPENSE_TYPE: 'Khoản chi'
-            };
-
-            // Helper functions
-            const createTransactionCard = (transaction, index, array) => {
+        // HTML Template generators
+        class TransactionTemplates {
+            static createTransactionCard(transaction, index, array) {
                 const isLastItem = index === array.length - 1;
                 const colorClass = transaction.category.group_type.name === CONFIG.EXPENSE_TYPE ?
                     'text-danger' : 'text-success';
 
                 return `
-        <div class="d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center justify-content-center gap-3">
-                <img src="${CONFIG.DEFAULT_USER_IMAGE}" class="img-circle elevation-2" width="60" alt="User Image">
-                <h5 class="h5 mb-0">${transaction.category.name}</h5>
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center justify-content-center gap-3">
+                    <img src="${CONFIG.DEFAULT_USER_IMAGE}" class="img-circle elevation-2" width="60" alt="User Image">
+                    <h5 class="h5 mb-0">${transaction.category.name}</h5>
+                </div>
+                <h5 class="h5 mb-0 ${colorClass}">${transaction.formatted_balance}</h5>
             </div>
-            <h5 class="h5 mb-0 ${colorClass}">
-                ${transaction.formatted_balance}
-            </h5>
-        </div>
-        ${isLastItem ? '' : '<div class="line"></div>'}
-    `;
-            };
+            ${isLastItem ? '' : '<div class="line"></div>'}
+        `;
+            }
 
-            const createDayCard = (dayData) => {
+            static createDayCard(dayData) {
                 const colorClass = dayData.totalAmount < 0 ? 'text-danger' : 'text-success';
+                const transactionCards = dayData.listTransactions
+                    .map((t, i, arr) => TransactionTemplates.createTransactionCard(t, i, arr))
+                    .join('');
 
                 return `
-        <div class="card rounded-3 border-primary-color">
-            <div class="card-header border-0">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-end justify-content-center gap-2">
-                        <h5 class="h5 mb-0">${dayData.day}</h5>
-                        <span class="text-muted text-sm fw-medium">${dayData.detailDate}</span>
+            <div class="card rounded-3 border-primary-color">
+                <div class="card-header border-0">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-end justify-content-center gap-2">
+                            <h5 class="h5 mb-0">${dayData.day}</h5>
+                            <span class="text-muted text-sm fw-medium">${dayData.detailDate}</span>
+                        </div>
+                        <h5 class="h5 mb-0 ${colorClass}">${dayData.formatted_total_amount}</h5>
                     </div>
-                    <h5 class="h5 mb-0 ${colorClass}">
-                        ${dayData.formatted_total_amount}
-                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-column gap-2">
+                        ${transactionCards}
+                    </div>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="d-flex flex-column gap-2">
-                    ${dayData.listTransactions.map(createTransactionCard).join('')}
-                </div>
-            </div>
-        </div>
-    `;
-            };
+        `;
+            }
+        }
 
-            const renderTransactions = (containerId, transactions) => {
-                const container = $(`#${containerId}`);
-                container.html('');
-                const html = transactions.map(createDayCard).join('');
-                container.append(html);
-            };
-
-            // Event handler
-            $('#wallet_id').change(function() {
-                const walletId = $(this).val();
-                const loader = $("#loader");
-
+        // Transaction data manager
+        class TransactionManager {
+            static async fetchTransactions(walletId) {
+                const loader = $(CONFIG.SELECTORS.LOADER);
                 loader.show();
 
-                $.ajax({
-                    url: '{{ route('home.transaction') }}',
-                    type: 'GET',
-                    data: {
-                        wallet_id: walletId
-                    },
-                    success: function(response) {
-                        // Update transactions
-                        renderTransactions('previousMonthTransactionsContainer', response
-                            .previousMonthTransactions);
-                        renderTransactions('currentMonthTransactionsContainer', response
-                            .currentMonthTransactions);
+                try {
+                    const response = await $.ajax({
+                        url: CONFIG.ENDPOINTS.TRANSACTIONS,
+                        type: 'GET',
+                        data: {
+                            wallet_id: walletId
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                    this.updateUI(response);
+                } catch (error) {
+                    console.error('Transaction fetch failed:', error);
+                    ToastManager.showError("Đã có lỗi xảy ra, xin vui lòng thử lại");
+                } finally {
+                    loader.hide();
+                }
+            }
 
-                        // Update balances
-                        $('#previousMonthOpeningBalance').text(response.previousMonthBalance
-                            .formatted_opening_balance);
-                        $('#previousMonthClosingBalance').text(response.previousMonthBalance
-                            .formatted_closing_balance);
-                        $('#previousMonthTotalBalance').text(response.previousMonthBalance
-                            .balance);
+            static updateUI(response) {
+                // Update transactions
+                this.renderTransactions(CONFIG.SELECTORS.CONTAINERS.PREV_MONTH, response.previousMonthTransactions);
+                this.renderTransactions(CONFIG.SELECTORS.CONTAINERS.CURR_MONTH, response.currentMonthTransactions);
 
-                        $('#currentMonthOpeningBalance').text(response.currentMonthBalance
-                            .formatted_opening_balance);
-                        $('#currentMonthClosingBalance').text(response.currentMonthBalance
-                            .formatted_closing_balance);
-                        $('#currentMonthTotalBalance').text(response.currentMonthBalance
-                            .balance);
-                    },
-                    error: function(xhr) {
-                        console.error('Transaction fetch failed:', xhr.responseText);
-                        alert("Đã có lỗi xảy ra, xin vui lòng thử lại");
-                    },
-                    complete: function() {
-                        loader.hide();
-                    }
-                });
+                // Update balances
+                this.updateBalances('PREV_MONTH', response.previousMonthBalance);
+                this.updateBalances('CURR_MONTH', response.currentMonthBalance);
+            }
+
+            static renderTransactions(containerId, transactions) {
+                const container = $(containerId);
+                const html = transactions
+                    .map(data => TransactionTemplates.createDayCard(data))
+                    .join('');
+                container.html(html);
+            }
+
+
+            static updateBalances(period, balanceData) {
+                const selectors = CONFIG.SELECTORS.BALANCES[period];
+                $(selectors.OPENING).text(balanceData.formatted_opening_balance);
+                $(selectors.CLOSING).text(balanceData.formatted_closing_balance);
+                $(selectors.TOTAL).text(balanceData.balance);
+            }
+        }
+
+        // Initialize application
+        $(document).ready(function() {
+            // Check for session messages
+            const message = '{{ session('message') }}';
+            const type = '{{ session('type') }}';
+
+            if (message && type) {
+                ToastManager.show(message, type);
+            }
+
+            $('.category-item').click(function() {
+                // Remove highlight from all categories
+                $('.category-item').removeClass('active');
+
+                // Add highlight to selected category
+                $(this).addClass('active');
+
+                const categoryId = $(this).data('category-id');
+                const categoryName = $(this).data('category-name');
+
+                // Update hidden input and button text in first modal
+                $('#category_id').val(categoryId);
+                $('#selectedCategoryText').text(categoryName);
+
+                // Close category selection modal
+                $('#selectCategory').modal('hide');
+            });
+
+            // When opening category modal
+            $('#selectCategory').on('show.bs.modal', function() {
+                const selectedCategoryId = $('#category_id').val();
+
+                // Remove all highlights first
+                $('.category-item').removeClass('active');
+
+                // Add highlight to previously selected category if exists
+                if (selectedCategoryId) {
+                    $(`.category-item[data-category-id="${selectedCategoryId}"]`).addClass('active');
+                }
+            });
+
+            // Set up event handlers
+            $(CONFIG.SELECTORS.SAVE_BTN).click(function() {
+                if (TransactionFormValidator.validate()) {
+                    $(CONFIG.SELECTORS.FORM).submit();
+                }
+            });
+
+            $(CONFIG.SELECTORS.WALLET).change(function() {
+                TransactionManager.fetchTransactions($(this).val());
             });
         });
     </script>

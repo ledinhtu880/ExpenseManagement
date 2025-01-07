@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\GroupType;
 use App\Models\User;
 
 class HomeController extends Controller
@@ -28,6 +29,7 @@ class HomeController extends Controller
     $walletId = $request->input('wallet_id'); // Lấy wallet_id từ request
 
     $categories = Category::all();
+    $groupTypes = GroupType::all();
     $currentMonthTransactions = $user->getCurrentMonthTransactions($walletId);
     $previousMonthTransactions = $user->getPreviousMonthTransactions($walletId);
     $currentMonthBalance = $user->getCurrentMonthBalance($walletId);
@@ -49,7 +51,8 @@ class HomeController extends Controller
       'currentMonthBalance',
       'previousMonthBalance',
       'walletId',
-      'categories'
+      'categories',
+      'groupTypes'
     ));
   }
   public function indexBudget()

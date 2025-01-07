@@ -28,8 +28,8 @@
         rel="stylesheet">
 
     <!-- Vendor CSS -->
-    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     @stack('css')
 </head>
 
