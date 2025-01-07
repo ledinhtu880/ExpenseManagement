@@ -4,9 +4,9 @@ use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\TransactionController;
 
 Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
 
@@ -49,5 +49,8 @@ Route::middleware('checkLogin')->group(function () {
     Route::put('profile/{id}', [AccountController::class, 'update'])->name('update');
   });
 
-  // Currency
+  // Route lien quan den AccountController
+  Route::group(['prefix' => 'transactions/', 'as' => 'transactions.'], function () {
+    Route::post('store', [TransactionController::class, 'store'])->name('store');
+  });
 });

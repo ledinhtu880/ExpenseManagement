@@ -7,10 +7,82 @@
     color: var(--primary-color) !important;
 }
 
+* {
+    font-family: "Inter", "Roboto", serif;
+}
+
+option {
+    font-family: "Inter", "Roboto", serif !important;
+}
+
 body {
     font-family: "Inter", "Roboto", serif !important;
     font-optical-sizing: auto;
     font-style: normal;
+}
+
+textarea {
+    resize: none !important;
+}
+
+/* Hide the up/down arrows on number inputs */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Hide the up/down arrows on Firefox */
+}
+
+#loader {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 9999;
+    display: none;
+}
+
+@-webkit-keyframes spin {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#loader::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 41%;
+    left: 48.5%;
+    width: 40px;
+    height: 40px;
+    border-style: solid;
+    border-color: var(--primary-color);
+    border-top-color: transparent;
+    border-width: 4px;
+    border-radius: 50%;
+    -webkit-animation: spin 0.8s linear infinite;
+    animation: spin 0.8s linear infinite;
 }
 
 .nav-sidebar > .nav-item > .nav-link.active {

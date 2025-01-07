@@ -6,30 +6,31 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <select class="form-select form-select-lg border-primary-color" style="width: 250px;"
-                    aria-label="Default select example">
-                    <option value="total" selected>Tất cả</option>
-                    @foreach ($user->wallets as $wallet)
-                        <option value="{{ $wallet->wallet_id }}">{{ $wallet->name }}</option>
-                    @endforeach
-                </select>
-
+                <form id="filterForm" method="GET" action="{{ route('home.transaction') }}">
+                    <select class="form-select form-select-lg border-primary-color" name="wallet_id" id="wallet_id"
+                        style="width: 250px;" aria-label="Default select example">
+                        <option value="total" selected>Tất cả</option>
+                        @foreach ($user->wallets as $wallet)
+                            <option value="{{ $wallet->wallet_id }}">{{ $wallet->name }}</option>
+                        @endforeach
+                    </select>
+                </form>
                 <ul class="nav nav-underline list-transaction nav-fill mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link text-dark active" id="pills-current-month-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-current-month" type="button" role="tab"
-                            aria-controls="pills-current-month" aria-selected="false">Tháng trước</button>
+                        <button class="nav-link text-dark active" id="pills-previous-month-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-previous-month" type="button" role="tab"
+                            aria-controls="pills-previous-month" aria-selected="false">Tháng trước</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link text-dark" id="pills-last-month-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-last-month" type="button" role="tab"
-                            aria-controls="pills-last-month" aria-selected="false">Tháng này</button>
+                        <button class="nav-link text-dark" id="pills-current-month-tab" data-bs-toggle="pill"
+                            data-bs-target="#pills-current-month" type="button" role="tab"
+                            aria-controls="pills-current-month" aria-selected="false">Tháng này</button>
                     </li>
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-current-month" role="tabpanel"
-                        aria-labelledby="pills-current-month-tab" tabindex="0">
-                        <div class="card rounded-3 border-primary-color">
+                    <div class="tab-pane fade show active" id="pills-previous-month" role="tabpanel"
+                        aria-labelledby="pills-previous-month-tab" tabindex="0">
+                        {{-- <div class="card rounded-3 border-primary-color">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h5>Số dư đầu</h5>
@@ -48,85 +49,172 @@
                                         này</a>
                                 </div>
                             </div>
+                        </div> --}}
+                        {{-- List transaction for previous month --}}
+                        <div id="previousMonthTransactionsContainer">
+                            @foreach ($previousMonthTransactions as $each)
+                                <div class="card rounded-3 border-primary-color">
+                                    <div class="card-header border-0">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex align-items-end justify-content-center gap-2">
+                                                <h5 class="h5 mb-0">{{ $each->day }}</h5>
+                                                <span class="text-muted text-sm fw-medium">{{ $each->detailDate }}</span>
+                                            </div>
+                                            <h5
+                                                class="h5 mb-0 {{ $each->totalAmount < 0 ? 'text-danger' : 'text-success' }}">
+                                                {{ $each->formatted_total_amount }}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex flex-column gap-2">
+                                            @foreach ($each->listTransactions as $transaction)
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <div class="d-flex align-items-center justify-content-center gap-3">
+                                                        <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                                            class="img-circle elevation-2" width="60" alt="User Image">
+                                                        <h5 class="h5 mb-0">{{ $transaction->category->name }}</h5>
+                                                    </div>
+                                                    <h5
+                                                        class="h5 mb-0 {{ $transaction->groupType->name === 'Khoản chi' ? 'text-danger' : 'text-success' }}">
+                                                        {{ $transaction->formatted_amount }}
+                                                    </h5>
+                                                </div>
+                                                @if (!$loop->last)
+                                                    <div class="line"></div>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
-
-                        {{-- List transaction --}}
-                        <div class="card rounded-3 border-primary-color">
-                            <div class="card-header border-0">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-end justify-content-center gap-2">
-                                        <h5 class="h5 mb-0">05/01/2024</h5>
-                                        <span class="text-muted text-sm fw-medium">Chủ Nhật, ngày 5 tháng 1 năm
-                                            2025</span>
-                                    </div>
-                                    <h5 class="h5 mb-0">-4.000</h5>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex flex-column gap-2">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="d-flex align-items-center justify-content-center gap-3">
-                                            <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                                class="img-circle elevation-2" width="60" alt="User Image">
-                                            <h5 class="h5 mb-0">Cho vay</h5>
+                        {{-- /.list transaction --}}
+                    </div>
+                    <div class="tab-pane fade" id="pills-current-month" role="tabpanel"
+                        aria-labelledby="pills-current-month-tab" tabindex="0">
+                        {{-- List transaction for current month --}}
+                        <div id="currentMonthTransactionsContainer">
+                            @foreach ($currentMonthTransactions as $each)
+                                <div class="card rounded-3 border-primary-color">
+                                    <div class="card-header border-0">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex align-items-end justify-content-center gap-2">
+                                                <h5 class="h5 mb-0">{{ $each->day }}</h5>
+                                                <span class="text-muted text-sm fw-medium">{{ $each->detailDate }}</span>
+                                            </div>
+                                            <h5
+                                                class="h5 mb-0 {{ $each->totalAmount < 0 ? 'text-danger' : 'text-success' }}">
+                                                {{ $each->totalAmount }}
+                                            </h5>
                                         </div>
-                                        <h5 class="h5 mb-0 text-danger">2.000</h5>
                                     </div>
-                                    <div class="line"></div>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="d-flex align-items-center justify-content-center gap-3">
-                                            <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                                class="img-circle elevation-2" width="60" alt="User Image">
-                                            <h5 class="h5 mb-0">Cho vay</h5>
+                                    <div class="card-body">
+                                        <div class="d-flex flex-column gap-2">
+                                            @foreach ($each->listTransactions as $transaction)
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <div class="d-flex align-items-center justify-content-center gap-3">
+                                                        <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                                            class="img-circle elevation-2" width="60" alt="User Image">
+                                                        <h5 class="h5 mb-0">{{ $transaction->category->name }}</h5>
+                                                    </div>
+                                                    <h5
+                                                        class="h5 mb-0 {{ $transaction->groupType->name === 'Khoản chi' ? 'text-danger' : 'text-success' }}">
+                                                        {{ $transaction->formatted_amount }}
+                                                    </h5>
+                                                </div>
+                                                @if (!$loop->last)
+                                                    <div class="line"></div>
+                                                @endif
+                                            @endforeach
                                         </div>
-                                        <h5 class="h5 mb-0 text-danger">2.000</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card rounded-3 border-primary-color">
-                            <div class="card-header border-0">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-end justify-content-center gap-2">
-                                        <h5 class="h5 mb-0">05/01/2024</h5>
-                                        <span class="text-muted text-sm fw-medium">Chủ Nhật, ngày 5 tháng 1 năm
-                                            2025</span>
-                                    </div>
-                                    <h5 class="h5 mb-0">-4.000</h5>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex flex-column gap-2">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="d-flex align-items-center justify-content-center gap-3">
-                                            <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                                class="img-circle elevation-2" width="60" alt="User Image">
-                                            <h5 class="h5 mb-0">Cho vay</h5>
-                                        </div>
-                                        <h5 class="h5 mb-0 text-danger">2.000</h5>
-                                    </div>
-                                    <div class="line"></div>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="d-flex align-items-center justify-content-center gap-3">
-                                            <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                                class="img-circle elevation-2" width="60" alt="User Image">
-                                            <h5 class="h5 mb-0">Cho vay</h5>
-                                        </div>
-                                        <h5 class="h5 mb-0 text-danger">2.000</h5>
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
                         {{-- /.list transaction --}}
                     </div>
                 </div>
             </div>
         </div>
-        <button type="button" class="position-absolute btn btn-primary-color rounded-circle p-5"
-            style="bottom: 50px; right: 50px;">
-            <i class="fa-solid fa-plus" style="font-size: 30px;"></i>
-        </button>
     </div>
+
+    <!-- Add transaction modal -->
+    <button type="button" class="position-absolute btn btn-primary-color rounded-circle p-5" data-bs-toggle="modal"
+        data-bs-target="#addTransaction" style="bottom: 50px; right: 50px;">
+        <i class="fa-solid fa-plus" style="font-size: 30px;"></i>
+    </button>
+
+    <div class="modal fade" id="addTransaction" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="addTransactionLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="text-primary-color fw-bold fs-5 m-0" id="addTransactionLabel">Thêm giao dịch</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card rounded-3 border-primary-color shadow-none">
+                        <div class="card-body">
+                            <form id="formTransaction" method="POST" action="{{ route('transactions.store') }}">
+                                @csrf
+                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                    <div class="p-1 rounded-2 border border-secondary" style="min-width: 80px;">
+                                        <h5 class="h5 text-center m-0">{{ Auth::user()->currency }}</h5>
+                                    </div>
+                                    <input type="number" name="amount" id="amount"
+                                        class="form-control form-control-lg" shadow-none value="0" min="0">
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                    <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                        class="img-circle elevation-2" width="60" alt="User Image"
+                                        style="min-width: 80px;">
+                                    <select name="category_id" id="category_id"
+                                        class="form-select form-select-lg shadow-none">
+                                        <option default selected disabled value="default">Chọn nhóm</option>
+                                        @foreach ($categories as $each)
+                                            <option value="{{ $each->category_id }}">{{ $each->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                    <div class="p-1" style="min-width: 80px;">
+                                        <div class="h4 text-center m-0"><i class="fa-solid fa-note-sticky"></i></div>
+                                    </div>
+                                    <textarea name="note" id="note" class="form-control form-control-lg shadow-none" rows="2"
+                                        placeholder="Ghi chú"></textarea>
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                    <div class="p-1" style="min-width: 80px;">
+                                        <div class="h4 text-center m-0"><i class="fa-solid fa-calendar"></i></div>
+                                    </div>
+                                    <input type="date" name="date" id="date"
+                                        class="form-select form-select-lg shadow-none"
+                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                    <div class="p-1" style="min-width: 80px;">
+                                        <div class="h4 text-center m-0"><i class="fa-solid fa-wallet"></i></div>
+                                    </div>
+                                    <select name="wallet_id" id="wallet_id"
+                                        class="form-select form-select-lg shadow-none">
+                                        @foreach ($user->wallets as $each)
+                                            <option value="{{ $wallet->wallet_id }}">{{ $wallet->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary-color" id="saveBtn">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- /.add transaction --}}
 @endsection
 
 @push('js')
@@ -138,6 +226,118 @@
             if (message && type) {
                 showToast(message, type);
             }
+
+            // Validate form before submission
+            $('#saveBtn').click(function() {
+                const amount = $('#amount').val();
+                const categoryId = $('#category_id').val();
+                if (amount <= 0) {
+                    showToast('Số tiền phải lớn hơn 0.', 'warning');
+                    return false;
+                }
+                if (categoryId === 'default') {
+                    showToast('Vui lòng chọn nhóm.', 'warning');
+                    return false;
+                }
+                $('#formTransaction').submit();
+            });
+
+            $('#wallet_id').change(function() {
+                var walletId = $(this).val();
+                $.ajax({
+                    url: '{{ route('home.transaction') }}',
+                    type: 'GET',
+                    data: {
+                        wallet_id: walletId
+                    },
+                    success: function(response) {
+                        $("#loader").show();
+                        $('#previousMonthTransactionsContainer').html('');
+                        $('#currentMonthTransactionsContainer').html('');
+
+                        var previousMonthHtml = '';
+                        response.previousMonthTransactions.forEach(function(each) {
+                            previousMonthHtml += `
+                                <div class="card rounded-3 border-primary-color">
+                                    <div class="card-header border-0">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex align-items-end justify-content-center gap-2">
+                                                <h5 class="h5 mb-0">${each.day}</h5>
+                                                <span class="text-muted text-sm fw-medium">${each.detailDate}</span>
+                                            </div>
+                                            <h5 class="h5 mb-0 ${each.totalAmount < 0 ? 'text-danger' : 'text-success'}">
+                                                ${each.formatted_total_amount}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex flex-column gap-2">
+                                            ${each.listTransactions.map((transaction, index, array) => `
+                                                          <div class="d-flex align-items-center justify-content-between">
+                                                              <div class="d-flex align-items-center justify-content-center gap-3">
+                                                                  <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                                                      class="img-circle elevation-2" width="60" alt="User Image">
+                                                                  <h5 class="h5 mb-0">${transaction.category.name}</h5>
+                                                              </div>
+                                                              <h5 class="h5 mb-0 ${transaction.category.group_type.name === 'Khoản chi' ? 'text-danger' : 'text-success'}">
+                                                                  ${transaction.formatted_balance}
+                                                              </h5>
+                                                          </div>
+                                  ${index !== array.length - 1 ? '<div class="line"></div>' : ''}
+                                                      `).join('')}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        $('#previousMonthTransactionsContainer').append(previousMonthHtml);
+
+                        var currentMonthHtml = '';
+                        response.currentMonthTransactions.forEach(function(each) {
+                            currentMonthHtml += `
+        <div class="card rounded-3 border-primary-color">
+            <div class="card-header border-0">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-end justify-content-center gap-2">
+                        <h5 class="h5 mb-0">${each.day}</h5>
+                        <span class="text-muted text-sm fw-medium">${each.detailDate}</span>
+                    </div>
+                    <h5 class="h5 mb-0 ${each.totalAmount < 0 ? 'text-danger' : 'text-success'}">
+                        ${each.formatted_total_amount}
+                    </h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-flex flex-column gap-2">
+                    ${each.listTransactions.map((transaction, index, array) => `
+                                  <div class="d-flex align-items-center justify-content-between">
+                                      <div class="d-flex align-items-center justify-content-center gap-3">
+                                          <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                              class="img-circle elevation-2" width="60" alt="User Image">
+                                          <h5 class="h5 mb-0">${transaction.category.name}</h5>
+                                      </div>
+                                      <h5 class="h5 mb-0 ${transaction.category.group_type.name === 'Khoản chi' ? 'text-danger' : 'text-success'}">
+                                        ${transaction.formatted_balance}
+                                      </h5>
+                                  </div>
+                                  ${index !== array.length - 1 ? '<div class="line"></div>' : ''}
+                              `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+                        });
+                        $('#currentMonthTransactionsContainer').append(currentMonthHtml);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        alert("Đã có lỗi xảy ra, xin vui lòng thử lại");
+                    },
+                    complete: function() {
+                        $("#loader").hide();
+                    }
+                });
+            });
         });
     </script>
 @endpush

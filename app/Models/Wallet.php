@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Helpers\Helper;
 
 class Wallet extends Model
 {
@@ -39,7 +40,7 @@ class Wallet extends Model
   }
   public function getFormattedBalanceAttribute()
   {
-    $rate = $this->getExchangeRate($this->user->currency);
+    $rate = Helper::getExchangeRate($this->user->currency);
     return number_format($this->balance * $rate, 0, ',', '.') . ' ' . $this->user->currency;
   }
 }

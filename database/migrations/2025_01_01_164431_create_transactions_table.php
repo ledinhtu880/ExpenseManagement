@@ -21,7 +21,7 @@ return new class extends Migration
       $table->foreign('event_id')->references('event_id')->on('events')->onDelete('cascade');
       $table->foreign('wallet_id')->references('wallet_id')->on('wallets')->onDelete('cascade');
       $table->decimal('amount', 10, 2);
-      $table->dateTime('date')->useCurrent();
+      $table->date('date')->useCurrent();
       $table->string('note')->nullable();
     });
   }

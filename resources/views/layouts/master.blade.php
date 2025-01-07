@@ -34,6 +34,7 @@
 </head>
 
 <body class="wrapper">
+    <div id="loader"></div>
     <!-- Main Sidebar Container -->
     @include('layouts.sidebar')
     <!-- Content Wrapper. Contains page content -->

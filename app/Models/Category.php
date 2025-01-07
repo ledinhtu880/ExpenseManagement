@@ -11,8 +11,7 @@ class Category extends Model
   protected $primaryKey = 'category_id';
   protected $fillable = [
     'name',
-    'type',
-    'type_team',
+    'group_type_id',
   ];
 
   public function budgets()
@@ -30,5 +29,9 @@ class Category extends Model
   public function debts()
   {
     return $this->hasMany(Debt::class, 'category_id', 'category_id');
+  }
+  public function groupType()
+  {
+    return $this->belongsTo(GroupType::class, 'group_type_id', 'group_type_id');
   }
 }

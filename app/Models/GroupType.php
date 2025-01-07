@@ -11,8 +11,8 @@ class GroupType extends Model
   protected $fillable = ['name'];
   public $timestamps = false;
 
-  public function parentCategories()
+  public function categories()
   {
-    return $this->hasMany(ParentCategory::class, 'group_type_id', 'group_type_id');
+    return $this->hasMany(Category::class, 'group_type_id', 'group_type_id');
   }
 }

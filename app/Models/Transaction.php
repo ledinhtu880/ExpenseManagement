@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Helpers\Helper;
 
 class Transaction extends Model
 {
   use HasFactory;
 
   protected $primaryKey = 'transaction_id';
+  public $timestamps = false;
 
   protected $fillable = [
     'wallet_id',
@@ -25,6 +27,17 @@ class Transaction extends Model
   {
     return $this->belongsTo(Category::class, 'category_id', 'category_id');
   }
+  public function groupType()
+  {
+    return $this->hasOneThrough(
+      GroupType::class,
+      Category::class,
+      'category_id', // Foreign key on Category table...
+      'group_type_id', // Foreign key on GroupType table...
+      'category_id', // Local key on Transaction table...
+      'group_type_id' // Local key on Category table...
+    );
+  }
   public function event()
   {
     return $this->belongsTo(Event::class, 'event_id', 'event_id');
@@ -37,22 +50,9 @@ class Transaction extends Model
   {
     return Carbon::parse($this->date)->format('d/m/Y');
   }
-  protected function getExchangeRate($toCurrency)
-  {
-    $exchangeRates = [
-      'USD' => 1,
-      'VND' => 25000,
-      'EUR' => 0.96,
-    ];
-    if ($toCurrency === 'USD') {
-      return 1;
-    }
-
-    return 1 * $exchangeRates[$toCurrency];
-  }
   public function getFormattedAmountAttribute()
   {
-    $rate = $this->getExchangeRate($this->wallet->user->currency);
+    $rate = Helper::getExchangeRate($this->wallet->user->currency);
     return number_format($this->amount * $rate, 0, ',', '.') . ' ' . $this->wallet->user->currency;
   }
 }

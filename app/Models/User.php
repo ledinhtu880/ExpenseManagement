@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Log;
+use App\Helpers\Helper;
 use Carbon\Carbon;
 
 class User extends Authenticatable
@@ -83,7 +84,7 @@ class User extends Authenticatable
   {
     $total = 0;
     foreach ($this->wallets as $wallet) {
-      $rate = $this->getExchangeRate($this->currency);
+      $rate = Helper::getExchangeRate($this->currency);
       $total += $wallet->balance * $rate;
     }
 
@@ -97,26 +98,12 @@ class User extends Authenticatable
   }
   public function getConvertedBalanceAttribute()
   {
-    $rate = $this->getExchangeRate($this->currency);
+    $rate = Helper::getExchangeRate($this->currency);
     return $this->total_amount * $rate;
   }
   private function formatCurrency($amount)
   {
     return number_format($amount, 0, ',', '.') . ' ' . $this->currency;
-  }
-
-  protected function getExchangeRate($toCurrency)
-  {
-    $exchangeRates = [
-      'USD' => 1,
-      'VND' => 25000,
-      'EUR' => 0.96,
-    ];
-    if ($toCurrency === 'USD') {
-      return 1;
-    }
-
-    return 1 * $exchangeRates[$toCurrency];
   }
   // Cac ham lien quan den lay du lieu Category va Wallet
   public function getWeeklyCategoryExpenses()
@@ -130,7 +117,7 @@ class User extends Authenticatable
       ->get();
 
     $totalSpent = $transactions->sum('amount');
-    $rate = $this->getExchangeRate($this->currency);
+    $rate = Helper::getExchangeRate($this->currency);
     Log::info($rate);
 
     $categoryExpenses = $transactions->groupBy('category_id')->map(function ($categoryTransactions) use ($totalSpent, $rate) {
@@ -159,7 +146,7 @@ class User extends Authenticatable
       ->get();
 
     $totalSpent = $transactions->sum('amount');
-    $rate = $this->getExchangeRate($this->currency);
+    $rate = Helper::getExchangeRate($this->currency);
 
     $categoryExpenses = $transactions->groupBy('category_id')
       ->map(function ($categoryTransactions) use ($totalSpent, $rate) {
@@ -188,7 +175,7 @@ class User extends Authenticatable
       ->get()
       ->keyBy('date');
 
-    $rate = $this->getExchangeRate($this->currency);
+    $rate = Helper::getExchangeRate($this->currency);
 
     $weeklyExpenses = [];
     for ($date = $startOfWeek; $date <= $endOfWeek; $date->addDay()) {
@@ -211,7 +198,7 @@ class User extends Authenticatable
       ->get()
       ->keyBy('week');
 
-    $rate = $this->getExchangeRate($this->currency);
+    $rate = Helper::getExchangeRate($this->currency);
 
     $monthlyExpenses = [];
     $currentDate = $startOfMonth->copy();
@@ -254,5 +241,80 @@ class User extends Authenticatable
       ->whereBetween('date', [$startOfDay, $endOfDay])
       ->with('category') // Eager load category
       ->get();
+  }
+  public function getTransactionsByMonth($month, $walletId = null)
+  {
+    $startOfMonth = Carbon::createFromFormat('Y-m', $month)->startOfMonth();
+    $endOfMonth = Carbon::createFromFormat('Y-m', $month)->endOfMonth();
+
+    $query = $this->transactions()
+      ->whereBetween('date', [$startOfMonth, $endOfMonth])
+      ->with('category.groupType')
+      ->orderBy('transactions.date', 'asc');
+
+    if ($walletId && $walletId != "total") {
+      $query->where('transactions.wallet_id', $walletId);
+    }
+
+    $transactions = $query->get()->groupBy(function ($date) {
+      return Carbon::parse($date->date)->format('Y-m-d');
+    });
+
+    $groupedTransactions = [];
+    foreach ($transactions as $date => $dailyTransactions) {
+      $formattedDate = Carbon::parse($date)->locale('vi')->isoFormat('DD/MM/YYYY');
+      $detailDate = Carbon::parse($date)->locale('vi')->isoFormat('dddd, [ngày] D [tháng] M [năm] YYYY');
+      $totalAmount = 0;
+
+      // Group transactions by category_id
+      $categoryGrouped = $dailyTransactions->groupBy('category_id');
+      $mergedTransactions = [];
+
+      foreach ($categoryGrouped as $categoryId => $categoryTransactions) {
+        $firstTransaction = $categoryTransactions->first();
+        $mergedTransaction = clone $firstTransaction;
+
+        // Sum amounts for same category
+        $categoryAmount = 0;
+        foreach ($categoryTransactions as $transaction) {
+          if ($transaction->category->groupType->name === 'Khoản chi') {
+            $categoryAmount -= $transaction->amount;
+          } else if ($transaction->category->groupType->name === 'Khoản thu') {
+            $categoryAmount += $transaction->amount;
+          }
+        }
+
+        $mergedTransaction->amount = abs($categoryAmount);
+        $mergedTransaction->formatted_amount = number_format(abs($categoryAmount), 0, ',', '.') . ' ' . $this->currency;
+        $mergedTransaction->formatted_balance = $mergedTransaction->formatted_amount;
+        $totalAmount += $categoryAmount;
+
+        $mergedTransactions[] = $mergedTransaction;
+      }
+
+      $transactionObject = new \stdClass();
+      $transactionObject->day = $formattedDate;
+      $transactionObject->detailDate = $detailDate;
+      $rate = Helper::getExchangeRate($this->currency);
+      $totalAmount *= $rate;
+      $transactionObject->totalAmount = $totalAmount;
+      $transactionObject->formatted_total_amount = number_format($totalAmount, 0, ',', '.') . ' ' . $this->currency;
+      $transactionObject->listTransactions = $mergedTransactions;
+      $groupedTransactions[] = $transactionObject;
+    }
+
+    return $groupedTransactions;
+  }
+
+  public function getCurrentMonthTransactions($walletId = null)
+  {
+    $currentMonth = Carbon::now()->format('Y-m');
+    return $this->getTransactionsByMonth($currentMonth, $walletId);
+  }
+
+  public function getPreviousMonthTransactions($walletId = null)
+  {
+    $previousMonth = Carbon::now()->subMonth()->format('Y-m');
+    return $this->getTransactionsByMonth($previousMonth, $walletId);
   }
 }

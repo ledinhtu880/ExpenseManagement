@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Models\Category;
 use App\Models\User;
 
 class HomeController extends Controller
@@ -20,10 +22,23 @@ class HomeController extends Controller
     $user = User::find(Auth::user()->user_id);
     return view('home.dashboard', compact('user'));
   }
-  public function indexTransaction()
+  public function indexTransaction(Request $request)
   {
     $user = User::find(Auth::user()->user_id);
-    return view('home.transaction', compact('user'));
+    $walletId = $request->input('wallet_id'); // Lấy wallet_id từ request
+
+    $categories = Category::all();
+    $currentMonthTransactions = $user->getCurrentMonthTransactions($walletId);
+    $previousMonthTransactions = $user->getPreviousMonthTransactions($walletId);
+
+    if ($request->ajax()) {
+      return response()->json([
+        'currentMonthTransactions' => $currentMonthTransactions,
+        'previousMonthTransactions' => $previousMonthTransactions,
+      ]);
+    }
+
+    return view('home.transaction', compact('user', 'currentMonthTransactions', 'previousMonthTransactions', 'walletId', 'categories'));
   }
   public function indexBudget()
   {
