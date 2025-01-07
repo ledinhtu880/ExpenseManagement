@@ -21,6 +21,7 @@ return new class extends Migration
       $table->string('identify_card')->unique()->nullable();
       $table->string('password');
       $table->datetime('created_at')->useCurrent();
+      $table->enum('currency', ['VND', 'USD', 'EUR'])->nullable();
     });
     Schema::create('sessions', function (Blueprint $table) {
       $table->string('id')->primary();
@@ -38,5 +39,6 @@ return new class extends Migration
   public function down(): void
   {
     Schema::dropIfExists('users');
+    Schema::dropIfExists('sessions');
   }
 };

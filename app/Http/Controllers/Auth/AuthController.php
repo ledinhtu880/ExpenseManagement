@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Wallet;
 use App\Models\User;
 use Exception;
 
@@ -30,16 +31,22 @@ class AuthController extends Controller
       }
 
       DB::beginTransaction();
-      User::create([
+      $user = User::create([
         'name' => $data["name"],
         'birthday' => $data["birthday"],
         'gender' => $data["gender"],
         'email' => $data["email"],
         'password' => $data["password"],
       ]);
+      Wallet::create([
+        'user_id' => $user->user_id,
+        'name' => 'Tiền mặt',
+      ]);
+
+      Auth::login($user);
       DB::commit();
 
-      $res = redirect()->route('login')
+      $res = redirect()->route('home.currency')
         ->with('type', 'success')
         ->with('message', 'Đăng ký thành công');
       return response()->json([
@@ -86,5 +93,19 @@ class AuthController extends Controller
     Auth::logout();
     session()->flush();
     return redirect()->route('login')->with('type', 'success')->with('message', 'Đăng xuất thành công');
+  }
+  public function indexCurrency()
+  {
+    return view('currency'); // Hiển thị view currency.blade.php
+  }
+  public function updateCurrency(Request $request)
+  {
+    $user = User::find(Auth::user()->user_id);
+    $user->currency = $request->currency;
+    $user->save();
+
+    return redirect()->route('home.dashboard')
+      ->with('type', 'success')
+      ->with('message', 'Đăng ký thành công');
   }
 }

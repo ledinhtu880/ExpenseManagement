@@ -13,7 +13,7 @@ class Transaction extends Model
   protected $primaryKey = 'transaction_id';
 
   protected $fillable = [
-    'user_id',
+    'wallet_id',
     'category_id',
     'event_id',
     'amount',
@@ -21,10 +21,6 @@ class Transaction extends Model
     'note',
   ];
 
-  public function user()
-  {
-    return $this->belongsTo(User::class, 'user_id', 'user_id');
-  }
   public function category()
   {
     return $this->belongsTo(Category::class, 'category_id', 'category_id');
@@ -33,12 +29,30 @@ class Transaction extends Model
   {
     return $this->belongsTo(Event::class, 'event_id', 'event_id');
   }
-  public function getFormattedAmountAttribute()
+  public function wallet()
   {
-    return number_format($this->amount, 0, ',', '.') . ' VND';
+    return $this->belongsTo(Wallet::class, 'wallet_id', 'wallet_id');
   }
   public function getFormattedDateAttribute()
   {
     return Carbon::parse($this->date)->format('d/m/Y');
+  }
+  protected function getExchangeRate($toCurrency)
+  {
+    $exchangeRates = [
+      'USD' => 1,
+      'VND' => 25000,
+      'EUR' => 0.96,
+    ];
+    if ($toCurrency === 'USD') {
+      return 1;
+    }
+
+    return 1 * $exchangeRates[$toCurrency];
+  }
+  public function getFormattedAmountAttribute()
+  {
+    $rate = $this->getExchangeRate($this->wallet->user->currency);
+    return number_format($this->amount * $rate, 0, ',', '.') . ' ' . $this->wallet->user->currency;
   }
 }

@@ -9,9 +9,9 @@ use Carbon\Carbon;
 class RecurringTransaction extends Model
 {
   use HasFactory;
-  protected $primaryKey = 'recurring_transaction_idw';
+  protected $primaryKey = 'recurring_transaction_id';
   protected $fillable = [
-    'user_id',
+    'wallet_id',
     'category_id',
     'frequency',
     'start_date',

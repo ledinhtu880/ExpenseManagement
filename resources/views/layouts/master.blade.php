@@ -29,7 +29,6 @@
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/sidebar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
     @stack('css')
 </head>

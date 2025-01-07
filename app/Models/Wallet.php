@@ -20,8 +20,26 @@ class Wallet extends Model
   {
     return $this->belongsTo(User::class, 'user_id', 'user_id');
   }
+  public function transactions()
+  {
+    return $this->hasMany(Transaction::class, 'wallet_id', 'wallet_id');
+  }
+  protected function getExchangeRate($toCurrency)
+  {
+    $exchangeRates = [
+      'USD' => 1,
+      'VND' => 25000,
+      'EUR' => 0.96,
+    ];
+    if ($toCurrency === 'USD') {
+      return 1;
+    }
+
+    return 1 * $exchangeRates[$toCurrency];
+  }
   public function getFormattedBalanceAttribute()
   {
-    return number_format($this->balance, 0, ',', '.') . ' VND';
+    $rate = $this->getExchangeRate($this->user->currency);
+    return number_format($this->balance * $rate, 0, ',', '.') . ' ' . $this->user->currency;
   }
 }

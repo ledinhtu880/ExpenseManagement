@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -18,19 +17,22 @@ class HomeController extends Controller
   }
   public function indexDashboard()
   {
-    return view('home.dashboard');
+    $user = User::find(Auth::user()->user_id);
+    return view('home.dashboard', compact('user'));
   }
   public function indexTransaction()
   {
-    return view('home.transaction');
+    $user = User::find(Auth::user()->user_id);
+    return view('home.transaction', compact('user'));
   }
   public function indexBudget()
   {
-    return view('home.dashboard');
+    $user = User::find(Auth::user()->user_id);
+    return view('home.budget', compact('user'));
   }
-
   public function indexAccount()
   {
-    return view('home.account');
+    $user = User::find(Auth::user()->user_id);
+    return view('home.account', compact('user'));
   }
 }

@@ -8,10 +8,10 @@
             <div class="card-body">
                 <select class="form-select form-select-lg border-primary-color" style="width: 250px;"
                     aria-label="Default select example">
-                    <option selected>Tong cong</option>
-                    <option value="1">Vi 1</option>
-                    <option value="2">Vi 2</option>
-                    <option value="3">Vi 3</option>
+                    <option value="total" selected>Tất cả</option>
+                    @foreach ($user->wallets as $wallet)
+                        <option value="{{ $wallet->wallet_id }}">{{ $wallet->name }}</option>
+                    @endforeach
                 </select>
 
                 <ul class="nav nav-underline list-transaction nav-fill mb-3" id="pills-tab" role="tablist">

@@ -14,12 +14,12 @@ return new class extends Migration
   {
     Schema::create('transactions', function (Blueprint $table) {
       $table->unsignedInteger('transaction_id', true)->primary();
-      $table->unsignedInteger('user_id');
       $table->unsignedInteger('category_id');
-      $table->unsignedInteger('event_id');
-      $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+      $table->unsignedInteger('event_id')->nullable();
+      $table->unsignedInteger('wallet_id');
       $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('cascade');
       $table->foreign('event_id')->references('event_id')->on('events')->onDelete('cascade');
+      $table->foreign('wallet_id')->references('wallet_id')->on('wallets')->onDelete('cascade');
       $table->decimal('amount', 10, 2);
       $table->dateTime('date')->useCurrent();
       $table->string('note')->nullable();

@@ -33,6 +33,9 @@ Route::post('/login', [AuthController::class, 'handleLogin']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('checkLogin')->group(function () {
+  Route::get('/currency', [AuthController::class, 'indexCurrency'])->name('home.currency');
+  Route::post('/currency', [AuthController::class, 'updateCurrency'])->name('home.currency.update');
+
   // Route lien quan den HomeController
   Route::get('/budget', [HomeController::class, 'indexBudget'])->name('home.budget');
   Route::get('/account', [HomeController::class, 'indexAccount'])->name('home.account');
@@ -47,6 +50,4 @@ Route::middleware('checkLogin')->group(function () {
   });
 
   // Currency
-  Route::get('/currency', [CurrencyController::class, 'show'])->name('currency');
-  Route::post('/currency', [CurrencyController::class, 'store'])->name('currency.submit');
 });
