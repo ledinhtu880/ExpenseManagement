@@ -306,6 +306,55 @@ class User extends Authenticatable
     return $groupedTransactions;
   }
 
+  public function getMonthlyBalance($month, $walletId = null)
+  {
+    $startOfMonth = Carbon::createFromFormat('Y-m', $month)->startOfMonth();
+    $endOfMonth = Carbon::createFromFormat('Y-m', $month)->endOfMonth();
+    $now = Carbon::now();
+
+    // Build base query
+    $query = $this->transactions()
+      ->with('category.groupType');
+
+    if ($walletId && $walletId != "total") {
+      $query->where('transactions.wallet_id', $walletId);
+    }
+
+    // Calculate opening balance (all transactions before start of month)
+    $openingBalance = (clone $query)
+      ->where('date', '<', $startOfMonth)
+      ->get()
+      ->sum(function ($transaction) {
+        return $transaction->category->groupType->name === 'Khoản thu'
+          ? $transaction->amount
+          : -$transaction->amount;
+      });
+
+    // Get transactions within month
+    $monthlyTransactions = (clone $query)
+      ->whereBetween('date', [$startOfMonth, $endOfMonth])
+      ->get();
+
+    $monthlyBalance = $monthlyTransactions->sum(function ($transaction) {
+      return $transaction->category->groupType->name === 'Khoản thu'
+        ? $transaction->amount
+        : -$transaction->amount;
+    });
+
+    // Calculate closing balance = opening balance + monthly transactions
+    $closingBalance = $openingBalance + $monthlyBalance;
+
+    $rate = Helper::getExchangeRate($this->currency);
+    $monthlyBalanceObj = new \stdClass();
+    $monthlyBalanceObj->opening_balance = $openingBalance * $rate;
+    $monthlyBalanceObj->closing_balance = $closingBalance * $rate;
+    $monthlyBalanceObj->formatted_opening_balance = number_format($openingBalance * $rate, 0, ',', '.') . ' ' . $this->currency;
+    $monthlyBalanceObj->formatted_closing_balance = number_format($closingBalance * $rate, 0, ',', '.') . ' ' . $this->currency;
+    // Total amount is just the monthly balance (not opening + closing)
+    $monthlyBalanceObj->balance = number_format($monthlyBalance * $rate, 0, ',', '.') . ' ' . $this->currency;
+
+    return $monthlyBalanceObj;
+  }
   public function getCurrentMonthTransactions($walletId = null)
   {
     $currentMonth = Carbon::now()->format('Y-m');
@@ -316,5 +365,16 @@ class User extends Authenticatable
   {
     $previousMonth = Carbon::now()->subMonth()->format('Y-m');
     return $this->getTransactionsByMonth($previousMonth, $walletId);
+  }
+  public function getCurrentMonthBalance($walletId = null)
+  {
+    $currentMonth = Carbon::now()->format('Y-m');
+    return $this->getMonthlyBalance($currentMonth, $walletId);
+  }
+
+  public function getPreviousMonthBalance($walletId = null)
+  {
+    $previousMonth = Carbon::now()->subMonth()->format('Y-m');
+    return $this->getMonthlyBalance($previousMonth, $walletId);
   }
 }

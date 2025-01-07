@@ -30,15 +30,27 @@ class HomeController extends Controller
     $categories = Category::all();
     $currentMonthTransactions = $user->getCurrentMonthTransactions($walletId);
     $previousMonthTransactions = $user->getPreviousMonthTransactions($walletId);
+    $currentMonthBalance = $user->getCurrentMonthBalance($walletId);
+    $previousMonthBalance = $user->getPreviousMonthBalance($walletId);
 
     if ($request->ajax()) {
       return response()->json([
         'currentMonthTransactions' => $currentMonthTransactions,
         'previousMonthTransactions' => $previousMonthTransactions,
+        'currentMonthBalance' => $currentMonthBalance,
+        'previousMonthBalance' => $previousMonthBalance,
       ]);
     }
 
-    return view('home.transaction', compact('user', 'currentMonthTransactions', 'previousMonthTransactions', 'walletId', 'categories'));
+    return view('home.transaction', compact(
+      'user',
+      'currentMonthTransactions',
+      'previousMonthTransactions',
+      'currentMonthBalance',
+      'previousMonthBalance',
+      'walletId',
+      'categories'
+    ));
   }
   public function indexBudget()
   {

@@ -90,7 +90,7 @@
                         aria-labelledby="category-pills-week-tab" tabindex="0">
                         <div class="list-group">
                             @foreach ($user->getWeeklyCategoryExpenses() as $expense)
-                                <div class="list-group-item border-0 bg-body-secondary rounded-4 mb-3">
+                                <div class="list-group-item border-0 bg-body-secondary rounded-4">
                                     <div class="d-flex justify-content-between align-items-center gap-3">
                                         <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
                                             class="img-circle elevation-2" width="80" alt="Category Image">
@@ -101,6 +101,9 @@
                                     </div>
                                     <h5 class="fw-bold text-danger">{{ $expense['percentage'] }}</h5>
                                 </div>
+                                @if (!$loop->last)
+                                    <div class="my-2"></div>
+                                @endif
                             @endforeach
                         </div>
                     </div>
@@ -119,6 +122,9 @@
                                     </div>
                                     <h5 class="fw-bold text-danger">{{ $expense['percentage'] }}</h5>
                                 </div>
+                                @if (!$loop->last)
+                                    <div class="my-2"></div>
+                                @endif
                             @endforeach
                         </div>
                     </div>

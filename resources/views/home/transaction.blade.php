@@ -30,26 +30,30 @@
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-previous-month" role="tabpanel"
                         aria-labelledby="pills-previous-month-tab" tabindex="0">
-                        {{-- <div class="card rounded-3 border-primary-color">
+                        {{-- Opening Balance and Closing Balance --}}
+                        <div class="card rounded-3 border-primary-color">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h5>Số dư đầu</h5>
-                                    <h5>0d</h5>
+                                    <h5 id="previousMonthOpeningBalance">
+                                        {{ $previousMonthBalance->formatted_opening_balance }}</h5>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h5>Số dư cuối cùng</h5>
-                                    <h5>0d</h5>
+                                    <h5 id="previousMonthClosingBalance">
+                                        {{ $previousMonthBalance->formatted_closing_balance }}</h5>
                                 </div>
                                 <div class="d-flex justify-content-center align-items-end flex-column">
                                     <div class="line mb-2" style="width: 200px; height: 2px;"></div>
-                                    <h5>0d</h5>
+                                    <h5 id="previousMonthTotalBalance">{{ $previousMonthBalance->balance }}</h5>
                                 </div>
                                 <div class="text-center">
-                                    <a href="#" class="text-primary-color fw-bold">Xem báo cáo cho giai đoạn
-                                        này</a>
+                                    <a href="#" class="text-primary-color fw-bold">Xem báo cáo cho giai đoạn này</a>
                                 </div>
                             </div>
-                        </div> --}}
+                        </div>
+                        {{-- /. opening balance and closing balance --}}
+
                         {{-- List transaction for previous month --}}
                         <div id="previousMonthTransactionsContainer">
                             @foreach ($previousMonthTransactions as $each)
@@ -93,6 +97,30 @@
                     </div>
                     <div class="tab-pane fade" id="pills-current-month" role="tabpanel"
                         aria-labelledby="pills-current-month-tab" tabindex="0">
+                        {{-- Opening Balance and Closing Balance --}}
+                        <div class="card rounded-3 border-primary-color">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5>Số dư đầu</h5>
+                                    <h5 id="currentMonthOpeningBalance">
+                                        {{ $currentMonthBalance->formatted_opening_balance }}</h5>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5>Số dư cuối cùng</h5>
+                                    <h5 id="currentMonthClosingBalance">
+                                        {{ $currentMonthBalance->formatted_closing_balance }}</h5>
+                                </div>
+                                <div class="d-flex justify-content-center align-items-end flex-column">
+                                    <div class="line mb-2" style="width: 200px; height: 2px;"></div>
+                                    <h5 id="currentMonthTotalBalance">{{ $currentMonthBalance->balance }}</h5>
+                                </div>
+                                <div class="text-center">
+                                    <a href="#" class="text-primary-color fw-bold">Xem báo cáo cho giai đoạn này</a>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- /. opening balance and closing balance --}}
+
                         {{-- List transaction for current month --}}
                         <div id="currentMonthTransactionsContainer">
                             @foreach ($currentMonthTransactions as $each)
@@ -105,7 +133,7 @@
                                             </div>
                                             <h5
                                                 class="h5 mb-0 {{ $each->totalAmount < 0 ? 'text-danger' : 'text-success' }}">
-                                                {{ $each->totalAmount }}
+                                                {{ $each->formatted_total_amount }}
                                             </h5>
                                         </div>
                                     </div>
@@ -115,7 +143,8 @@
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <div class="d-flex align-items-center justify-content-center gap-3">
                                                         <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                                            class="img-circle elevation-2" width="60" alt="User Image">
+                                                            class="img-circle elevation-2" width="60"
+                                                            alt="User Image">
                                                         <h5 class="h5 mb-0">{{ $transaction->category->name }}</h5>
                                                     </div>
                                                     <h5
@@ -242,8 +271,71 @@
                 $('#formTransaction').submit();
             });
 
+            // Constants
+            const CONFIG = {
+                DEFAULT_USER_IMAGE: 'https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg',
+                EXPENSE_TYPE: 'Khoản chi'
+            };
+
+            // Helper functions
+            const createTransactionCard = (transaction, index, array) => {
+                const isLastItem = index === array.length - 1;
+                const colorClass = transaction.category.group_type.name === CONFIG.EXPENSE_TYPE ?
+                    'text-danger' : 'text-success';
+
+                return `
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center justify-content-center gap-3">
+                <img src="${CONFIG.DEFAULT_USER_IMAGE}" class="img-circle elevation-2" width="60" alt="User Image">
+                <h5 class="h5 mb-0">${transaction.category.name}</h5>
+            </div>
+            <h5 class="h5 mb-0 ${colorClass}">
+                ${transaction.formatted_balance}
+            </h5>
+        </div>
+        ${isLastItem ? '' : '<div class="line"></div>'}
+    `;
+            };
+
+            const createDayCard = (dayData) => {
+                const colorClass = dayData.totalAmount < 0 ? 'text-danger' : 'text-success';
+
+                return `
+        <div class="card rounded-3 border-primary-color">
+            <div class="card-header border-0">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-end justify-content-center gap-2">
+                        <h5 class="h5 mb-0">${dayData.day}</h5>
+                        <span class="text-muted text-sm fw-medium">${dayData.detailDate}</span>
+                    </div>
+                    <h5 class="h5 mb-0 ${colorClass}">
+                        ${dayData.formatted_total_amount}
+                    </h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-flex flex-column gap-2">
+                    ${dayData.listTransactions.map(createTransactionCard).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+            };
+
+            const renderTransactions = (containerId, transactions) => {
+                const container = $(`#${containerId}`);
+                container.html('');
+                const html = transactions.map(createDayCard).join('');
+                container.append(html);
+            };
+
+            // Event handler
             $('#wallet_id').change(function() {
-                var walletId = $(this).val();
+                const walletId = $(this).val();
+                const loader = $("#loader");
+
+                loader.show();
+
                 $.ajax({
                     url: '{{ route('home.transaction') }}',
                     type: 'GET',
@@ -251,90 +343,33 @@
                         wallet_id: walletId
                     },
                     success: function(response) {
-                        $("#loader").show();
-                        $('#previousMonthTransactionsContainer').html('');
-                        $('#currentMonthTransactionsContainer').html('');
+                        // Update transactions
+                        renderTransactions('previousMonthTransactionsContainer', response
+                            .previousMonthTransactions);
+                        renderTransactions('currentMonthTransactionsContainer', response
+                            .currentMonthTransactions);
 
-                        var previousMonthHtml = '';
-                        response.previousMonthTransactions.forEach(function(each) {
-                            previousMonthHtml += `
-                                <div class="card rounded-3 border-primary-color">
-                                    <div class="card-header border-0">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="d-flex align-items-end justify-content-center gap-2">
-                                                <h5 class="h5 mb-0">${each.day}</h5>
-                                                <span class="text-muted text-sm fw-medium">${each.detailDate}</span>
-                                            </div>
-                                            <h5 class="h5 mb-0 ${each.totalAmount < 0 ? 'text-danger' : 'text-success'}">
-                                                ${each.formatted_total_amount}
-                                            </h5>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="d-flex flex-column gap-2">
-                                            ${each.listTransactions.map((transaction, index, array) => `
-                                                          <div class="d-flex align-items-center justify-content-between">
-                                                              <div class="d-flex align-items-center justify-content-center gap-3">
-                                                                  <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                                                      class="img-circle elevation-2" width="60" alt="User Image">
-                                                                  <h5 class="h5 mb-0">${transaction.category.name}</h5>
-                                                              </div>
-                                                              <h5 class="h5 mb-0 ${transaction.category.group_type.name === 'Khoản chi' ? 'text-danger' : 'text-success'}">
-                                                                  ${transaction.formatted_balance}
-                                                              </h5>
-                                                          </div>
-                                  ${index !== array.length - 1 ? '<div class="line"></div>' : ''}
-                                                      `).join('')}
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                        $('#previousMonthTransactionsContainer').append(previousMonthHtml);
+                        // Update balances
+                        $('#previousMonthOpeningBalance').text(response.previousMonthBalance
+                            .formatted_opening_balance);
+                        $('#previousMonthClosingBalance').text(response.previousMonthBalance
+                            .formatted_closing_balance);
+                        $('#previousMonthTotalBalance').text(response.previousMonthBalance
+                            .balance);
 
-                        var currentMonthHtml = '';
-                        response.currentMonthTransactions.forEach(function(each) {
-                            currentMonthHtml += `
-        <div class="card rounded-3 border-primary-color">
-            <div class="card-header border-0">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-end justify-content-center gap-2">
-                        <h5 class="h5 mb-0">${each.day}</h5>
-                        <span class="text-muted text-sm fw-medium">${each.detailDate}</span>
-                    </div>
-                    <h5 class="h5 mb-0 ${each.totalAmount < 0 ? 'text-danger' : 'text-success'}">
-                        ${each.formatted_total_amount}
-                    </h5>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="d-flex flex-column gap-2">
-                    ${each.listTransactions.map((transaction, index, array) => `
-                                  <div class="d-flex align-items-center justify-content-between">
-                                      <div class="d-flex align-items-center justify-content-center gap-3">
-                                          <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                              class="img-circle elevation-2" width="60" alt="User Image">
-                                          <h5 class="h5 mb-0">${transaction.category.name}</h5>
-                                      </div>
-                                      <h5 class="h5 mb-0 ${transaction.category.group_type.name === 'Khoản chi' ? 'text-danger' : 'text-success'}">
-                                        ${transaction.formatted_balance}
-                                      </h5>
-                                  </div>
-                                  ${index !== array.length - 1 ? '<div class="line"></div>' : ''}
-                              `).join('')}
-                </div>
-            </div>
-        </div>
-    `;
-                        });
-                        $('#currentMonthTransactionsContainer').append(currentMonthHtml);
+                        $('#currentMonthOpeningBalance').text(response.currentMonthBalance
+                            .formatted_opening_balance);
+                        $('#currentMonthClosingBalance').text(response.currentMonthBalance
+                            .formatted_closing_balance);
+                        $('#currentMonthTotalBalance').text(response.currentMonthBalance
+                            .balance);
                     },
                     error: function(xhr) {
-                        console.log(xhr.responseText);
+                        console.error('Transaction fetch failed:', xhr.responseText);
                         alert("Đã có lỗi xảy ra, xin vui lòng thử lại");
                     },
                     complete: function() {
-                        $("#loader").hide();
+                        loader.hide();
                     }
                 });
             });
