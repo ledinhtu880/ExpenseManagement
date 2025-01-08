@@ -118,7 +118,6 @@ class User extends Authenticatable
 
     $totalSpent = $transactions->sum('amount');
     $rate = Helper::getExchangeRate($this->currency);
-    Log::info($rate);
 
     $categoryExpenses = $transactions->groupBy('category_id')->map(function ($categoryTransactions) use ($totalSpent, $rate) {
       $categoryTotal = $categoryTransactions->sum('amount');

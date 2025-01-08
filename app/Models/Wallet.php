@@ -43,4 +43,8 @@ class Wallet extends Model
     $rate = Helper::getExchangeRate($this->user->currency);
     return number_format($this->balance * $rate, 0, ',', '.') . ' ' . $this->user->currency;
   }
+  public function getIdAttribute()
+  {
+    return $this->wallet_id;
+  }
 }

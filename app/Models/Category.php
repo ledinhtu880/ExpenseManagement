@@ -34,4 +34,8 @@ class Category extends Model
   {
     return $this->belongsTo(GroupType::class, 'group_type_id', 'group_type_id');
   }
+  public function getIdAttribute()
+  {
+    return $this->category_id;
+  }
 }

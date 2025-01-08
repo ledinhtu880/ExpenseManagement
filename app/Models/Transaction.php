@@ -46,6 +46,10 @@ class Transaction extends Model
   {
     return $this->belongsTo(Wallet::class, 'wallet_id', 'wallet_id');
   }
+  public function getIdAttribute()
+  {
+    return $this->transaction_id;
+  }
   public function getFormattedDateAttribute()
   {
     return Carbon::parse($this->date)->format('d/m/Y');

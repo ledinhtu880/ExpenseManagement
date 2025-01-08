@@ -39,4 +39,8 @@ class InterestRate extends Model
   {
     $this->attributes['rate_percentage'] = str_replace('%', '', $value);
   }
+  public function getIdAttribute()
+  {
+    return $this->rate_id;
+  }
 }

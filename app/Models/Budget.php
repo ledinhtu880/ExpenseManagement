@@ -26,6 +26,10 @@ class Budget extends Model
   {
     return $this->belongsTo(Category::class, 'category_id', 'category_id');
   }
+  public function getIdAttribute()
+  {
+    return $this->budget_id;
+  }
   public function getFormattedAmountAttribute()
   {
     return number_format($this->amount, 0, ',', '.') . ' VND';

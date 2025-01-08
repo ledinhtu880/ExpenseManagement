@@ -34,4 +34,8 @@ class RecurringTransaction extends Model
   {
     return Carbon::parse($this->end_date)->format('d/m/Y');
   }
+  public function getIdAttribute()
+  {
+    return $this->recurring_transaction_id;
+  }
 }

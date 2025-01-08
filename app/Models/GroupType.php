@@ -15,4 +15,8 @@ class GroupType extends Model
   {
     return $this->hasMany(Category::class, 'group_type_id', 'group_type_id');
   }
+  public function getIdAttribute()
+  {
+    return $this->group_type_id;
+  }
 }
