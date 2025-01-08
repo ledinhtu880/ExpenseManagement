@@ -155,20 +155,98 @@
                                             <strong class="text-muted">{{ $transaction->formatted_amount }}</strong>
                                         </div>
                                     </div>
-                                    <div class="btn btn-lg text-primary-color"><i class="fa-solid fa-eye"></i></div>
+                                    <div class="btn btn-lg text-primary-color" data-bs-toggle="modal"
+                                        data-bs-target="#showTransaction">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </div>
+
+                                    <!-- Detail transaction modal -->
+                                    <div class="modal fade" id="showTransaction" data-bs-backdrop="static"
+                                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="showTransactionLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="text-primary-color fw-bold fs-5 m-0"
+                                                        id="showTransactionLabel">Thông tin giao dịch</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Transaction form content -->
+                                                    <div class="card rounded-3 border-primary-color shadow-none">
+                                                        <div class="card-body">
+                                                            <div class="d-flex justify-content-start gap-3 mb-3">
+                                                                <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                                                    class="img-circle elevation-2" width="60"
+                                                                    alt="User Image" style="min-width: 80px;">
+                                                                <div>
+                                                                    <h4 class="m-0">
+                                                                        {{ $transaction->category->name }}
+                                                                    </h4>
+                                                                    <strong
+                                                                        class="text-muted">{{ $transaction->formatted_amount }}</strong>
+                                                                </div>
+                                                            </div>
+
+                                                            <div
+                                                                class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                                                <div class="p-1" style="min-width: 80px;">
+                                                                    <div class="h4 text-center m-0"><i
+                                                                            class="fa-solid fa-note-sticky"></i></div>
+                                                                </div>
+                                                                <textarea name="note" id="note" class="form-control form-control-lg shadow-none" rows="2"
+                                                                    placeholder="Ghi chú"></textarea>
+                                                            </div>
+                                                            <div
+                                                                class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                                                <div class="p-1" style="min-width: 80px;">
+                                                                    <div class="h4 text-center m-0"><i
+                                                                            class="fa-solid fa-calendar"></i></div>
+                                                                </div>
+                                                                <input type="date" name="date" id="date"
+                                                                    class="form-select form-select-lg shadow-none"
+                                                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                                                            </div>
+                                                            <div
+                                                                class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                                                                <div class="p-1" style="min-width: 80px;">
+                                                                    <div class="h4 text-center m-0"><i
+                                                                            class="fa-solid fa-wallet"></i></div>
+                                                                </div>
+                                                                <select name="wallet_id" id="wallet_id"
+                                                                    class="form-select form-select-lg shadow-none">
+                                                                    @foreach ($user->wallets as $wallet)
+                                                                        <option value="{{ $wallet->wallet_id }}">
+                                                                            {{ $wallet->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Đóng</button>
+                                                    <button type="button" class="btn btn-primary-color"
+                                                        id="saveBtn">Lưu</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- /. detail transaction modal --}}
                                 </div>
                             @endforeach
                         </div>
                     </div>
+
                 @endif
             </div>
         </div>
         <!-- /.recent transaction -->
 
-        {{-- <button type="button" class="position-absolute btn btn-primary-color rounded-circle p-5"
-            style="bottom: 50px; right: 50px;">
-            <i class="fa-solid fa-plus" style="font-size: 30px;"></i>
-        </button> --}}
+        <x-transaction-modal :user="$user" :group-types="$groupTypes" :categories="$categories" />
     </div>
 @endsection
 
@@ -222,6 +300,12 @@
                     $("#tab-content-title").text('Báo cáo tuần này');
                 } else if (targetId === '#report-pills-month') {
                     $('#category-pills-month-tab').tab('show');
+                    $("#tab-content-title").text('Báo cáo tháng này');
+                } else if (targetId === '#category-pills-week') {
+                    $('#report-pills-week-tab').tab('show');
+                    $("#tab-content-title").text('Báo cáo tuần này');
+                } else if (targetId === '#category-pills-month') {
+                    $('#report-pills-month-tab').tab('show');
                     $("#tab-content-title").text('Báo cáo tháng này');
                 }
             }

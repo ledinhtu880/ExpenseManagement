@@ -21,7 +21,9 @@ class HomeController extends Controller
   public function indexDashboard()
   {
     $user = User::find(Auth::user()->user_id);
-    return view('home.dashboard', compact('user'));
+    $categories = Category::all();
+    $groupTypes = GroupType::all();
+    return view('home.dashboard', compact('user', 'categories', 'groupTypes'));
   }
   public function indexTransaction(Request $request)
   {

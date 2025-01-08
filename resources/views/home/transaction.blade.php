@@ -187,141 +187,7 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-primary-color text-white rounded-circle" data-bs-toggle="modal"
-        data-bs-target="#addTransaction"
-        style="position: fixed; bottom: 30px; right: 30px; z-index: 999; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
-        <i class="fa-solid fa-plus" style="font-size: 24px;"></i>
-    </button>
-
-    <!-- First modal - Transaction form -->
-    <div class="modal fade" id="addTransaction" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="addTransactionLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="text-primary-color fw-bold fs-5 m-0" id="addTransactionLabel">Thêm giao dịch</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card rounded-3 border-primary-color shadow-none">
-                        <div class="card-body">
-                            <form id="formTransaction" method="POST" action="{{ route('transactions.store') }}">
-                                @csrf
-                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
-                                    <div class="p-1 rounded-2 border border-secondary" style="min-width: 80px;">
-                                        <h5 class="h5 text-center m-0">{{ Auth::user()->currency }}</h5>
-                                    </div>
-                                    <input type="number" name="amount" id="amount"
-                                        class="form-control form-control-lg shadow-none" value="0" min="0">
-                                </div>
-                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
-                                    <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                        class="img-circle elevation-2" width="60" alt="User Image"
-                                        style="min-width: 80px;">
-                                    <input type="hidden" name="category_id" id="category_id" value="default">
-                                    <button type="button" id="categorySelector"
-                                        class="form-control form-control-lg text-start shadow-none" data-bs-toggle="modal"
-                                        data-bs-target="#selectCategory">
-                                        <span id="selectedCategoryText">Chọn nhóm</span>
-                                    </button>
-                                </div>
-
-                                <!-- Rest of the form remains the same -->
-                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
-                                    <div class="p-1" style="min-width: 80px;">
-                                        <div class="h4 text-center m-0"><i class="fa-solid fa-note-sticky"></i></div>
-                                    </div>
-                                    <textarea name="note" id="note" class="form-control form-control-lg shadow-none" rows="2"
-                                        placeholder="Ghi chú"></textarea>
-                                </div>
-                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
-                                    <div class="p-1" style="min-width: 80px;">
-                                        <div class="h4 text-center m-0"><i class="fa-solid fa-calendar"></i></div>
-                                    </div>
-                                    <input type="date" name="date" id="date"
-                                        class="form-select form-select-lg shadow-none"
-                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
-                                </div>
-                                <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
-                                    <div class="p-1" style="min-width: 80px;">
-                                        <div class="h4 text-center m-0"><i class="fa-solid fa-wallet"></i></div>
-                                    </div>
-                                    <select name="wallet_id" id="wallet_id"
-                                        class="form-select form-select-lg shadow-none">
-                                        @foreach ($user->wallets as $each)
-                                            <option value="{{ $wallet->wallet_id }}">{{ $wallet->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary-color" id="saveBtn">Lưu</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /.first modal -->
-
-    <!-- Second modal - Category selection -->
-    <div class="modal fade" id="selectCategory" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="selectCategoryLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="text-primary-color fw-bold fs-5 m-0" id="addTransactionLabel">Chọn nhóm</h1>
-                    <button type="button" class="btn-close" data-bs-target="#addTransaction" data-bs-toggle="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Tabs -->
-                    <div class="tab-navigation-wrapper">
-                        <ul class="nav nav-pills nav-fill mb-3 bg-body-secondary rounded-3 p-2" id="categoryTabs"
-                            role="tablist">
-                            @foreach ($groupTypes as $groupType)
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link {{ $loop->first ? 'active' : '' }}"
-                                        id="tab-{{ $groupType->group_type_id }}" data-bs-toggle="tab"
-                                        data-bs-target="#content-{{ $groupType->group_type_id }}" type="button"
-                                        role="tab">
-                                        {{ $groupType->name }}
-                                    </button>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-
-                    <!-- Tab Contents -->
-                    <div class="tab-content" id="categoryTabsContent">
-                        @foreach ($groupTypes as $groupType)
-                            <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
-                                id="content-{{ $groupType->group_type_id }}" role="tabpanel">
-                                <div class="row g-3">
-                                    @foreach ($categories->where('group_type_id', $groupType->group_type_id) as $category)
-                                        <div class="col-md-6">
-                                            <button type="button"
-                                                class="category-item btn btn-outline-primary-color w-100 text-start p-3"
-                                                data-category-id="{{ $category->category_id }}"
-                                                data-category-name="{{ $category->name }}"
-                                                data-bs-target="#addTransaction" data-bs-toggle="modal">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <i class="text-dark fas fa-envelope fs-4"></i>
-                                                    <span>{{ $category->name }}</span>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-transaction-modal :user="$user" :group-types="$groupTypes" :categories="$categories" />
     <!-- /.second modal -->
 @endsection
 
@@ -335,11 +201,7 @@
                 TRANSACTIONS: '{{ route('home.transaction') }}'
             },
             SELECTORS: {
-                FORM: '#formTransaction',
-                AMOUNT: '#amount',
-                CATEGORY: '#category_id',
                 WALLET: '#wallet_id',
-                SAVE_BTN: '#saveBtn',
                 LOADER: '#loader',
                 CONTAINERS: {
                     PREV_MONTH: '#previousMonthTransactionsContainer',
@@ -359,33 +221,6 @@
                 }
             }
         };
-
-        const ToastManager = {
-            show(message, type) {
-                showToast(message, type);
-            },
-            showError(message) {
-                this.show(message, 'warning');
-            }
-        };
-
-        class TransactionFormValidator {
-            static validate() {
-                const amount = $(CONFIG.SELECTORS.AMOUNT).val();
-                const categoryId = $(CONFIG.SELECTORS.CATEGORY).val();
-
-                if (categoryId === 'default') {
-                    ToastManager.showError('Vui lòng chọn nhóm.');
-                    return false;
-                }
-                if (amount <= 0) {
-                    ToastManager.showError('Số tiền phải lớn hơn 0.');
-                    return false;
-                }
-                return true;
-            }
-        }
-
         // HTML Template generators
         class TransactionTemplates {
             static createTransactionCard(transaction, index, array) {
@@ -450,7 +285,7 @@
                     this.updateUI(response);
                 } catch (error) {
                     console.error('Transaction fetch failed:', error);
-                    ToastManager.showError("Đã có lỗi xảy ra, xin vui lòng thử lại");
+                    showToast("Đã có lỗi xảy ra, xin vui lòng thử lại", "danger");
                 } finally {
                     loader.hide();
                 }
@@ -490,7 +325,7 @@
             const type = '{{ session('type') }}';
 
             if (message && type) {
-                ToastManager.show(message, type);
+                showToast(message, type);
             }
 
             $('.category-item').click(function() {
@@ -521,13 +356,6 @@
                 // Add highlight to previously selected category if exists
                 if (selectedCategoryId) {
                     $(`.category-item[data-category-id="${selectedCategoryId}"]`).addClass('active');
-                }
-            });
-
-            // Set up event handlers
-            $(CONFIG.SELECTORS.SAVE_BTN).click(function() {
-                if (TransactionFormValidator.validate()) {
-                    $(CONFIG.SELECTORS.FORM).submit();
                 }
             });
 
