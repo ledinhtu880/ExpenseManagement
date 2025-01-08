@@ -70,16 +70,3 @@
         </nav>
     </div>
 @endsection
-
-@push('js')
-    <script>
-        $(document).ready(function() {
-            const message = '{{ session('message') }}';
-            const type = '{{ session('type') }}';
-
-            if (message && type) {
-                showToast(message, type);
-            }
-        });
-    </script>
-@endpush

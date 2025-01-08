@@ -40,13 +40,6 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            const message = '{{ session('message') }}';
-            const type = '{{ session('type') }}';
-
-            if (message && type) {
-                showToast(message, type);
-            }
-
             function changePassword() {
                 const currentPassword = $('#currentPassword').val();
                 const newPassword = $('#newPassword').val();

@@ -112,9 +112,13 @@ input[type="number"] {
 }
 
 .btn-outline-primary-color:hover {
-    color: #fff;
+    color: #fff !important;
     background-color: var(--primary-color);
     border-color: var(--primary-color);
+}
+
+.btn-outline-primary-color:hover i {
+    color: #fff;
 }
 
 .line {

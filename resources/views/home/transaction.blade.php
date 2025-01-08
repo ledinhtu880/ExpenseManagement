@@ -187,9 +187,10 @@
         </div>
     </div>
 
-    <button type="button" class="position-absolute btn btn-primary-color text-white rounded-circle p-5"
-        data-bs-toggle="modal" data-bs-target="#addTransaction" style="bottom: 50px; right: 50px;">
-        <i class="fa-solid fa-plus" style="font-size: 30px;"></i>
+    <button type="button" class="btn btn-primary-color text-white rounded-circle" data-bs-toggle="modal"
+        data-bs-target="#addTransaction"
+        style="position: fixed; bottom: 30px; right: 30px; z-index: 999; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+        <i class="fa-solid fa-plus" style="font-size: 24px;"></i>
     </button>
 
     <!-- First modal - Transaction form -->
@@ -307,9 +308,7 @@
                                                 data-category-name="{{ $category->name }}"
                                                 data-bs-target="#addTransaction" data-bs-toggle="modal">
                                                 <div class="d-flex align-items-center gap-3">
-                                                    <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                                        class="img-circle elevation-2" width="40"
-                                                        alt="Category Image">
+                                                    <i class="text-dark fas fa-envelope fs-4"></i>
                                                     <span>{{ $category->name }}</span>
                                                 </div>
                                             </button>
@@ -402,8 +401,7 @@
                 </div>
                 <h5 class="h5 mb-0 ${colorClass}">${transaction.formatted_balance}</h5>
             </div>
-            ${isLastItem ? '' : '<div class="line"></div>'}
-        `;
+            ${isLastItem ? '' : '<div class="line"></div>'}`;
             }
 
             static createDayCard(dayData) {
@@ -428,8 +426,7 @@
                         ${transactionCards}
                     </div>
                 </div>
-            </div>
-        `;
+            </div>`;
             }
         }
 

@@ -205,6 +205,20 @@
     <script src="{{ asset('js/toast.js') }}"></script>
     <script>
         $(document).ready(function() {
+            let message = localStorage.getItem('message');
+            let type = localStorage.getItem('type');
+
+            if (!message || !type) {
+                message = '{{ session('message') }}';
+                type = '{{ session('type') }}';
+            }
+
+            if (message && type) {
+                showToast(message, type);
+                localStorage.removeItem('message');
+                localStorage.removeItem('type');
+            }
+
             const namePattern = /^[\p{L}\s]{2,50}$/u;
             const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/;

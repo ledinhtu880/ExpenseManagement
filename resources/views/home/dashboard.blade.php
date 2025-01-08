@@ -175,13 +175,6 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            const message = '{{ session('message') }}';
-            const type = '{{ session('type') }}';
-
-            if (message && type) {
-                showToast(message, type);
-            }
-
             $('.tab-item').click(function() {
                 $('.tab-item').removeClass('active');
                 $(this).addClass('active');
