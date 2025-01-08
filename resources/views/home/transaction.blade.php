@@ -1,25 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Quan ly giao dich')
-
-@push('css')
-    <style>
-        .category-item.active {
-            background-color: var(--primary-color);
-            color: #fff;
-            border-color: var(--primary-color);
-        }
-
-        #categoryTabs .active {
-            color: #333;
-            font-weight: 700;
-        }
-
-        #categoryTabs.nav-pills .nav-link:not(.active):hover {
-            color: var(--primary-color);
-        }
-    </style>
-@endpush
+@section('title', 'Sổ giao dịch')
 
 @section('content')
     <div class="container-fluid">
@@ -30,7 +11,7 @@
                         style="width: 250px;" aria-label="Default select example">
                         <option value="total" selected>Tất cả</option>
                         @foreach ($user->wallets as $wallet)
-                            <option value="{{ $wallet->wallet_id }}">{{ $wallet->name }}</option>
+                            <option value="{{ $wallet->id }}">{{ $wallet->name }}</option>
                         @endforeach
                     </select>
                 </form>

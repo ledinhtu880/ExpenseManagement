@@ -13,7 +13,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="text-primary-color fw-bold fs-5 m-0" id="addTransactionLabel">Thêm giao dịch</h1>
+                <h4 class="text-primary-color fw-bold m-0" id="addTransactionLabel">Thêm giao dịch</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -21,8 +21,8 @@
                 @include('components.transaction-form')
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary-color" id="saveBtn">Lưu</button>
+                <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-lg btn-primary-color" id="saveBtn">Lưu</button>
             </div>
         </div>
     </div>
@@ -41,4 +41,33 @@
 
 @push('js')
     <script src="{{ asset('js/transaction-modal.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            const $modal = $('#addTransaction');
+            const $form = $('#formTransaction');
+
+            function resetForm() {
+                // Reset form values
+                $form[0].reset();
+
+                // Reset category selection
+                $('#category_id').val('default');
+                $('#selectedCategoryText').text('Chọn nhóm');
+
+                // Reset validation states
+                $('.is-invalid').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+            }
+
+            // Handle modal hidden event
+            $modal.on('hidden.bs.modal', function() {
+                resetForm();
+            });
+
+            // Handle close/cancel button clicks
+            $('.btn-close, .btn-secondary').on('click', function() {
+                resetForm();
+            });
+        });
+    </script>
 @endpush

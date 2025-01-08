@@ -7,7 +7,8 @@
                     <h5 class="h5 text-center m-0">{{ Auth::user()->currency }}</h5>
                 </div>
                 <input type="number" name="amount" id="amount" class="form-control form-control-lg shadow-none"
-                    value="0" min="0">
+                    value="0" min="0" onfocus="if(this.value=='0'){this.value=''}"
+                    onblur="if(this.value==''){this.value='0'}">
             </div>
             <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
                 <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg" class="img-circle elevation-2"
@@ -40,7 +41,7 @@
                 </div>
                 <select name="wallet_id" id="wallet_id" class="form-select form-select-lg shadow-none">
                     @foreach ($user->wallets as $wallet)
-                        <option value="{{ $wallet->wallet_id }}">{{ $wallet->name }}</option>
+                        <option value="{{ $wallet->id }}">{{ $wallet->name }}</option>
                     @endforeach
                 </select>
             </div>

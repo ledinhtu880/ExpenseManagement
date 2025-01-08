@@ -50,6 +50,11 @@ class Transaction extends Model
   {
     return Carbon::parse($this->date)->format('d/m/Y');
   }
+  public function getAmountValueAttribute()
+  {
+    $rate = Helper::getExchangeRate($this->wallet->user->currency);
+    return $this->amount * $rate;
+  }
   public function getFormattedAmountAttribute()
   {
     $rate = Helper::getExchangeRate($this->wallet->user->currency);

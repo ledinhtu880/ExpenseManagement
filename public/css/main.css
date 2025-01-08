@@ -7,6 +7,10 @@
     color: var(--primary-color) !important;
 }
 
+.btn.text-primary-color:hover {
+    color: var(--hover-color) !important;
+}
+
 * {
     font-family: "Inter", "Roboto", serif;
 }
@@ -194,4 +198,23 @@ input[type="number"] {
     border-top: 8px solid transparent;
     border-bottom: 8px solid transparent;
     border-right: 12px solid #ddd;
+}
+
+.transaction-details > div:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+.category-item.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+#categoryTabs .active {
+    color: #333;
+    font-weight: 700;
+}
+
+#categoryTabs.nav-pills .nav-link:not(.active):hover {
+    color: var(--primary-color);
 }

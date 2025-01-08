@@ -52,5 +52,7 @@ Route::middleware('checkLogin')->group(function () {
   // Route lien quan den AccountController
   Route::group(['prefix' => 'transactions/', 'as' => 'transactions.'], function () {
     Route::post('store', [TransactionController::class, 'store'])->name('store');
+    Route::put('update/{id}', [TransactionController::class, 'update'])->name('update');
+    Route::delete('{id}', [TransactionController::class, 'destroy'])->name('destroy');
   });
 });

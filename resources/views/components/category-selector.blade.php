@@ -19,7 +19,7 @@
         </ul>
     </div>
     <!-- Tab Contents -->
-    <div class="tab-content" id="categoryTabsContent">
+    <div class="tab-content">
         @foreach ($groupTypes as $groupType)
             <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
                 id="content-{{ $groupType->group_type_id }}" role="tabpanel">
@@ -28,9 +28,8 @@
                         <div class="col-md-6">
                             <button type="button"
                                 class="category-item btn btn-outline-primary-color w-100 text-start p-3"
-                                data-category-id="{{ $category->category_id }}"
-                                data-category-name="{{ $category->name }}" data-bs-target="#addTransaction"
-                                data-bs-toggle="modal">
+                                data-category-id="{{ $category->id }}" data-category-name="{{ $category->name }}"
+                                data-bs-target="#addTransaction" data-bs-toggle="modal">
                                 <div class="d-flex align-items-center gap-3">
                                     <i class="text-dark fas fa-envelope fs-4"></i>
                                     <span>{{ $category->name }}</span>

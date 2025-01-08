@@ -3,7 +3,13 @@ const MODAL_CONFIG = {
     FORM: '#formTransaction',
     AMOUNT: '#amount',
     CATEGORY: '#category_id',
+    DATE: "#date",
     SAVE_BTN: '#saveBtn',
+  },
+  MESSAGES: {
+    CATEGORY_REQUIRED: 'Vui lòng chọn nhóm.',
+    INVALID_AMOUNT: 'Số tiền phải lớn hơn 0.',
+    FUTURE_DATE: 'Ngày không được lớn hơn ngày hiện tại.'
   }
 };
 
@@ -11,16 +17,41 @@ class TransactionFormValidator {
   static validate() {
     const amount = $(MODAL_CONFIG.SELECTORS.AMOUNT).val();
     const categoryId = $(MODAL_CONFIG.SELECTORS.CATEGORY).val();
+    const dateValue = $(MODAL_CONFIG.SELECTORS.DATE).val();
 
+    // Validate amount
+    if (Number(amount) <= 0) {
+      showToast(MODAL_CONFIG.MESSAGES.INVALID_AMOUNT, 'warning');
+      return false;
+    }
+
+    // Validate category
     if (categoryId === 'default') {
-      showToast('Vui lòng chọn nhóm.', 'warning');
+      showToast(MODAL_CONFIG.MESSAGES.CATEGORY_REQUIRED, 'warning');
       return false;
     }
-    if (amount <= 0) {
-      showToast('Số tiền phải lớn hơn 0.', 'warning');
+
+    // Validate date
+    if (!this.isValidDate(dateValue)) {
+      showToast(MODAL_CONFIG.MESSAGES.FUTURE_DATE, 'warning');
       return false;
     }
+
     return true;
+  }
+
+  static isValidDate(dateValue) {
+    if (!dateValue) return false;
+
+    const inputDate = new Date(dateValue);
+    const today = new Date();
+
+    // Reset time parts for both dates to compare only dates
+    inputDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    // Compare timestamps
+    return inputDate.getTime() <= today.getTime();
   }
 }
 
@@ -60,5 +91,4 @@ $(document).ready(function () {
       $(MODAL_CONFIG.SELECTORS.FORM).submit();
     }
   });
-
 });
