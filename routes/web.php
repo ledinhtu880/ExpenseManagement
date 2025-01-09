@@ -85,6 +85,5 @@ Route::middleware('checkLogin')->group(function () {
   Route::get('/bank-branches', [BankBranchController::class, 'index'])->name('bank-branches.index');
   Route::post('/bank-branches', [BankBranchController::class, 'search'])->name('bank-branches.search');
 
-  Route::view('/chat', 'chat');
-  Route::post('/chatbot/create-transaction', [ChatBotController::class, 'createTransaction']);
-});
+  Route::get('/chat', [ChatbotController::class, 'showChat'])->name('chat.show');
+  Route::post('/chatbot/create-transaction', [ChatbotController::class, 'createTransaction'])->name('chat.createTransaction');});

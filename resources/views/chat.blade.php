@@ -17,33 +17,28 @@
 
         .message {
             margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 60%;
         }
 
         .user-message {
             text-align: right;
             color: blue;
+            background-color: #e0f7fa;
+            margin-left: auto;
         }
 
         .bot-message {
             text-align: left;
             color: green;
+            background-color: #e8f5e9;
+            margin-right: auto;
         }
     </style>
 </head>
 
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center">ChatBot - Create Transaction</h2>
-        <div id="chat-box" class="mb-3">
-            <!-- Chat messages will be appended here -->
-        </div>
-        <form id="chat-form">
-            <div class="input-group">
-                <input type="text" id="message" class="form-control" placeholder="Type your message..." required>
-                <button type="submit" class="btn btn-primary">Send</button>
-            </div>
-        </form>
-    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
@@ -51,22 +46,22 @@
             $('#chat-form').submit(function (e) {
                 e.preventDefault();
                 const message = $('#message').val();
-                $('#chat-box').append(`<div class="message user-message">You: ${message}</div>`);
+                $('#chat-box').append(`<div class="message user-message"><strong>You:</strong> ${message}</div>`);
                 $('#message').val('');
 
                 // Send message to server
                 $.ajax({
-                    url: '/chatbot/create-transaction',
+                    url: '{{ route('chat.createTransaction') }}',
                     method: 'POST',
                     data: {
                         message: message,
                         _token: '{{ csrf_token() }}'
                     },
                     success: function (response) {
-                        $('#chat-box').append(`<div class="message bot-message">Bot: ${response.message}</div>`);
+                        $('#chat-box').append(`<div class="message bot-message"><strong>Bot:</strong> ${response.message}</div>`);
                     },
                     error: function () {
-                        $('#chat-box').append(`<div class="message bot-message">Bot: Something went wrong.</div>`);
+                        $('#chat-box').append(`<div class="message bot-message"><strong>Bot:</strong> Something went wrong.</div>`);
                     }
                 });
             });

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Services\OpenAIService;
 use App\Models\ChatBotLog;
 use App\Models\Transaction;
+use App\Models\Wallet;
+use App\Models\Category;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +21,13 @@ class ChatbotController extends Controller
     {
         $this->openAIService = $openAIService;
     }
+    public function showChat()
+    {
+        $userId = auth()->id();
+        $chatLogs = ChatBotLog::where('user_id', $userId)->orderBy('created_at', 'asc')->get();
 
+        return view('chat', compact('chatLogs'));
+    }
     // Then, update the createTransaction method to use the parsed date
     // Update createTransaction to explicitly convert the date
     public function createTransaction(Request $request)
@@ -27,12 +35,15 @@ class ChatbotController extends Controller
         $userId = auth()->id();
         $message = $request->input('message');
 
+        // Lưu tin nhắn của người dùng
         ChatBotLog::create([
             'user_id' => $userId,
             'message' => $message,
+            'is_bot' => false,
         ]);
 
         try {
+            DB::beginTransaction();
             $response = $this->openAIService->generateTransaction($message);
             $transactionData = $this->parseTransactionResponse($response);
 
@@ -51,7 +62,28 @@ class ChatbotController extends Controller
                 'note' => $transactionData['note'],
             ]);
 
-            Log::info("Tạo thành công giao dịch: {$transaction->id} với ngày {$transaction->date}");
+            // Cập nhật số dư của ví
+            $wallet = Wallet::find($transactionData['wallet_id']);
+            $category = Category::find($transactionData['category_id']);
+
+            if ($category->group_type == 1 || $category->group_type == 3) {
+                // Khoản chi
+                $wallet->balance -= $transactionData['amount'];
+            } else {
+                // Khoản thu
+                $wallet->balance += $transactionData['amount'];
+            }
+
+            $wallet->save();
+
+            // Lưu phản hồi của bot
+            ChatBotLog::create([
+                'user_id' => $userId,
+                'message' => $response,
+                'is_bot' => true,
+            ]);
+
+            DB::commit();
 
             return response()->json([
                 'message' => "Transaction created successfully",
@@ -61,8 +93,8 @@ class ChatbotController extends Controller
                     'date' => $transaction->date->format('Y-m-d')
                 ]
             ]);
-
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error("Lỗi khi tạo giao dịch: " . $e->getMessage());
             return response()->json([
                 'error' => "Không thể tạo giao dịch: " . $e->getMessage(),
@@ -105,36 +137,40 @@ class ChatbotController extends Controller
     }
     // First, update the parseTransactionResponse method to extract date
     // Update parseTransactionResponse to use the new date parsing
-    private function parseTransactionResponse($response) {
+    private function parseTransactionResponse($response)
+    {
         Log::info("OpenAI Response Raw: " . $response);
-    
+
         $parsed = [];
-    
+
         // Updated regex patterns to match new format
         preg_match('/Date: (\d{4}-\d{2}-\d{2})/', $response, $date);
         preg_match('/Description: (.+)/', $response, $description);
         preg_match('/Category: (.+)/', $response, $category);
         preg_match('/Amount: ([\d,\.]+) VND/', $response, $amount);
-    
+
         // Parse date
         $parsed['date'] = $date[1] ?? now()->format('Y-m-d');
-    
+
         // Parse description as note
         $parsed['note'] = $description[1] ?? null;
-    
+
         // Parse category
         $categoryName = trim($category[1] ?? '');
         $parsed['category_id'] = $this->getCategoryId($categoryName);
-        
+
         // Parse amount
-        $parsed['amount'] = isset($amount[1]) ? str_replace(',', '', $amount[1]) : null;
-    
+        if (isset($amount[1])) {
+            $parsed['amount'] = str_replace(',', '', $amount[1]);
+        } else {
+            throw new \Exception("Số tiền không hợp lệ hoặc không tồn tại");
+        }
+
         // Set wallet ID
         $parsed['wallet_id'] = $this->getDefaultWalletId();
-    
+
         return $parsed;
     }
-    
 
     private function normalizeCategory($category)
     {
@@ -281,5 +317,4 @@ class ChatbotController extends Controller
         // Lấy ID của danh mục mặc định như "Khác"
         return DB::table('categories')->where('name', 'Khác')->value('category_id') ?? 1;
     }
-
 }

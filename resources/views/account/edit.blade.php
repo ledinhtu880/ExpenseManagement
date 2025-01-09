@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Chinh sua thong tin nguoi dung')
+@section('title', 'Chỉnh sửa thông tin người dùng')
 
 @section('content')
     <div class="container-fluid">
@@ -16,7 +16,7 @@
                     </div>
                     <div class="col-md-9 py-3 ps-3">
                         <h4 class="h4 mb-3 text-medium">Thông tin người dùng</h4>
-                        <form method="POST" action="{{ route('accounts.update', Auth::user()->user_id) }}">
+                        <form method="POST" action="{{ route('accounts.update', Auth::user()->user_id) }}" enctype='multipart/form-data'>
                             @csrf
                             @method('PUT')
                             <div class="row">
@@ -47,18 +47,25 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="isStudent" class="form-label">Xác nhận sinh viên (Chọn thẻ sinh
-                                            viên)</label>
-                                        <input type="file" name="isStudent" id="isStudent"
-                                            class="form-control form-control-lg">
-                                        <span class="text-danger">
-                                            @if ($errors->has('isStudent'))
-                                                {{ $errors->first('isStudent') }}
-                                            @endif
-                                        </span>
-                                    </div>
-                                </div>
+    <div class="form-group">
+        @if($user->isStudent)
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" checked disabled>
+                <label class="form-check-label">
+                    Đã xác nhận sinh viên
+                </label>
+            </div>
+        @else
+            <label for="isStudent" class="form-label">Xác nhận sinh viên (Chọn thẻ sinh viên)</label>
+            <input type="file" name="isStudent" id="isStudent" class="form-control form-control-lg">
+            <span class="text-danger">
+                @if ($errors->has('isStudent'))
+                    {{ $errors->first('isStudent') }}
+                @endif
+            </span>
+        @endif
+    </div>
+</div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="gender" class="form-label">Giới tính</label>

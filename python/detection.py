@@ -5,7 +5,7 @@ import re
 from datetime import datetime
 
 # Configure Tesseract path
-pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 def extract_info_from_image(image_path):
     # Read image
@@ -75,26 +75,12 @@ def check_student_info(input_name, image_path):
 
 def select_image():
     root = Tk()
-    root.withdraw()  # Hide the main window
-    
-    try:
-        file_path = filedialog.askopenfilename(
-            title="Chon anh",
-            filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")],
-            initialdir="~/",  # Start in home directory
-        )
-        
-        if file_path and os.path.isfile(file_path):
-            return file_path
-        else:
-            print("Không có file nào được chọn")
-            return None
-            
-    except Exception as e:
-        print(f"Lỗi khi mở file: {e}")
-        return None
-    finally:
-        root.destroy()
+    root.withdraw()
+    file_path = filedialog.askopenfilename(
+        title="Chon anh",
+        filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")]
+    )
+    return file_path
 
 if __name__ == "__main__":
     input_name = "Đoàn Phương Hà"
@@ -104,4 +90,4 @@ if __name__ == "__main__":
         result = check_student_info(input_name, image_path)
         print(f"Result: {result}")
     else:
-        print("Khong co anh duoc chon.")
+        print("Khong co anh duoc chon.") 
