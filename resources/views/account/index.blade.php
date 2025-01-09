@@ -16,69 +16,50 @@
         <div class="list-">
             <ul class="list-group flex-column gap-3">
                 <a href="{{ route('accounts.edit') }}"
-                    class="list-group-item fw-bold text-primary-color text-lg text-medium text-center border-primary-color">
+                    class="list-group-item fw-bold text-primary-color text-lg text-medium text-center border-primary-color"
+                    style="border: 1px solid">
                     Cập nhật thông tin
                 </a>
                 <a href="#"
-                    class="list-group-item fw-bold text-primary-color text-lg text-medium text-center border-primary-color">
+                    class="list-group-item fw-bold text-primary-color text-lg text-medium text-center border-primary-color"
+                    style="border: 1px solid">
                     Thay đổi mật khẩu
                 </a>
+
                 <div class="my-4"></div>
-                <a href="{{ route('logout') }}"
-                    class="list-group-item fw-bold text-danger text-lg text-medium text-center border-primary-color">
+
+                <a href="#"
+                    class="list-group-item fw-bold text-danger text-lg text-medium text-center border-primary-color"
+                    style="border: 1px solid" data-bs-toggle="modal" data-bs-target="#logOutConfirm">
                     Đăng xuất
                 </a>
-                <a href="{{ route('accounts.index') }}"
-                    class="list-group-item fw-bold text-danger text-lg text-medium text-center border-primary-color">
+                <!-- Delete Confirmation Modal -->
+                <div class="modal fade" id="logOutConfirm" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-primary-color fw-bold">Xác nhận đăng xuất tài khoản</h5>
+                                <button type="button" class="btn-close" data-bs-target="#showTransaction"
+                                    data-bs-toggle="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-center gap-3">
+                                <a href="{{ route('logout') }}" class="btn btn-lg btn-primary-color text-white">
+                                    Xác nhận
+                                </a>
+                                <button type="button" class="btn btn-lg btn-outline-secondary"
+                                    data-bs-toggle="modal">Hủy</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- /. delete confirmation modal --}}
+
+                <a href="#"
+                    class="list-group-item fw-bold text-danger text-lg text-medium text-center border-primary-color"
+                    style="border: 1px solid">
                     Xóa tài khoản
                 </a>
             </ul>
         </div>
     </div>
 @endsection
-
-@push('js')
-    <script>
-        $(document).ready(function() {
-            function changePassword() {
-                const currentPassword = $('#currentPassword').val();
-                const newPassword = $('#newPassword').val();
-                const confirmPassword = $('#confirmPassword').val();
-
-                if (!currentPassword || !newPassword || !confirmPassword) {
-                    alert('Vui lòng điền đầy đủ thông tin');
-                    return;
-                }
-
-                if (newPassword !== confirmPassword) {
-                    alert('Mật khẩu mới không khớp');
-                    return;
-                }
-
-                // Add password change logic here
-                $('#passwordModal').modal('hide');
-                alert('Đổi mật khẩu thành công');
-            }
-
-            function deleteAccount() {
-                // Add delete account logic here
-                $('#deleteModal').modal('hide');
-                alert('Tài khoản đã được xóa');
-                // Redirect to login page
-            }
-
-            $('.logout').click(function() {
-                if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
-                    // Add logout logic here
-                    alert('Đăng xuất thành công');
-                    // Redirect to login page
-                }
-            });
-
-            $("#btnBack").on('click', () => {
-                window.history.back();
-
-            })
-        });
-    </script>
-@endpush

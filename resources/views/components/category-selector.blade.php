@@ -31,10 +31,15 @@
                                 data-category-id="{{ $category->id }}" data-category-name="{{ $category->name }}"
                                 data-bs-target="#addTransaction" data-bs-toggle="modal">
                                 <div class="d-flex align-items-center gap-3">
-                                    <i class="text-dark fas fa-envelope fs-4"></i>
+                                    @if ($category->icon)
+                                        {!! \App\Helpers\IconHelper::addClasses($category->icon, 'text-dark fs-4') !!}
+                                    @else
+                                        <i class="text-dark fas fa-envelope fs-4"></i>
+                                    @endif
                                     <span>{{ $category->name }}</span>
                                 </div>
                             </button>
+
                         </div>
                     @endforeach
                 </div>

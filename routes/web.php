@@ -7,8 +7,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\TransactionController;
-
-Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
+use App\Http\Controllers\WalletController;
 
 // Route cho màn hình Loading
 Route::get('/loading', function () {
@@ -54,5 +53,12 @@ Route::middleware('checkLogin')->group(function () {
     Route::post('store', [TransactionController::class, 'store'])->name('store');
     Route::put('update/{id}', [TransactionController::class, 'update'])->name('update');
     Route::delete('{id}', [TransactionController::class, 'destroy'])->name('destroy');
+  });
+
+  // Route lien quan den AccountController
+  Route::group(['prefix' => 'wallets/', 'as' => 'wallets.'], function () {
+    Route::post('store', [WalletController::class, 'store'])->name('store');
+    Route::put('update/{id}', [WalletController::class, 'update'])->name('update');
+    Route::delete('{id}', [WalletController::class, 'destroy'])->name('destroy');
   });
 });

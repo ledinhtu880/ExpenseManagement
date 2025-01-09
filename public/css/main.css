@@ -107,6 +107,7 @@ input[type="number"] {
 .btn-primary-color:hover {
     background-color: var(--hover-color);
     border-color: var(--hover-color);
+    color: #fff;
 }
 
 .btn-outline-primary-color {
@@ -116,7 +117,7 @@ input[type="number"] {
 }
 
 .btn-outline-primary-color:hover {
-    color: #fff !important;
+    color: #fff;
     background-color: var(--primary-color);
     border-color: var(--primary-color);
 }
@@ -180,11 +181,11 @@ input[type="number"] {
     color: #fff !important;
 }
 
-#btnBack {
+.btnBack {
     transition: all 0.25s linear;
 }
 
-#btnBack::after {
+.btnBack::after {
     content: "";
 
     position: absolute;

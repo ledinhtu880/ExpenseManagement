@@ -83,6 +83,10 @@
                 localStorage.removeItem('message');
                 localStorage.removeItem('type');
             }
+
+            $('.btnBack').click(function() {
+                window.history.back();
+            });
         })
     </script>
     @stack('js')

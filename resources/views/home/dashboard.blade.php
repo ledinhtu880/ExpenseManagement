@@ -155,7 +155,7 @@
                                             <strong class="text-muted">{{ $transaction->formatted_amount }}</strong>
                                         </div>
                                     </div>
-                                    <div class="btn btn-lg text-primary-color" data-bs-toggle="modal"
+                                    <div class="btn btn-lg btn-outline-primary-color" data-bs-toggle="modal"
                                         data-bs-target="#showTransaction-{{ $transaction->id }}">
                                         <i class="fa-solid fa-eye"></i>
                                     </div>
@@ -169,7 +169,7 @@
                                                 <div class="modal-header">
                                                     <button type="button"
                                                         class="btn btn-link text-primary-color p-0 text-decoration-none"
-                                                        data-bs-dismiss="modal">
+                                                        data-bs-="modal">
                                                         <i class="fa-solid fa-arrow-left me-2"></i>
                                                         <span class="fw-bold">Thông tin giao dịch</span>
                                                     </button>
@@ -194,7 +194,7 @@
                                                                             {{ $transaction->category->name }}
                                                                         </h4>
                                                                         <h6
-                                                                            class="m-0 {{ $transaction->groupType->name === 'Khoản chi' ? 'text-danger' : 'text-success' }} }}">
+                                                                            class="m-0 {{ $transaction->groupType->name === 'Khoản chi' ? 'text-danger' : 'text-success' }}">
                                                                             {{ $transaction->formatted_amount }}</h6>
                                                                     </div>
                                                                 </div>

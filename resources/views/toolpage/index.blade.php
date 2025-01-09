@@ -71,7 +71,6 @@
             <button class="back-button">
                 <i class="fas fa-arrow-left"></i> Quay lại
             </button>
-
             <h2 class="page-title">Công cụ</h2>
 
             <div class="tools-container">
@@ -133,10 +132,6 @@
                 const tool = $(this).data('tool');
                 // Handle tool click
                 console.log(`Opening ${tool} tool`);
-            });
-
-            $('.back-button').click(function() {
-                window.history.back();
             });
         });
     </script>

@@ -15,7 +15,6 @@ class TransactionController extends Controller
 {
   public function store(Request $request)
   {
-    // Validate input data
     $request->validate([
       'amount' => 'required|numeric|min:0',
       'category_id' => 'required|exists:categories,category_id',
@@ -55,10 +54,8 @@ class TransactionController extends Controller
         $wallet->balance = $currentBalance - $amountInUSD;
       }
 
-      // Save wallet changes
       $wallet->save();
 
-      // Create transaction
       Transaction::create([
         'amount' => $amountInUSD,
         'category_id' => $request->input('category_id'),
@@ -72,10 +69,8 @@ class TransactionController extends Controller
       // Redirect or return response (you can adjust this based on your needs)
       return redirect()->back()->with('message', 'Thêm giao dịch thành côn!')->with('type', 'success');
     } catch (\Exception $e) {
-      // Log the error
       Log::error('Error in TransactionController@store', ['error' => $e->getMessage()]);
 
-      // Return a response with an error message
       DB::rollBack();
       return redirect()->back()->with('message', 'Không tạo được giao dịch. Vui lòng thử lại')->with('type', 'danger');
     }
@@ -127,7 +122,6 @@ class TransactionController extends Controller
       }
       $oldWallet->save();
 
-      // Update new wallet balance
       if ($newCategory->groupType->name === 'Khoản thu') {
         $newWallet->balance += $newAmountUSD;
       } else {
@@ -135,7 +129,6 @@ class TransactionController extends Controller
       }
       $newWallet->save();
 
-      // Update transaction
       $transaction->update([
         'amount' => $newAmountUSD,
         'category_id' => $request->category_id,
