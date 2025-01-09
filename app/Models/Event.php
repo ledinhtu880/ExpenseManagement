@@ -24,4 +24,8 @@ class Event extends Model
   {
     return $this->hasMany(Transaction::class, 'event_id', 'event_id');
   }
+  public function getIdAttribute()
+  {
+    return $this->event_id;
+  }
 }

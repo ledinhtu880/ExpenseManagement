@@ -2,6 +2,7 @@
 @extends('layouts.master')
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,16 +15,20 @@
             margin: 20px auto;
             padding: 20px;
         }
+
         .form-group {
             margin-bottom: 1.5rem;
         }
+
         .form-control {
             border-radius: 8px;
             padding: 12px;
         }
+
         .input-group-text {
             background: #f8f9fa;
         }
+
         .result-card {
             display: none;
             margin-top: 20px;
@@ -31,26 +36,31 @@
             border-radius: 8px;
             background: #f8f9fa;
         }
+
         .nav-buttons {
             display: flex;
             justify-content: space-between;
             padding: 15px;
         }
+
         .period-select {
             cursor: pointer;
             padding: 8px;
             border-radius: 4px;
             transition: all 0.3s;
         }
+
         .period-select:hover {
             background: #e9ecef;
         }
+
         .period-select.active {
             background: #007bff;
             color: white;
         }
     </style>
 </head>
+
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <div class="content-wrapper">
@@ -143,7 +153,7 @@
             const periodType = $('input[name="periodType"]:checked').val();
 
             let periodInYears;
-            switch(periodType) {
+            switch (periodType) {
                 case 'day':
                     periodInYears = period / 365;
                     break;
@@ -155,10 +165,10 @@
             }
 
             let interest = 0;
-            if(interestType === 'simple') {
-                interest = amount * (rate/100) * periodInYears;
+            if (interestType === 'simple') {
+                interest = amount * (rate / 100) * periodInYears;
             } else {
-                interest = amount * Math.pow(1 + rate/100, periodInYears) - amount;
+                interest = amount * Math.pow(1 + rate / 100, periodInYears) - amount;
             }
 
             $('#principalResult').text(formatCurrency(amount));
@@ -181,4 +191,5 @@
         });
     </script>
 </body>
+
 </html>

@@ -9,9 +9,9 @@ use Carbon\Carbon;
 class RecurringTransaction extends Model
 {
   use HasFactory;
-  protected $primaryKey = 'recurring_transaction_idw';
+  protected $primaryKey = 'recurring_transaction_id';
   protected $fillable = [
-    'user_id',
+    'wallet_id',
     'category_id',
     'frequency',
     'start_date',
@@ -33,5 +33,9 @@ class RecurringTransaction extends Model
   public function getFormattedEndDateAttribute()
   {
     return Carbon::parse($this->end_date)->format('d/m/Y');
+  }
+  public function getIdAttribute()
+  {
+    return $this->recurring_transaction_id;
   }
 }

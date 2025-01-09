@@ -15,12 +15,13 @@ return new class extends Migration
       $table->unsignedInteger('user_id', true)->primary();
       $table->string('name', 100);
       $table->string('email', 40)->unique();
-      $table->string('email_education', 40)->unique()->nullable();
+      $table->boolean('isStudent')->default('0');
       $table->boolean('gender'); // 0 - M, 1 - F
       $table->date('birthday');
       $table->string('identify_card')->unique()->nullable();
       $table->string('password');
       $table->datetime('created_at')->useCurrent();
+      $table->enum('currency', ['VND', 'USD', 'EUR'])->nullable();
     });
     Schema::create('sessions', function (Blueprint $table) {
       $table->string('id')->primary();
@@ -38,5 +39,6 @@ return new class extends Migration
   public function down(): void
   {
     Schema::dropIfExists('users');
+    Schema::dropIfExists('sessions');
   }
 };

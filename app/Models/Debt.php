@@ -34,4 +34,8 @@ class Debt extends Model
   {
     return Carbon::parse($this->date)->format('d/m/Y');
   }
+  public function getIdAttribute()
+  {
+    return $this->debt_id;
+  }
 }

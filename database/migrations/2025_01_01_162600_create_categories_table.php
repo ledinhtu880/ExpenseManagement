@@ -14,8 +14,9 @@ return new class extends Migration
     Schema::create('categories', function (Blueprint $table) {
       $table->unsignedInteger('category_id', true)->primary();
       $table->string('name');
-      $table->string('type', 50);
-      $table->enum('type_team', ['Khoản chi', 'Khoản', 'Khoản vay']);
+      $table->unsignedInteger('group_type_id');
+      $table->string('icon')->nullable();
+      $table->foreign('group_type_id')->references('group_type_id')->on('group_types')->onDelete('cascade');
     });
   }
 

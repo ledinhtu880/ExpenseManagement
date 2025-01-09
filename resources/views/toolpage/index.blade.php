@@ -2,6 +2,7 @@
 @extends('layouts.master')
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
         .tools-container {
             padding: 20px;
         }
+
         .tool-card {
             border: 1px solid #eee;
             border-radius: 10px;
@@ -21,20 +23,24 @@
             background: white;
             cursor: pointer;
         }
+
         .tool-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             border-color: #007bff;
         }
+
         .tool-icon {
             font-size: 24px;
             margin-right: 15px;
             color: #007bff;
         }
+
         .tool-header {
             display: flex;
             align-items: center;
         }
+
         .back-button {
             margin: 20px;
             padding: 8px 15px;
@@ -44,9 +50,11 @@
             cursor: pointer;
             transition: all 0.3s;
         }
+
         .back-button:hover {
             background: #e9ecef;
         }
+
         .page-title {
             color: #333;
             margin: 20px;
@@ -56,13 +64,13 @@
         }
     </style>
 </head>
+
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <div class="content-wrapper">
             <button class="back-button">
                 <i class="fas fa-arrow-left"></i> Quay lại
             </button>
-            
             <h2 class="page-title">Công cụ</h2>
 
             <div class="tools-container">
@@ -75,7 +83,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-6">
                         <div class="tool-card" data-tool="bank">
                             <div class="tool-header">
@@ -125,11 +133,8 @@
                 // Handle tool click
                 console.log(`Opening ${tool} tool`);
             });
-
-            $('.back-button').click(function() {
-                window.history.back();
-            });
         });
     </script>
 </body>
+
 </html>
