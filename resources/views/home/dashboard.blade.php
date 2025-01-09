@@ -169,7 +169,7 @@
                                                 <div class="modal-header">
                                                     <button type="button"
                                                         class="btn btn-link text-primary-color p-0 text-decoration-none"
-                                                        data-bs-="modal">
+                                                        data-bs-="modal" data-bs-toggle="modal">
                                                         <i class="fa-solid fa-arrow-left me-2"></i>
                                                         <span class="fw-bold">Thông tin giao dịch</span>
                                                     </button>

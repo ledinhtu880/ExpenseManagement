@@ -88,9 +88,15 @@
                                 <div class="p-1" style="min-width: 80px;">
                                     <div class="h4 text-center m-0"><i class="fa-solid fa-calendar"></i></div>
                                 </div>
-                                <select name="date" id="date" class="form-select form-select-lg shadow-none">
-                                    <option default selected value="default">Chon khoang thoi gian</option>
-                                </select>
+                                <form id="formBudget">
+                                    <select name="date" id="date" class="form-select form-select-lg shadow-none">
+                                        <option value="" disabled selected>Chọn khoảng thời gian</option>
+                                        <option value="week">Tuần này</option>
+                                        <option value="month">Tháng này</option>
+                                        <option value="quarter">Quý này</option>
+                                        <option value="year">Năm này</option>
+                                    </select>
+                                </form>
                             </div>
                             <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
                                 <div class="p-1" style="min-width: 80px;">
@@ -122,3 +128,56 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"
+        integrity="sha512-hUhvpC5f8cgc04OZb55j0KNGh4eh7dLxd/dPSJ5VyzqDWxsayYbojWyl5Tkcgrmb/RVKCRJI1jNlRbVP4WWC4w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function() {
+            const $dateSelect = $('#date');
+            const $startDate = $('<input>').attr({
+                type: 'hidden',
+                name: 'start_date',
+                id: 'start_date'
+            });
+            const $endDate = $('<input>').attr({
+                type: 'hidden',
+                name: 'end_date',
+                id: 'end_date'
+            });
+
+            $('#formBudget').append($startDate, $endDate);
+
+            $dateSelect.on('change', function() {
+                const period = $(this).val();
+                let start, end;
+
+                switch (period) {
+                    case 'week':
+                        start = moment().startOf('week');
+                        end = moment().endOf('week');
+                        break;
+                    case 'month':
+                        start = moment().startOf('month');
+                        end = moment().endOf('month');
+                        break;
+                    case 'quarter':
+                        start = moment().startOf('quarter');
+                        end = moment().endOf('quarter');
+                        break;
+                    case 'year':
+                        start = moment().startOf('year');
+                        end = moment().endOf('year');
+                        break;
+                }
+
+                $startDate.val(start.format('YYYY-MM-DD'));
+                $endDate.val(end.format('YYYY-MM-DD'));
+
+                console.log($startDate);
+                console.log($startDate);
+            });
+        });
+    </script>
+@endpush
