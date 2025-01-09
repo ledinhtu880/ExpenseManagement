@@ -3,6 +3,21 @@
 @section('title', 'Tài khoản')
 
 @section('content')
+    <section class="content-header p-0 mb-3">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Tài khoản</h1>
+                </div>
+                {{-- <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item active">Widgets</li>
+              </ol>
+          </div> --}}
+            </div>
+        </div>
+    </section>
     <div class="container-fluid">
         <div class="user-panel d-flex align-items-center justify-content-start gap-3 mb-3">
             <img src="{{ Auth::user()->gender == 0 ? asset('images/default-avatar-male.svg') : asset('images/default-avatar-female.svg') }}"

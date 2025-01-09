@@ -75,12 +75,26 @@ def check_student_info(input_name, image_path):
 
 def select_image():
     root = Tk()
-    root.withdraw()
-    file_path = filedialog.askopenfilename(
-        title="Chon anh",
-        filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")]
-    )
-    return file_path
+    root.withdraw()  # Hide the main window
+    
+    try:
+        file_path = filedialog.askopenfilename(
+            title="Chon anh",
+            filetypes=[("Image Files", "*.png;*.jpg;*.jpeg")],
+            initialdir="~/",  # Start in home directory
+        )
+        
+        if file_path and os.path.isfile(file_path):
+            return file_path
+        else:
+            print("Không có file nào được chọn")
+            return None
+            
+    except Exception as e:
+        print(f"Lỗi khi mở file: {e}")
+        return None
+    finally:
+        root.destroy()
 
 if __name__ == "__main__":
     input_name = "Đoàn Phương Hà"

@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BankBranchController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\BudgetController;
 
 // Route cho màn hình Loading
 Route::get('/loading', function () {
@@ -58,18 +59,25 @@ Route::middleware('checkLogin')->group(function () {
     Route::put('profile/{id}', [AccountController::class, 'update'])->name('update');
   });
 
-  // Route lien quan den AccountController
+  // Route lien quan den TransactionController
   Route::group(['prefix' => 'transactions/', 'as' => 'transactions.'], function () {
     Route::post('store', [TransactionController::class, 'store'])->name('store');
     Route::put('update/{id}', [TransactionController::class, 'update'])->name('update');
     Route::delete('{id}', [TransactionController::class, 'destroy'])->name('destroy');
   });
 
-  // Route lien quan den AccountController
+  // Route lien quan den WalletController
   Route::group(['prefix' => 'wallets/', 'as' => 'wallets.'], function () {
     Route::post('store', [WalletController::class, 'store'])->name('store');
     Route::put('update/{id}', [WalletController::class, 'update'])->name('update');
     Route::delete('{id}', [WalletController::class, 'destroy'])->name('destroy');
+  });
+
+  // Route lien quan den BudgetController
+  Route::group(['prefix' => 'budgets/', 'as' => 'budgets.'], function () {
+    Route::post('store', [BudgetController::class, 'store'])->name('store');
+    Route::put('update/{id}', [BudgetController::class, 'update'])->name('update');
+    Route::delete('{id}', [BudgetController::class, 'destroy'])->name('destroy');
   });
 
   //Route cho tim kiem chi nhanh

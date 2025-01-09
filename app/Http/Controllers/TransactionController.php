@@ -77,7 +77,6 @@ class TransactionController extends Controller
   }
   public function update(Request $request, $id)
   {
-
     // Validate input
     $validator = Validator::make($request->all(), [
       'amount' => 'required|numeric|min:0',

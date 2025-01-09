@@ -39,15 +39,15 @@
     <!-- Main Sidebar Container -->
     @include('layouts.sidebar')
     <!-- Content Wrapper. Contains page content -->
-    <main class="content-wrapper bg-white p-3">
+    <main class="content-wrapper bg-white">
         @if (request()->routeIs('home.account') || request()->routeIs('accounts.*') || request()->routeIs('bank-branches.index'))
         @else
-            <header class="mb-3">
+            <header>
                 @include('layouts.header')
             </header>
         @endif
 
-        <article class="content">
+        <article class="content p-3">
             @yield('content')
         </article>
     </main>

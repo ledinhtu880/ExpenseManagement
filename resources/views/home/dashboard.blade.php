@@ -3,6 +3,21 @@
 @section('title', 'Tổng quan')
 
 @section('content')
+    <section class="content-header p-0 mb-3">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Tổng quan</h1>
+                </div>
+                {{-- <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Widgets</li>
+                    </ol>
+                </div> --}}
+            </div>
+        </div>
+    </section>
     <div class="container-fluid">
         <div class="card rounded-3 border-primary-color">
             <div class="card-body">
