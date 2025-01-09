@@ -3,6 +3,15 @@
 @section('title', 'Sổ giao dịch')
 
 @section('content')
+    <section class="content-header p-0 mb-3">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Ngân sách</h1>
+                </div>
+            </div>
+        </div>
+    </section>
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">

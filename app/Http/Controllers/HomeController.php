@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\GroupType;
 use App\Models\User;
+use App\Models\Budget;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -60,7 +62,15 @@ class HomeController extends Controller
   public function indexBudget()
   {
     $user = User::find(Auth::user()->user_id);
-    return view('home.budget', compact('user'));
+    $today = Carbon::today();
+    $currentBudgets = Budget::where('user_id', Auth::id())
+      ->where('start_date', '<=', $today)
+      ->where('end_date', '>=', $today)
+      ->with(['category'])
+      ->get();
+    $categories = Category::all();
+    $groupTypes = GroupType::all();
+    return view('home.budget', compact('user', 'currentBudgets', 'categories', 'groupTypes'));
   }
   public function indexAccount()
   {

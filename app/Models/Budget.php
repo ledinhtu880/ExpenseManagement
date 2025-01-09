@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Helpers\Helper;
 
 class Budget extends Model
 {
   use HasFactory;
   protected $primaryKey = 'budget_id';
+  public $timestamps = false;
   protected $fillable = [
     'user_id',
     'category_id',
@@ -32,7 +34,8 @@ class Budget extends Model
   }
   public function getFormattedAmountAttribute()
   {
-    return number_format($this->amount, 0, ',', '.') . ' VND';
+    $rate = Helper::getExchangeRate($this->user->currency);
+    return number_format($this->amount * $rate, 0, ',', '.') . ' ' . $this->user->currency;
   }
   public function getFormattedStartDateAttribute()
   {
@@ -41,5 +44,28 @@ class Budget extends Model
   public function getFormattedEndDateAttribute()
   {
     return Carbon::parse($this->end_date)->format('d/m/Y');
+  }
+  public function getRemainingValueAttribute()
+  {
+    // Get total transactions for this budget's category & date range
+    $totalTransactions = Transaction::where('category_id', $this->category_id)
+      ->whereBetween('date', [$this->start_date, $this->end_date])
+      ->sum('amount');
+
+    // Return remaining amount
+    return $this->amount - $totalTransactions;
+  }
+
+  public function getProgressAttribute()
+  {
+    $spent = $this->amount - $this->getRemainingValueAttribute();
+    return min(($spent / $this->amount) * 100, 100);
+  }
+
+  public function getFormattedRemainingValueAttribute()
+  {
+    $rate = Helper::getExchangeRate($this->user->currency);
+    $remainingInLocalCurrency = $this->getRemainingValueAttribute() * $rate;
+    return number_format($remainingInLocalCurrency, 0, ',', '.') . ' ' . $this->user->currency;
   }
 }
