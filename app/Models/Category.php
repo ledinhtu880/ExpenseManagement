@@ -13,6 +13,7 @@ class Category extends Model
     'name',
     'group_type_id',
   ];
+  public $timestamps = false;
 
   public function budgets()
   {

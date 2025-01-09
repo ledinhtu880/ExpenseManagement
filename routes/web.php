@@ -7,6 +7,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BankBranchController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\WalletController;
 
 // Route cho màn hình Loading
@@ -75,4 +76,7 @@ Route::middleware('checkLogin')->group(function () {
   //Route cho tim kiem chi nhanh
   Route::get('/bank-branches', [BankBranchController::class, 'index'])->name('bank-branches.index');
   Route::post('/bank-branches', [BankBranchController::class, 'search'])->name('bank-branches.search');
+
+  Route::view('/chat', 'chat');
+  Route::post('/chatbot/create-transaction', [ChatBotController::class, 'createTransaction']);
 });

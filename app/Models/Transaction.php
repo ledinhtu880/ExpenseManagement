@@ -10,7 +10,6 @@ use App\Helpers\Helper;
 class Transaction extends Model
 {
   use HasFactory;
-
   protected $primaryKey = 'transaction_id';
   public $timestamps = false;
 
