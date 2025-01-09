@@ -1,11 +1,16 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\BankBranchController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\WalletController;
 
@@ -13,10 +18,20 @@ use App\Http\Controllers\WalletController;
 Route::get('/loading', function () {
   return view('home.loading');
 })->name('loading');
+Route::get('/loading', function () {
+  return view('home.loading');
+})->name('loading');
 
 // Route cho Home
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+Route::get('/', function () {
+  if (Auth::check()) {
+    return redirect()->route('home.dashboard');
+  } else {
+    return redirect()->route('loading');
+  }
+});
 Route::get('/', function () {
   if (Auth::check()) {
     return redirect()->route('home.dashboard');
@@ -61,4 +76,10 @@ Route::middleware('checkLogin')->group(function () {
     Route::put('update/{id}', [WalletController::class, 'update'])->name('update');
     Route::delete('{id}', [WalletController::class, 'destroy'])->name('destroy');
   });
+
+
+
+//Route cho tim kiem chi nhanh
+Route::get('/bank-branches', [BankBranchController::class, 'index'])->name('bank-branches.index');
+Route::post('/bank-branches', [BankBranchController::class, 'search'])->name('bank-branches.search');
 });
