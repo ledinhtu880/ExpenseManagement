@@ -24,25 +24,28 @@ class OpenAIService
         $this->client = OpenAI::factory()->withHttpClient($httpClient)->make();
     }
 
-    public function generateTransaction($input)
-    {
-        $response = $this->client->chat()->create([
-            'model' => 'gpt-3.5-turbo', // Thay đổi mô hình
-            'messages' => [
-                [
-                    'role' => 'system',
-                    'content' => 'You are a financial assistant helping users to generate transactions.',
-                ],
-                [
-                    'role' => 'user',
-                    'content' => "Generate a transaction based on the following user input: $input",
-                ],
-            ],
-            'max_tokens' => 150,
-            'temperature' => 0.7,
-        ]);
-
-        return $response['choices'][0]['message']['content'];
-    }
+    public function generateTransaction($message) {
+        // Format the system prompt to generate the desired response format
+        $systemPrompt = "You are a financial transaction assistant. Analyze the user's message and return transaction details in this exact format:
+Transaction generated:
+- Date: YYYY-MM-DD (if not provided, use today's date)
+- Description: [brief description]
+- Category: [category name]
+- Amount: [amount] VND (if not provided, return an error message)
     
+Categories must be one of: Ăn uống, Mua sắm, Di chuyển, Giáo dục, Quà tặng & Quyên góp, Hóa đơn & Tiện ích, Gia đình, Sức khỏe, Giải trí, Bảo hiểm, Đầu tư, Các chi phí khác, Tiền chuyển đi, Trả lãi, Chưa phân loại, Lương,
+Thu nhập khác, Tiền chuyển đến, Thu lãi, Cho vay, Đi vay, Trả nợ, Thu nợ, etc.
+Always include all four elements in the exact order shown above.";
+    
+        // Your existing OpenAI API call logic here
+        $response = $this->client->chat()->create([
+            'model' => 'gpt-3.5-turbo',
+            'messages' => [
+                ['role' => 'system', 'content' => $systemPrompt],
+                ['role' => 'user', 'content' => $message]
+            ]
+        ]);
+    
+        return $response->choices[0]->message->content;
+    }
 }
