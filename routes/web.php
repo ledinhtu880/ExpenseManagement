@@ -1,34 +1,63 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\CurrencyController;
-use App\Http\Controllers\Auth\Register2Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\BankBranchController;
 
 Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
 
 // Route cho màn hình Loading
-Route::get('/loading', function () {return view('loading');})->name('loading');
+Route::get('/loading', function () {
+  return view('home.loading');
+})->name('loading');
 
 // Route cho Home
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-// Route gốc (/) chuyển hướng đến màn hình loading
-Route::get('/', function () {return redirect()->route('loading');});
+Route::get('/', function () {
+  if (Auth::check()) {
+    return redirect()->route('home.dashboard');
+  } else {
+    return redirect()->route('loading');
+  }
+});
 
-// Route cho form đầu tiên: Register
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', function () {return redirect()->route('register2');})->name('register.submit');
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'handleRegister']);
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'handleLogin']);
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/register2', [Register2Controller::class, 'showRegister2Form'])->name('register2');
-Route::post('/register2', function () {return redirect()->route('login');})->name('register2.submit');
+Route::middleware('checkLogin')->group(function () {
+  Route::get('/currency', [AuthController::class, 'indexCurrency'])->name('home.currency');
+  Route::post('/currency', [AuthController::class, 'updateCurrency'])->name('home.currency.update');
 
-// Route cho Login Form
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
+  // Route lien quan den HomeController
+  Route::get('/budget', [HomeController::class, 'indexBudget'])->name('home.budget');
+  Route::get('/account', [HomeController::class, 'indexAccount'])->name('home.account');
+  Route::get('/transaction', [HomeController::class, 'indexTransaction'])->name('home.transaction');
+  Route::get('/dashboard', [HomeController::class, 'indexDashboard'])->name('home.dashboard');
 
-Route::get('/currency', [CurrencyController::class, 'show'])->name('currency');
-Route::post('/currency', [CurrencyController::class, 'store'])->name('currency.submit');
+  // Route lien quan den AccountController
+  Route::group(['prefix' => 'accounts/', 'as' => 'accounts.'], function () {
+    Route::get('', [AccountController::class, 'index'])->name('index');
+    Route::get('profile', [AccountController::class, 'edit'])->name('edit');
+    Route::put('profile/{id}', [AccountController::class, 'update'])->name('update');
+  });
+
+  // Route lien quan den AccountController
+  Route::group(['prefix' => 'transactions/', 'as' => 'transactions.'], function () {
+    Route::post('store', [TransactionController::class, 'store'])->name('store');
+    Route::put('update/{id}', [TransactionController::class, 'update'])->name('update');
+    Route::delete('{id}', [TransactionController::class, 'destroy'])->name('destroy');
+  });
+});
+
+//Route cho tim kiem chi nhanh
+Route::get('/bank-branches', [BankBranchController::class, 'index'])->name('bank-branches.index');
+Route::post('/bank-branches', [BankBranchController::class, 'search'])->name('bank-branches.search');
