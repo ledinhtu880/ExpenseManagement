@@ -241,6 +241,10 @@
                     <i style="width: 25px;" class="mr-1 fas fa-university"></i>
                     Liên kết ngân hàng
                 </a>
+                <a class="list-group-item text-dark text-lg text-medium" href="{{ route('bank-branches.index') }}">
+                    <i style="width: 25px;" class="mr-1 fas fa-location-crosshairs"></i>
+                    Tìm kiếm ngân hàng
+                </a>
                 <a class="list-group-item text-dark text-lg text-medium" href="#">
                     <i style="width: 25px;" class="mr-1 fas fa-bell"></i>
                     Sự kiện

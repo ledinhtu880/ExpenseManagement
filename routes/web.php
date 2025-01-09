@@ -1,15 +1,10 @@
 <?php
 
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\AccountController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\AuthController;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\GroupController;
-use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\BankBranchController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\WalletController;
@@ -77,9 +72,7 @@ Route::middleware('checkLogin')->group(function () {
     Route::delete('{id}', [WalletController::class, 'destroy'])->name('destroy');
   });
 
-
-
-//Route cho tim kiem chi nhanh
-Route::get('/bank-branches', [BankBranchController::class, 'index'])->name('bank-branches.index');
-Route::post('/bank-branches', [BankBranchController::class, 'search'])->name('bank-branches.search');
+  //Route cho tim kiem chi nhanh
+  Route::get('/bank-branches', [BankBranchController::class, 'index'])->name('bank-branches.index');
+  Route::post('/bank-branches', [BankBranchController::class, 'search'])->name('bank-branches.search');
 });

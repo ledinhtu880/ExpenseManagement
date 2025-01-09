@@ -71,7 +71,10 @@ class User extends Authenticatable
   {
     return Carbon::parse($this->birthday)->age;
   }
-
+  public function getIdAttribute()
+  {
+    return $this->user_id;
+  }
   public function getFormattedGenderAttribute()
   {
     return $this->gender == 0 ? "Nam" : "Nữ";
@@ -90,8 +93,6 @@ class User extends Authenticatable
 
     return number_format($total, 0, ',', '.') . ' ' . $this->currency;
   }
-
-
   public function topWallets($limit = 3)
   {
     return $this->wallets()->orderBy('balance', 'desc')->take($limit)->get();
