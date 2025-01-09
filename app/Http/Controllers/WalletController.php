@@ -15,21 +15,47 @@ class WalletController extends Controller
 
   public function store(Request $request)
   {
+    $request->validate([
+      'name' => 'required|string|max:255',
+      'amount' => 'required'
+    ]);
+
     try {
       DB::beginTransaction();
 
+      // Convert amount to USD
+      $userCurrency = Auth::user()->currency;
+      $rate = Helper::getExchangeRate($userCurrency);
+      $amountUSD = $request->amount / $rate;
+
+      // Create wallet
+      $wallet = Wallet::create([
+        'name' => $request->name,
+        'balance' => $amountUSD,
+        'user_id' => Auth::id()
+      ]);
+
+      // Create initial balance transaction
+      $categoryId = $amountUSD >= 0 ? 25 : 26; // 25=Initial Balance Income, 26=Initial Balance Expense
+
+      Transaction::create([
+        'wallet_id' => $wallet->id,
+        'category_id' => $categoryId,
+        'amount' => abs($amountUSD),
+        'date' => now(),
+        'note' => 'Người dùng tạo ví'
+      ]);
+
       DB::commit();
-
       return redirect()->back()
-        ->with('message', 'Thêm ví thành côn!')
-        ->with('type', 'success');
+        ->with('message', 'Cập nhật ví thành công!')
+        ->with('type', 'success')->withStatus(200);
     } catch (\Exception $e) {
-      Log::error('Error in WalletController@store', ['error' => $e->getMessage()]);
-
       DB::rollBack();
+      Log::error('Error in WalletController@store', ['error' => $e->getMessage()]);
       return redirect()->back()
-        ->with('message', 'Không tạo được ví. Vui lòng thử lại')
-        ->with('type', 'danger');
+        ->with('message', 'Không tạo được ví. Vui lòng thử lại!')
+        ->with('type', 'danger')->withStatus(500);
     }
   }
   public function update(Request $request, $id)
