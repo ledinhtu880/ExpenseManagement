@@ -23,6 +23,7 @@ class User extends Authenticatable
     'isPremium',
     'identify_card',
     'password',
+    'isStudent',
   ];
   protected $hidden = [
     'password',

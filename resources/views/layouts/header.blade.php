@@ -7,6 +7,47 @@
         <div class="text-muted text-sm">Tổng số dư</div>
     </div>
     <div class="d-flex align-items-center justify-content gap-3">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-lg text-primary-color" data-bs-toggle="modal"
+            data-bs-target="#exampleModal">
+            <i class="fa-solid fa-dollar-sign" style="font-size: 34px;"></i>
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thay đổi tiền tệ</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formChangeCurrency" method="POST" action="{{ route('home.currency.update') }}">
+                            @csrf
+                            <div class="mb-3">
+                                @php
+                                    $currencies = [
+                                        'VND' => '🇻🇳 Việt Nam Đồng',
+                                        'USD' => '🇺🇸 Đô la Mỹ',
+                                        'EUR' => '🇪🇺 Euro',
+                                        // Thêm các loại tiền tệ khác nếu cần
+                                    ];
+                                @endphp <select class="form-select" id="currency" name="currency" required>
+                                    @foreach ($currencies as $code => $name)
+                                        <option value="{{ $code }}" {{ $user->currency == $code ? 'selected' : '' }}>
+                                            {{ $name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" class="btn btn-primary-color" id="btnUpdateCurrency" >Lưu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <button class="btn">
             <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -18,3 +59,14 @@
             class="img-circle" width="50" alt="User Image">
     </div>
 </div>
+
+@push('js')
+    <script>
+        $(document).ready(function () {
+            let updateBtn = $("#btnUpdateCurrency");
+            updateBtn.on("click", function(){
+                $("#formChangeCurrency").submit();
+            })
+        })
+    </script>
+@endpush

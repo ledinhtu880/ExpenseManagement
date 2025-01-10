@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\AccountUpdateRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
@@ -44,19 +43,92 @@ class AccountController extends Controller
     try {
       $user = User::find($id);
 
-      $data = $request->except(['identify_card']);
+      // Validate the request
+      $validatedData = $request->validate([
+        'birthday' => 'required|date',
+        'gender' => 'required|in:0,1',
+        'identify_card' => 'nullable|string|max:12',
+        'isStudent' => 'nullable|file|mimes:jpeg,png,jpg|max:2048'
+      ]);
 
-      if ($request->identify_card !== 'Chưa có thông tin') {
+      // Prepare data for update
+      $data = [
+        'birthday' => $request->birthday,
+        'gender' => $request->gender,
+      ];
+
+      // Handle identify_card update
+      if ($request->identify_card !== 'Chưa có thông tin' && !$user->identify_card) {
         $data['identify_card'] = $request->identify_card;
       }
 
+      // Handle student verification if file is uploaded
+      if ($request->hasFile('isStudent')) {
+        try {
+          $file = $request->file('isStudent');
+
+          // Create HTTP client
+          $client = new \GuzzleHttp\Client();
+
+          // Prepare multipart form data
+          $formData = [
+            [
+              'name' => 'image',
+              'contents' => fopen($file->getPathname(), 'r'),
+              'filename' => $file->getClientOriginalName()
+            ],
+            [
+              'name' => 'name',
+              'contents' => $user->name
+            ]
+          ];
+
+          // Send request to Python API
+          $response = $client->post('http://localhost:5000/verify-student', [
+            'multipart' => $formData,
+            'timeout' => 30, // Add timeout of 30 seconds
+          ]);
+
+          // Parse JSON response
+          $result = json_decode($response->getBody(), true);
+
+          if (!$result || !isset($result['success'])) {
+            throw new Exception("Invalid API response");
+          }
+
+          if (!$result['success']) {
+            throw new Exception($result['message']);
+          }
+
+          // Update isStudent status based on verification result
+          $data['isStudent'] = $result['is_valid'] ? 1 : 0;
+
+          // If verification failed, throw an exception with the message
+          if (!$result['is_valid']) {
+            throw new Exception($result['message']);
+          }
+
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+          Log::error("API request error: " . $e->getMessage());
+          throw new Exception("Lỗi kết nối đến server xác thực");
+        } catch (Exception $e) {
+          Log::error("Student verification error: " . $e->getMessage());
+          throw new Exception("Lỗi xác thực sinh viên: " . $e->getMessage());
+        }
+      }
+
+      // Perform the update
       $user->update($data);
-      return redirect()->route('accounts.edit')
+
+      return redirect()->back()
         ->with('type', 'success')
-        ->with('message', 'Cập nhật thông tin người dùng thành công');
+        ->with('message', 'Cập nhật thông tin người dùng thành công.');
+
     } catch (Exception $e) {
       Log::error("Error in AccountController@update: " . $e->getMessage());
-      return back()->with('error', $e->getMessage());
+      return redirect()->back()
+        ->with('type', 'danger')
+        ->with('message', 'Có lỗi xảy ra: ' . $e->getMessage());
     }
   }
   public function createPaymentLink(Request $request)
