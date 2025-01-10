@@ -22,6 +22,7 @@ class User extends Authenticatable
     'birthday',
     'identify_card',
     'password',
+    'isStudent',
   ];
   protected $hidden = [
     'password',

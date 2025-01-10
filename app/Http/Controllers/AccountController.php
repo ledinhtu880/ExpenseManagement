@@ -23,61 +23,93 @@ class AccountController extends Controller
   {
     try {
       $user = User::find($id);
-      $data = $request->except(['identify_card', 'isStudent']);
 
-      if ($request->identify_card !== 'Chưa có thông tin') {
+      // Validate the request
+      $validatedData = $request->validate([
+        'birthday' => 'required|date',
+        'gender' => 'required|in:0,1',
+        'identify_card' => 'nullable|string|max:12',
+        'isStudent' => 'nullable|file|mimes:jpeg,png,jpg|max:2048'
+      ]);
+
+      // Prepare data for update
+      $data = [
+        'birthday' => $request->birthday,
+        'gender' => $request->gender,
+      ];
+
+      // Handle identify_card update
+      if ($request->identify_card !== 'Chưa có thông tin' && !$user->identify_card) {
         $data['identify_card'] = $request->identify_card;
       }
 
+      // Handle student verification if file is uploaded
       if ($request->hasFile('isStudent')) {
         try {
-            $file = $request->file('isStudent');
-            $filePath = $file->storeAs('temp', uniqid() . '_' . $file->getClientOriginalName(), 'public');
-            $fullImagePath = storage_path('app/public/' . $filePath);
-    
-            $pythonPath = escapeshellarg("C:\\Users\\Lenovo\\AppData\\Local\\Programs\\Python\\Python39\\python.exe");
-            $scriptPath = escapeshellarg(base_path('python/detection.py'));
-            $userName = escapeshellarg($user->name);
-            $imagePath = escapeshellarg($fullImagePath);
-    
-            $command = "$pythonPath $scriptPath $userName $imagePath 2>&1";
-            
-            $output = shell_exec($command);
-            Log::info("Python script raw output: " . $output);
-    
-            $result = json_decode($output, true);
-    
-            if (is_null($result)) {
-                throw new Exception("Invalid JSON response from Python script");
-            }
-    
-            if (!$result['success']) {
-                throw new Exception($result['message']);
-            }
-    
-            if ($result['is_valid']) {
-                $data['isStudent'] = 1;
-            } else {
-                throw new Exception($result['message']);
-            }
-    
-            if (file_exists($fullImagePath)) {
-                unlink($fullImagePath);
-            }
-    
-        } catch (Exception $e) {
-            Log::error("Student card verification error: " . $e->getMessage());
-            throw new Exception("Lỗi khi xử lý thẻ sinh viên: " . $e->getMessage());
-        }
-    }
+          $file = $request->file('isStudent');
 
-      // Cập nhật thông tin người dùng
+          // Create HTTP client
+          $client = new \GuzzleHttp\Client();
+
+          // Prepare multipart form data
+          $formData = [
+            [
+              'name' => 'image',
+              'contents' => fopen($file->getPathname(), 'r'),
+              'filename' => $file->getClientOriginalName()
+            ],
+            [
+              'name' => 'name',
+              'contents' => $user->name
+            ]
+          ];
+
+          // Send request to Python API
+          $response = $client->post('http://localhost:5000/verify-student', [
+            'multipart' => $formData,
+            'timeout' => 30, // Add timeout of 30 seconds
+          ]);
+
+          // Parse JSON response
+          $result = json_decode($response->getBody(), true);
+
+          if (!$result || !isset($result['success'])) {
+            throw new Exception("Invalid API response");
+          }
+
+          if (!$result['success']) {
+            throw new Exception($result['message']);
+          }
+
+          // Update isStudent status based on verification result
+          $data['isStudent'] = $result['is_valid'] ? 1 : 0;
+
+          // If verification failed, throw an exception with the message
+          if (!$result['is_valid']) {
+            throw new Exception($result['message']);
+          }
+
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+          Log::error("API request error: " . $e->getMessage());
+          throw new Exception("Lỗi kết nối đến server xác thực");
+        } catch (Exception $e) {
+          Log::error("Student verification error: " . $e->getMessage());
+          throw new Exception("Lỗi xác thực sinh viên: " . $e->getMessage());
+        }
+      }
+
+      // Perform the update
       $user->update($data);
-      return redirect()->back()->with('type', 'success')
+
+      return redirect()->back()
+        ->with('type', 'success')
         ->with('message', 'Cập nhật thông tin người dùng thành công.');
+
     } catch (Exception $e) {
       Log::error("Error in AccountController@update: " . $e->getMessage());
-      return redirect()->back()->with('type', 'danger')->with('message', 'Có lỗi xảy ra: ' . $e->getMessage());
+      return redirect()->back()
+        ->with('type', 'danger')
+        ->with('message', 'Có lỗi xảy ra: ' . $e->getMessage());
     }
   }
 }
