@@ -54,7 +54,7 @@ Route::middleware('checkLogin')->group(function () {
   Route::get('/dashboard', [HomeController::class, 'indexDashboard'])->name('home.dashboard');
 
   // Route lien quan den AccountController
-  Route::group(['prefix' => 'accounts/', 'as' => 'accounts.'], function () {
+  Route::group(['prefix' => 'accounts', 'as' => 'accounts.'], function () {
     Route::get('', [AccountController::class, 'index'])->name('index');
     Route::get('profile', [AccountController::class, 'edit'])->name('edit');
     Route::put('profile/{id}', [AccountController::class, 'update'])->name('update');
@@ -64,21 +64,21 @@ Route::middleware('checkLogin')->group(function () {
 
 
   // Route lien quan den TransactionController
-  Route::group(['prefix' => 'transactions/', 'as' => 'transactions.'], function () {
+  Route::group(['prefix' => 'transactions', 'as' => 'transactions.'], function () {
     Route::post('store', [TransactionController::class, 'store'])->name('store');
     Route::put('update/{id}', [TransactionController::class, 'update'])->name('update');
     Route::delete('{id}', [TransactionController::class, 'destroy'])->name('destroy');
   });
 
   // Route lien quan den WalletController
-  Route::group(['prefix' => 'wallets/', 'as' => 'wallets.'], function () {
+  Route::group(['prefix' => 'wallets', 'as' => 'wallets.'], function () {
     Route::post('store', [WalletController::class, 'store'])->name('store');
     Route::put('update/{id}', [WalletController::class, 'update'])->name('update');
     Route::delete('{id}', [WalletController::class, 'destroy'])->name('destroy');
   });
 
   // Route lien quan den BudgetController
-  Route::group(['prefix' => 'budgets/', 'as' => 'budgets.'], function () {
+  Route::group(['prefix' => 'budgets', 'as' => 'budgets.'], function () {
     Route::post('store', [BudgetController::class, 'store'])->name('store');
     Route::put('update/{id}', [BudgetController::class, 'update'])->name('update');
     Route::delete('{id}', [BudgetController::class, 'destroy'])->name('destroy');
@@ -89,15 +89,14 @@ Route::middleware('checkLogin')->group(function () {
   Route::post('/bank-branches', [BankBranchController::class, 'search'])->name('bank-branches.search');
 
   // Route lien quan den ChatbotController
-  Route::group(['prefix' => 'chat/', 'as' => 'chat.'], function () {
-    Route::get('', [ChatbotController::class, 'showChat'])->name('show');
+  Route::middleware(['checkPremium'])->group(function () {
+    Route::group(['prefix' => 'chat', 'as' => 'chat.'], function () {
     Route::post('create-transaction', [ChatbotController::class, 'createTransaction'])->name('createTransaction');
     Route::get('history', [ChatBotController::class, 'getChatHistory'])->name('history');
   });
+});
 
   Route::middleware(['checkPermission'])->group(function () {
-    Route::group(['prefix' => 'admin/', 'as' => 'admin.'], function () {
-      Route::get('', [HomeController::class, 'indexAdmin'])->name('show');
-    });
+  Route::get('admin', [HomeController::class, 'indexAdmin'])->name('home.admin');
   });
 });

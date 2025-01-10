@@ -20,6 +20,6 @@ class CheckPermission
         }
 
         // Redirect or return unauthorized access
-        return redirect()->route('home')->with('type', 'danger')->with('message', 'Bạn không có quyền truy cập!');
+        return redirect()->route('dashboard')->with('type', 'danger')->with('message', 'Bạn không có quyền truy cập!');
     }
 }

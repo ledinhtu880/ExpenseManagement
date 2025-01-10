@@ -48,6 +48,7 @@
             </div>
         </div>
         <!-- Chat Modal Button -->
+        @if (Auth::check() && Auth::user()->isPremium == 1)
         <button class="btn" data-bs-toggle="modal" data-bs-target="#chatModal">
             <svg width="39" height="34" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -83,6 +84,7 @@
                 </div>
             </div>
         </div>
+        @endif
 
         <a href="{{ route('accounts.edit') }}">
             <img src="{{ Auth::user()->gender == 0 ? asset('images/default-avatar-male.svg') : asset('images/default-avatar-female.svg') }}"

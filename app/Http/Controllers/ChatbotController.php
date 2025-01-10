@@ -21,13 +21,6 @@ class ChatbotController extends Controller
   {
     $this->openAIService = $openAIService;
   }
-  public function showChat()
-  {
-    $userId = Auth::user()->user_id;
-    $chatLogs = ChatBotLog::where('user_id', $userId)->orderBy('created_at', 'asc')->get();
-
-    return view('chat', compact('chatLogs'));
-  }
   public function createTransaction(Request $request)
   {
     $userId = Auth::user()->user_id;

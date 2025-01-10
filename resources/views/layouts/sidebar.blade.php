@@ -44,8 +44,8 @@
                     </a>
                 </li>
                 <li class="nav-item text-center">
-                    <a href="{{ route('home.account') }}"
-                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('admin.*') ? ' active' : '' }}">
+                    <a href="{{ route('home.admin') }}"
+                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('home.admin') ? ' active' : '' }}">
                         THỐNG KÊ
                     </a>
                 </li>

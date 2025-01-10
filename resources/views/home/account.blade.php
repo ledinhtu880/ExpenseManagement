@@ -3,21 +3,6 @@
 @section('title', 'Tài khoản')
 
 @section('content')
-    <section class="content-header p-0 mb-3">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Tài khoản</h1>
-                </div>
-                {{-- <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active">Widgets</li>
-              </ol>
-          </div> --}}
-            </div>
-        </div>
-    </section>
     <div class="container-fluid">
         <div class="user-panel d-flex align-items-center justify-content-start gap-3 mb-3">
             <img src="{{ Auth::user()->gender == 0 ? asset('images/default-avatar-male.svg') : asset('images/default-avatar-female.svg') }}"
@@ -46,6 +31,8 @@
                     Tìm kiếm ngân hàng
                 </a>
 
+                @if(Auth::user()->isPremium == 1)
+                @else
                 <a href="#" type="button" class="list-group-item text-dark text-lg text-medium"
                     data-bs-toggle="modal" data-bs-target="#upgradeAccount">
                     <i style="width: 25px;" class="mr-1 fas fa-star"></i>
@@ -100,24 +87,12 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 <a class="list-group-item text-dark text-lg text-medium" href="#">
                     <i style="width: 25px;" class="mr-1 fas fa-calendar-check"></i>
                     Giao dịch định kỳ
                 </a>
-                <a class="list-group-item text-dark text-lg text-medium" href="#">
-                    <i style="width: 25px;" class="mr-1 fas fa-cog"></i>
-                    Cài đặt
-                </a>
-                <a class="list-group-item text-dark text-lg text-medium" href="#">
-                    <i style="width: 25px;" class="mr-1 fas fa-headset"></i>
-                    Hỗ trợ
-                </a>
-                <a class="list-group-item text-dark text-lg text-medium" href="#">
-                    <i style="width: 25px;" class="mr-1 fas fa-info-circle"></i>
-                    Giới thiệu
-                </a>
-
-                {{-- <a class="list-group-item text-dark text-lg text-medium" href="#">
+                 <a class="list-group-item text-dark text-lg text-medium" href="#">
                     <i style="width: 25px;" class="mr-1 fas fa-university"></i>
                     Liên kết ngân hàng
                 </a> 
@@ -144,7 +119,19 @@
                 <a class="list-group-item text-dark text-lg text-medium" href="#">
                     <i style="width: 25px;" class="mr-1 fas fa-store"></i>
                     Cửa hàng
-                </a> --}}
+                </a>
+                <a class="list-group-item text-dark text-lg text-medium" href="#">
+                    <i style="width: 25px;" class="mr-1 fas fa-cog"></i>
+                    Cài đặt
+                </a>
+                <a class="list-group-item text-dark text-lg text-medium" href="#">
+                    <i style="width: 25px;" class="mr-1 fas fa-headset"></i>
+                    Hỗ trợ
+                </a>
+                <a class="list-group-item text-dark text-lg text-medium" href="#">
+                    <i style="width: 25px;" class="mr-1 fas fa-info-circle"></i>
+                    Giới thiệu
+                </a>
             </ul>
         </nav>
     </div>
