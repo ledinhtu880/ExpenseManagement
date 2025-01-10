@@ -77,4 +77,9 @@ class HomeController extends Controller
     $user = User::find(Auth::user()->user_id);
     return view('home.account', compact('user'));
   }
+  public function indexAdmin()
+  {
+    $user = User::find(Auth::user()->user_id);
+    return view('admin.index', compact('user'));
+  }
 }

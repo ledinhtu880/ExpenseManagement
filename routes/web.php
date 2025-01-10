@@ -94,4 +94,10 @@ Route::middleware('checkLogin')->group(function () {
     Route::post('create-transaction', [ChatbotController::class, 'createTransaction'])->name('createTransaction');
     Route::get('history', [ChatBotController::class, 'getChatHistory'])->name('history');
   });
+
+  Route::middleware(['checkPermission'])->group(function () {
+    Route::group(['prefix' => 'admin/', 'as' => 'admin.'], function () {
+      Route::get('', [HomeController::class, 'indexAdmin'])->name('show');
+    });
+  });
 });

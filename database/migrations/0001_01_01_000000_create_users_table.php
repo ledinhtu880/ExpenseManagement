@@ -17,6 +17,7 @@ return new class extends Migration
       $table->string('email', 40)->unique();
       $table->boolean('isStudent')->default('0');
       $table->boolean('isPremium')->default('0');
+      $table->boolean('isAdmin')->default('0');
       $table->boolean('gender'); // 0 - M, 1 - F
       $table->date('birthday');
       $table->string('identify_card')->unique()->nullable();

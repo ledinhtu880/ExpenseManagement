@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Auth\AccountUpdateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use App\Models\User;
 use Exception;
 use PayOS\PayOS;
@@ -12,7 +13,6 @@ use PayOS\PayOS;
 class AccountController extends Controller
 {
   private $payOS;
-  private $orderCode;
   public function __construct()
   {
     $this->payOS = new PayOS(
@@ -107,7 +107,6 @@ class AccountController extends Controller
           if (!$result['is_valid']) {
             throw new Exception($result['message']);
           }
-
         } catch (\GuzzleHttp\Exception\RequestException $e) {
           Log::error("API request error: " . $e->getMessage());
           throw new Exception("Lỗi kết nối đến server xác thực");
@@ -123,7 +122,6 @@ class AccountController extends Controller
       return redirect()->back()
         ->with('type', 'success')
         ->with('message', 'Cập nhật thông tin người dùng thành công.');
-
     } catch (Exception $e) {
       Log::error("Error in AccountController@update: " . $e->getMessage());
       return redirect()->back()
@@ -148,7 +146,6 @@ class AccountController extends Controller
 
     try {
       $response = $this->payOS->createPaymentLink($data);
-      $orderCode = $response['orderCode'];
       return response()->json([
         'success' => true,
         'checkoutUrl' => $response['checkoutUrl']

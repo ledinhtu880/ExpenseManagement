@@ -93,26 +93,37 @@
                             <!-- Footer của Modal -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Để sau</button>
-                                <button class="btn btn-primary-color btn-lg" type="submit" id="btnCreatePayment">
+                                <button class="btn btn-primary-color" type="submit" id="btnCreatePayment">
                                     Nâng cấp ngay
-                                    </form>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <a class="list-group-item text-dark text-lg text-medium" href="#">
+                    <i style="width: 25px;" class="mr-1 fas fa-calendar-check"></i>
+                    Giao dịch định kỳ
+                </a>
+                <a class="list-group-item text-dark text-lg text-medium" href="#">
+                    <i style="width: 25px;" class="mr-1 fas fa-cog"></i>
+                    Cài đặt
+                </a>
+                <a class="list-group-item text-dark text-lg text-medium" href="#">
+                    <i style="width: 25px;" class="mr-1 fas fa-headset"></i>
+                    Hỗ trợ
+                </a>
+                <a class="list-group-item text-dark text-lg text-medium" href="#">
+                    <i style="width: 25px;" class="mr-1 fas fa-info-circle"></i>
+                    Giới thiệu
+                </a>
 
                 {{-- <a class="list-group-item text-dark text-lg text-medium" href="#">
                     <i style="width: 25px;" class="mr-1 fas fa-university"></i>
                     Liên kết ngân hàng
-                </a> --}}
-                {{-- <a class="list-group-item text-dark text-lg text-medium" href="#">
+                </a> 
+                <a class="list-group-item text-dark text-lg text-medium" href="#">
                     <i style="width: 25px;" class="mr-1 fas fa-bell"></i>
                     Sự kiện
-                </a>
-                <a class="list-group-item text-dark text-lg text-medium" href="#">
-                    <i style="width: 25px;" class="mr-1 fas fa-calendar-check"></i>
-                    Giao dịch định kỳ
                 </a>
                 <a class="list-group-item text-dark text-lg text-medium" href="#">
                     <i style="width: 25px;" class="mr-1 fas fa-file-invoice"></i>
@@ -133,18 +144,6 @@
                 <a class="list-group-item text-dark text-lg text-medium" href="#">
                     <i style="width: 25px;" class="mr-1 fas fa-store"></i>
                     Cửa hàng
-                </a>
-                <a class="list-group-item text-dark text-lg text-medium" href="#">
-                    <i style="width: 25px;" class="mr-1 fas fa-headset"></i>
-                    Hỗ trợ
-                </a>
-                <a class="list-group-item text-dark text-lg text-medium" href="#">
-                    <i style="width: 25px;" class="mr-1 fas fa-cog"></i>
-                    Cài đặt
-                </a>
-                <a class="list-group-item text-dark text-lg text-medium" href="#">
-                    <i style="width: 25px;" class="mr-1 fas fa-info-circle"></i>
-                    Giới thiệu
                 </a> --}}
             </ul>
         </nav>

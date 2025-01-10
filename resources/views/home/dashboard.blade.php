@@ -24,15 +24,19 @@
                 <div class="d-flex gap-2 align-items-between justify-content-center flex-column">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="text-md fw-bold m-0">Ví của tôi</h5>
-                        <a href="#" class="text-primary-color text-sm fw-bold">Xem tất cả</a>
+                        <a href="#" type="button" data-bs-toggle="modal" data-bs-target="#walletsModal"
+                            class="text-primary-color text-sm fw-bold">Xem tất cả</a>
                     </div>
+                    <!-- List wallets -->
+                    @include('components.list-wallet')
+                    {{-- /. list wallets --}}
                     <div class="line"></div>
                     <div class="d-flex justify-content-between align-items-start flex-column gap-3">
                         @foreach ($user->topWallets() as $wallet)
                             <div class="d-flex align-items-center justify-content-between w-100">
                                 <div class="d-flex gap-3 align-items-center justify-content-center">
-                                    <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                        class="img-circle elevation-2" width="30" alt="Wallet icon">
+                                    <img src="{{ asset('images/icon.jpg') }}" class="img-circle elevation-2" width="30"
+                                        alt="Wallet icon">
                                     <span class="text-lg fw-semibold">{{ $wallet->name }}</span>
                                 </div>
                                 <h5 class="text-lg fw-semibold m-0">{{ $wallet->formatted_balance }}</h5>
@@ -107,8 +111,8 @@
                             @foreach ($user->getWeeklyCategoryExpenses() as $expense)
                                 <div class="list-group-item border-0 bg-body-secondary rounded-4">
                                     <div class="d-flex justify-content-between align-items-center gap-3">
-                                        <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                            class="img-circle elevation-2" width="80" alt="Category Image">
+                                        <img src="{{ asset('images/icon.jpg') }}" class="img-circle elevation-2"
+                                            width="80" alt="Category Image">
                                         <div class="d-flex align-items-between justify-content-center flex-column">
                                             <h6>{{ $expense['name'] }}</h6>
                                             <strong class="text-muted">{{ $expense['total'] }}</strong>
@@ -128,8 +132,8 @@
                             @foreach ($user->getMonthlyCategoryExpenses() as $expense)
                                 <div class="list-group-item border-0 bg-body-secondary rounded-4 mb-3">
                                     <div class="d-flex justify-content-between align-items-center gap-3">
-                                        <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                            class="img-circle elevation-2" width="80" alt="Category Image">
+                                        <img src="{{ asset('images/icon.jpg') }}" class="img-circle elevation-2"
+                                            width="80" alt="Category Image">
                                         <div class="d-flex align-items-between justify-content-center flex-column">
                                             <h6>{{ $expense['name'] }}</h6>
                                             <strong class="text-muted">{{ $expense['total'] }}</strong>
@@ -163,8 +167,8 @@
                             @foreach ($user->getTodayTransactions() as $transaction)
                                 <div class="list-group-item border-0 bg-body-secondary rounded-4">
                                     <div class="d-flex justify-content-between align-items-center gap-3">
-                                        <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                            class="img-circle elevation-2" width="80" alt="User Image">
+                                        <img src="{{ asset('images/icon.jpg') }}" class="img-circle elevation-2"
+                                            width="80" alt="User Image">
                                         <div class="d-flex align-items-between justify-content-center flex-column">
                                             <h6>{{ $transaction->category->name }}</h6>
                                             <strong class="text-muted">{{ $transaction->formatted_amount }}</strong>
@@ -201,7 +205,7 @@
                                                             <div class="transaction-details">
                                                                 <div class="d-flex justify-content-start gap-3 pb-3 border-bottom"
                                                                     style="border-bottom-color: var(--primary-color) !important">
-                                                                    <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                                                    <img src="{{ asset('images/icon.jpg') }}"
                                                                         class="img-circle elevation-2" width="60"
                                                                         alt="User Image" style="min-width: 80px;">
                                                                     <div>
@@ -332,7 +336,7 @@
                                                                 </div>
                                                                 <div
                                                                     class="d-flex justify-content-center align-items-center gap-3 mb-3">
-                                                                    <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                                                    <img src="{{ asset('images/icon.jpg') }}"
                                                                         class="img-circle elevation-2" width="60"
                                                                         alt="User Image" style="min-width: 80px;">
                                                                     <input type="hidden" name="category_id"

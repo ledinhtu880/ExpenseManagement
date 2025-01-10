@@ -11,8 +11,8 @@
                     onblur="if(this.value==''){this.value='0'}">
             </div>
             <div class="form-group d-flex justify-content-center align-items-center gap-3 mb-3">
-                <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg" class="img-circle elevation-2"
-                    width="60" alt="User Image" style="min-width: 80px;">
+                <img src="{{ asset('images/icon.jpg') }}" class="img-circle elevation-2" width="60" alt="User Image"
+                    style="min-width: 80px;">
                 <input type="hidden" name="category_id" id="category_id" value="default">
                 <button type="button" id="categorySelector" class="form-control form-control-lg text-start shadow-none"
                     data-bs-toggle="modal" data-bs-target="#selectCategory">

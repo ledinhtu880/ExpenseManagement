@@ -12,7 +12,7 @@ use Carbon\Carbon;
 
 class BudgetController extends Controller
 {
-  private function getNextPeriodDates($currentStart, $currentEnd, $periodType)
+  private function getNextPeriodDates($currentEnd, $periodType)
   {
     $start = Carbon::parse($currentEnd)->addDay();
 
@@ -67,12 +67,11 @@ class BudgetController extends Controller
 
     try {
       DB::beginTransaction();
-
       // Create current budget
       Budget::create([
         'category_id' => $request->category_id,
         'wallet_id' => $request->wallet_id,
-        'amount' => $request->amount,
+        'amount' => $this->getExchangeRate($request->amount, 'USD'),
         'start_date' => $request->start_date,
         'end_date' => $request->end_date,
         'user_id' => Auth::id()
@@ -81,7 +80,6 @@ class BudgetController extends Controller
       // Create repeating budget if enabled
       if ($request->repeat_budget) {
         $nextPeriod = $this->getNextPeriodDates(
-          $request->start_date,
           $request->end_date,
           $request->date
         );
@@ -107,5 +105,19 @@ class BudgetController extends Controller
         ->with('message', 'Không tạo được ngân sách. Vui lòng thử lại!')
         ->with('type', 'danger');
     }
+  }
+  protected function getExchangeRate($fromCurrency, $toCurrency)
+  {
+    $exchangeRates = [
+      'USD' => 1,
+      'VND' => 25000,
+      'EUR' => 0.96,
+    ];
+
+    if ($fromCurrency === $toCurrency) {
+      return 1;
+    }
+
+    return $exchangeRates[$fromCurrency] / $exchangeRates[$toCurrency];
   }
 }

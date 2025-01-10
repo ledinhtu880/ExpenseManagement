@@ -31,7 +31,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Ngân sách đáng áp dụng</h1>
+                    <h1>Ngân sách đang áp dụng</h1>
                 </div>
                 {{-- <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
@@ -48,8 +48,8 @@
                 <div class="d-flex flex-column gap-3">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center justify-content-center gap-3">
-                            <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                class="img-circle elevation-2" width="60" alt="User Image">
+                            <img src="{{ asset('images/icon.jpg') }}" class="img-circle elevation-2" width="60"
+                                alt="User Image">
                             <h5 class="h5 mb-0">{{ $budget->category->name }}</h5>
                         </div>
                         <div class="d-flex align-items-end justify-content-center flex-column gap-1">
@@ -94,9 +94,8 @@
                             <form id="formTransaction" method="POST" action="{{ route('budgets.store') }}">
                                 @csrf
                                 <div class="form-group d-flex justify-content-center align-items-center gap-3 mb-3">
-                                    <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
-                                        class="img-circle elevation-2" width="60" alt="User Image"
-                                        style="min-width: 80px;">
+                                    <img src="{{ asset('images/icon.jpg') }}" class="img-circle elevation-2" width="60"
+                                        alt="User Image" style="min-width: 80px;">
                                     <input type="hidden" name="category_id" id="category_id" value="default">
                                     <button type="button" id="categorySelector"
                                         class="form-control form-control-lg text-start shadow-none" data-bs-toggle="modal"

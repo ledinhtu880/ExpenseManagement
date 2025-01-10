@@ -84,7 +84,7 @@
                                             @foreach ($each->listTransactions as $transaction)
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <div class="d-flex align-items-center justify-content-center gap-3">
-                                                        <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                                        <img src="{{ asset('images/icon.jpg') }}"
                                                             class="img-circle elevation-2" width="60" alt="User Image">
                                                         <h5 class="h5 mb-0">{{ $transaction->category->name }}</h5>
                                                     </div>
@@ -149,9 +149,11 @@
                                     <div class="card-body">
                                         <div class="d-flex flex-column gap-2">
                                             @foreach ($each->listTransactions as $transaction)
-                                                <div class="d-flex align-items-center justify-content-between">
+                                                <button class="btn d-flex align-items-center justify-content-between"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#showTransaction-{{ $transaction->id }}">
                                                     <div class="d-flex align-items-center justify-content-center gap-3">
-                                                        <img src="https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg"
+                                                        <img src="{{ asset('images/icon.jpg') }}"
                                                             class="img-circle elevation-2" width="60"
                                                             alt="User Image">
                                                         <h5 class="h5 mb-0">{{ $transaction->category->name }}</h5>
@@ -160,10 +162,93 @@
                                                         class="h5 mb-0 {{ $transaction->groupType->name === 'Khoản chi' ? 'text-danger' : 'text-success' }}">
                                                         {{ $transaction->formatted_amount }}
                                                     </h5>
-                                                </div>
+                                                </button>
                                                 @if (!$loop->last)
                                                     <div class="line"></div>
                                                 @endif
+
+
+                                                <!-- Detail transaction modal -->
+                                                <div class="modal fade" id="showTransaction-{{ $transaction->id }}"
+                                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                                    aria-labelledby="showTransaction-{{ $transaction->id }}Label"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button"
+                                                                    class="btn btn-link text-primary-color p-0 text-decoration-none"
+                                                                    data-bs-="modal" data-bs-toggle="modal">
+                                                                    <i class="fa-solid fa-arrow-left me-2"></i>
+                                                                    <span class="fw-bold">Thông tin giao dịch</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <!-- Transaction form content -->
+                                                                <div
+                                                                    class="card rounded-3 border-primary-color shadow-none">
+                                                                    <div class="card-body">
+                                                                        <div class="transaction-details">
+                                                                            <div class="d-flex justify-content-start gap-3 pb-3 border-bottom"
+                                                                                style="border-bottom-color: var(--primary-color) !important">
+                                                                                <img src="{{ asset('images/icon.jpg') }}"
+                                                                                    class="img-circle elevation-2"
+                                                                                    width="60" alt="User Image"
+                                                                                    style="min-width: 80px;">
+                                                                                <div>
+                                                                                    <h4 class="m-0">
+                                                                                        {{ $transaction->category->name }}
+                                                                                    </h4>
+                                                                                    <h6
+                                                                                        class="m-0 {{ $transaction->groupType->name === 'Khoản chi' ? 'text-danger' : 'text-success' }}">
+                                                                                        {{ $transaction->formatted_amount }}
+                                                                                    </h6>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                class="d-flex justify-content-start align-items-center gap-3">
+                                                                                <div class="p-1"
+                                                                                    style="min-width: 80px;">
+                                                                                    <div class="h4 text-center m-0"><i
+                                                                                            class="fa-solid fa-note-sticky"></i>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <p class="m-0 text-lg">
+                                                                                    {{ $transaction->note }}
+                                                                                </p>
+                                                                            </div>
+                                                                            <div
+                                                                                class="d-flex justify-content-start align-items-center gap-3">
+                                                                                <div class="p-1"
+                                                                                    style="min-width: 80px;">
+                                                                                    <div class="h4 text-center m-0"><i
+                                                                                            class="fa-solid fa-calendar"></i>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <p class="m-0 text-lg">
+                                                                                    {{ $transaction->formatted_date }}
+                                                                                </p>
+                                                                            </div>
+                                                                            <div
+                                                                                class="d-flex justify-content-start align-items-center gap-3">
+                                                                                <div class="p-1"
+                                                                                    style="min-width: 80px;">
+                                                                                    <div class="h4 text-center m-0"><i
+                                                                                            class="fa-solid fa-wallet"></i>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <p class="m-0 text-lg">
+                                                                                    {{ $transaction->wallet->name }}
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{-- /. detail transaction modal --}}
                                             @endforeach
                                         </div>
                                     </div>
@@ -185,7 +270,7 @@
     <script>
         // Constants
         const CONFIG = {
-            DEFAULT_USER_IMAGE: 'https://adminlte.io/themes/v3/dist/img/user2-160x160.jpg',
+            DEFAULT_USER_IMAGE: '{{ asset('images/icon.jpg') }}',
             EXPENSE_TYPE: 'Khoản chi',
             ENDPOINTS: {
                 TRANSACTIONS: '{{ route('home.transaction') }}'

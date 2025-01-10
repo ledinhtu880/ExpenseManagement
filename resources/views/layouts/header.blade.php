@@ -2,7 +2,6 @@
     <div class="d-flex flex-column justify-content-start">
         <div class="d-flex align-items-center justify-content-start gap-2">
             <h4 class="text-lg fw-semibold m-0">{{ Auth::user()->total_balance }}</h4>
-            {{-- <span class="text-sm"><i class="fa-solid fa-eye"></i></span> --}}
         </div>
         <div class="text-muted text-sm">Tổng số dư</div>
     </div>
@@ -85,8 +84,10 @@
             </div>
         </div>
 
-        <img src="{{ Auth::user()->gender == 0 ? asset('images/default-avatar-male.svg') : asset('images/default-avatar-female.svg') }}"
-            class="img-circle" width="50" alt="User Image">
+        <a href="{{ route('accounts.edit') }}">
+            <img src="{{ Auth::user()->gender == 0 ? asset('images/default-avatar-male.svg') : asset('images/default-avatar-female.svg') }}"
+                class="img-circle" width="50" alt="User Image">
+        </a>
     </div>
 </div>
 

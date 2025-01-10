@@ -43,13 +43,19 @@
                         TÀI KHOẢN
                     </a>
                 </li>
+                <li class="nav-item text-center">
+                    <a href="{{ route('home.account') }}"
+                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('admin.*') ? ' active' : '' }}">
+                        THỐNG KÊ
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
 
-    <a href="#"
+    <a href="{{ route('logout') }}"
         class="position-absolute start-0 end-0 bottom-0 py-3 text-white text-uppercase fw-bold text-center">
         <i class="position-absolute top-50 start-0 ms-3 translate-middle fa-solid fa-arrow-right-from-bracket"></i>
         <span class="mx-auto">Đăng xuất</span>

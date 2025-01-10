@@ -11,10 +11,6 @@ class WalletModal extends Component
   {
     $this->user = $user;
   }
-
-  /**
-   * Get the view / contents that represent the component.
-   */
   public function render()
   {
     return view('components.wallet-modal');
