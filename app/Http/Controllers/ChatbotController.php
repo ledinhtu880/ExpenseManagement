@@ -33,75 +33,99 @@ class ChatbotController extends Controller
     $userId = Auth::user()->user_id;
     $userCurrency = Auth::user()->currency;
     $message = $request->input('message');
+    $response = null; // Initialize response variable
 
     // Log user message
     ChatBotLog::create([
       'user_id' => $userId,
       'message' => $message,
       'is_bot' => false,
-      'created_at' => now(),
+      'created_at' => now()
     ]);
 
     try {
-      DB::beginTransaction();
+      DB::beginTransaction(); // Start transaction at beginning
 
       // Get bot response
-      $response = $this->openAIService->generateTransaction($message);
-      $transactionData = $this->parseTransactionResponse($response);
+      $response = $this->openAIService->processMessage($message);
 
-      if (!$transactionData['category_id']) {
-        throw new \Exception("Category không hợp lệ hoặc không tồn tại");
-      }
+      // Check if response is transaction related
+      if (str_contains($response, 'Transaction generated:')) {
+        $transactionData = $this->parseTransactionResponse($response);
 
-      // Convert amount and apply sign based on category type
-      $category = Category::find($transactionData['category_id']);
-      $amount = $transactionData['amount'];
+        if (!$transactionData['category_id']) {
+          throw new \Exception("Category không hợp lệ hoặc không tồn tại");
+        }
 
-      if ($category->group_type == 1 || $category->group_type == 3) {
-        $amount = -abs($amount);
-      }
+        // Convert amount and apply sign based on category type
+        $category = Category::find($transactionData['category_id']);
+        if (!$category) {
+          throw new \Exception("Không tìm thấy danh mục");
+        }
 
-      $amountInUSD = $amount / $this->getExchangeRate($userCurrency, 'USD');
-      $date = Carbon::createFromFormat('Y-m-d', $transactionData['date']);
+        $amount = $transactionData['amount'];
+        if ($category->group_type == 1 || $category->group_type == 3) {
+          $amount = -abs($amount);
+        }
 
-      // Create transaction ONCE
-      $transaction = Transaction::create([
-        'category_id' => $transactionData['category_id'],
-        'wallet_id' => $transactionData['wallet_id'],
-        'amount' => $amountInUSD,
-        'date' => $date,
-        'note' => $transactionData['note'],
-      ]);
+        $amountInUSD = $amount / $this->getExchangeRate($userCurrency, 'USD');
+        $date = Carbon::createFromFormat('Y-m-d', $transactionData['date']);
 
-      // Update wallet balance
-      $wallet = Wallet::find($transactionData['wallet_id']);
-      $wallet->balance += $amountInUSD;
-      $wallet->save();
-
-      // Log bot response with explicit is_bot = true
-      Log::info("Bot Response: " . $response); // Debug log
-      ChatBotLog::create([
-        'user_id' => $userId,
-        'message' => $response,
-        'is_bot' => true, // Explicitly set to true
-        'created_at' => now(),
-      ]);
-
-      DB::commit();
-
-      return response()->json([
-        'message' => $response,
-        'data' => [
-          'id' => $transaction->id,
+        // Create transaction
+        $transaction = Transaction::create([
+          'category_id' => $transactionData['category_id'],
+          'wallet_id' => $transactionData['wallet_id'],
           'amount' => $amountInUSD,
-          'date' => $transaction->date->format('Y-m-d')
-        ]
-      ]);
+          'date' => $date,
+          'note' => $transactionData['note'],
+        ]);
+
+        // Update wallet balance
+        $wallet = Wallet::find($transactionData['wallet_id']);
+        if (!$wallet) {
+          throw new \Exception("Không tìm thấy ví");
+        }
+        $wallet->balance += $amountInUSD;
+        $wallet->save();
+
+        // Log bot response
+        ChatBotLog::create([
+          'user_id' => $userId,
+          'message' => $response,
+          'is_bot' => true,
+          'created_at' => now()
+        ]);
+
+        DB::commit();
+
+        return response()->json([
+          'message' => $response,
+          'data' => [
+            'id' => $transaction->id,
+            'amount' => $amountInUSD,
+            'date' => $transaction->date->format('Y-m-d')
+          ]
+        ]);
+      } else {
+        // Just log chat response
+        ChatBotLog::create([
+          'user_id' => $userId,
+          'message' => $response,
+          'is_bot' => true,
+          'created_at' => now()
+        ]);
+
+        DB::commit();
+
+        return response()->json([
+          'message' => $response
+        ]);
+      }
     } catch (\Exception $e) {
       DB::rollBack();
-      Log::error("Lỗi khi tạo giao dịch: " . $e->getMessage());
+      Log::error("Error in createTransaction: " . $e->getMessage());
       return response()->json([
-        'error' => "Không thể tạo giao dịch: " . $e->getMessage(),
+        'error' => "Không thể xử lý: " . $e->getMessage()
       ], 400);
     }
   }
