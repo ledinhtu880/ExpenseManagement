@@ -95,7 +95,7 @@
                                     </div>
                                     <input type="number" name="amount" id="amount"
                                         class="form-control form-control-lg shadow-none border-top-0 border-left-0 border-right-0"
-                                        value="{{ $wallet->balance }}">
+                                        value="{{ $wallet->balance_after_convert }}">
                                 </div>
                             </form>
                         </div>

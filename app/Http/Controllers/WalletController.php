@@ -75,11 +75,13 @@ class WalletController extends Controller
       $userCurrency = Auth::user()->currency;
       $rate = $this->getExchangeRate($userCurrency, 'USD');
       $newBalanceUSD = $request->amount / $rate;
+      Log::info('Hello', [$wallet]);
+      
 
       // Create balance adjustment transaction
       if ($newBalanceUSD != $currentBalance) {
         $adjustmentAmount = abs($newBalanceUSD - $currentBalance);
-        $categoryId = ($newBalanceUSD > $currentBalance) ? 99 : 100; // 99=Income, 100=Expense
+        $categoryId = ($newBalanceUSD > $currentBalance) ? 25 : 26; // 99=Income, 100=Expense
 
         Transaction::create([
           'wallet_id' => $wallet->id,

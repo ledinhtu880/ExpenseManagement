@@ -131,7 +131,8 @@ class AccountController extends Controller
   }
   public function createPaymentLink(Request $request)
   {
-    $user = Auth::user();
+    try {
+      $user = Auth::user();
     $YOUR_DOMAIN = $request->getSchemeAndHttpHost();
 
     $amount = $user->isStudent == 1 ? 48000 : 60000;
@@ -144,8 +145,8 @@ class AccountController extends Controller
       "cancelUrl" => $YOUR_DOMAIN . "/account"
     ];
 
-    try {
       $response = $this->payOS->createPaymentLink($data);
+      Log::info("Response from PayOS: " . json_encode($response));
       return response()->json([
         'success' => true,
         'checkoutUrl' => $response['checkoutUrl']
