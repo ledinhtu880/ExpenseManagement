@@ -57,7 +57,10 @@ Route::middleware('checkLogin')->group(function () {
     Route::get('', [AccountController::class, 'index'])->name('index');
     Route::get('profile', [AccountController::class, 'edit'])->name('edit');
     Route::put('profile/{id}', [AccountController::class, 'update'])->name('update');
+    Route::post('createPaymentLink', [AccountController::class, 'createPaymentLink'])->name('createPaymentLink');
+    Route::get('handlePaymentSuccess', [AccountController::class, 'handlePaymentSuccess'])->name('handlePaymentSuccess');
   });
+
 
   // Route lien quan den TransactionController
   Route::group(['prefix' => 'transactions/', 'as' => 'transactions.'], function () {

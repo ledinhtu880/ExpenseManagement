@@ -8,9 +8,28 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use Exception;
+use PayOS\PayOS;
 
 class AccountController extends Controller
 {
+  private $payOS;
+  private $orderCode;
+  public function __construct()
+  {
+    $this->payOS = new PayOS(
+      env("PAYOS_CLIENT_ID"),
+      env("PAYOS_API_KEY"),
+      env("PAYOS_CHECKSUM_KEY")
+    );
+  }
+  public static function handleException(\Throwable $th)
+  {
+    return response()->json([
+      "error" => $th->getCode(),
+      "message" => $th->getMessage(),
+      "data" => null
+    ]);
+  }
   public function index()
   {
     return view('account.index');
@@ -38,6 +57,52 @@ class AccountController extends Controller
     } catch (Exception $e) {
       Log::error("Error in AccountController@update: " . $e->getMessage());
       return back()->with('error', $e->getMessage());
+    }
+  }
+  public function createPaymentLink(Request $request)
+  {
+    $user = Auth::user();
+    $YOUR_DOMAIN = $request->getSchemeAndHttpHost();
+
+    $amount = $user->isStudent == 1 ? 48000 : 60000;
+
+    $data = [
+      "orderCode" => intval(substr(strval(microtime(true) * 10000), -6)),
+      "amount" => $amount,
+      "description" => "Nâng cấp tài khoản",
+      "returnUrl" => $YOUR_DOMAIN . "/accounts/handlePaymentSuccess",
+      "cancelUrl" => $YOUR_DOMAIN . "/account"
+    ];
+
+    try {
+      $response = $this->payOS->createPaymentLink($data);
+      $orderCode = $response['orderCode'];
+      return response()->json([
+        'success' => true,
+        'checkoutUrl' => $response['checkoutUrl']
+      ]);
+    } catch (\Throwable $th) {
+      return PayosController::handleException($th);
+    }
+  }
+  public function handlePaymentSuccess(Request $request)
+  {
+    try {
+      $isPaid = $request->get('status');
+      $user = User::find(Auth::user()->user_id);
+      if ($isPaid) {
+        $user->isPremium = true;
+        $user->save();
+      }
+
+      return redirect()->route('accounts.index')
+        ->with('type', 'success')
+        ->with('message', 'Nâng cấp tài khoản thành công');
+    } catch (Exception $e) {
+      Log::error("Loi tu verify: " . $e->getMessage());
+      return redirect()->route('accounts.index')
+        ->with('type', 'danger')
+        ->with('message', 'Có lỗi xảy ra, vui lòng thử lại sau');
     }
   }
 }

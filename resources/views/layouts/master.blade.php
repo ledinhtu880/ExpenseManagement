@@ -40,7 +40,7 @@
     @include('layouts.sidebar')
     <!-- Content Wrapper. Contains page content -->
     <main class="content-wrapper bg-white">
-        @if (request()->routeIs('home.account') || request()->routeIs('accounts.*') || request()->routeIs('bank-branches.index'))
+        @if (request()->routeIs('home.account') || request()->routeIs('accounts.*') || request()->routeIs('bank-branches.*'))
         @else
             <header>
                 @include('layouts.header')

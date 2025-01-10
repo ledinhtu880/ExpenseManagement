@@ -20,6 +20,7 @@ class User extends Authenticatable
     'email_education',
     'gender',
     'birthday',
+    'isPremium',
     'identify_card',
     'password',
   ];
