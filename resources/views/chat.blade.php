@@ -42,11 +42,12 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('#chat-form').submit(function (e) {
+        $(document).ready(function() {
+            $('#chat-form').submit(function(e) {
                 e.preventDefault();
                 const message = $('#message').val();
-                $('#chat-box').append(`<div class="message user-message"><strong>You:</strong> ${message}</div>`);
+                $('#chat-box').append(
+                    `<div class="message user-message"><strong>You:</strong> ${message}</div>`);
                 $('#message').val('');
 
                 // Send message to server
@@ -57,11 +58,15 @@
                         message: message,
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function (response) {
-                        $('#chat-box').append(`<div class="message bot-message"><strong>Bot:</strong> ${response.message}</div>`);
+                    success: function(response) {
+                        $('#chat-box').append(
+                            `<div class="message bot-message"><strong>Bot:</strong> ${response.message}</div>`
+                        );
                     },
-                    error: function () {
-                        $('#chat-box').append(`<div class="message bot-message"><strong>Bot:</strong> Something went wrong.</div>`);
+                    error: function() {
+                        $('#chat-box').append(
+                            `<div class="message bot-message"><strong>Bot:</strong> Something went wrong.</div>`
+                        );
                     }
                 });
             });

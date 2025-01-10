@@ -7,10 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class ChatBotLog extends Model
 {
   protected $table = 'chatbot_logs';
-    protected $primaryKey = 'log_id';
-    public $timestamps = false;
-    protected $fillable = [
-        'user_id',
-        'message',
-    ];
+  protected $primaryKey = 'log_id';
+  protected $fillable = [
+    'user_id',
+    'message',
+  ];
 }
