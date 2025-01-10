@@ -47,7 +47,7 @@ class AccountController extends Controller
       $validatedData = $request->validate([
         'birthday' => 'required|date',
         'gender' => 'required|in:0,1',
-        'identify_card' => 'nullable|string|max:12',
+        'identify_card' => 'nullable|string',
         'isStudent' => 'nullable|file|mimes:jpeg,png,jpg|max:2048'
       ]);
 
@@ -71,6 +71,7 @@ class AccountController extends Controller
           $client = new \GuzzleHttp\Client();
 
           // Prepare multipart form data
+          Log::info("Hello - 1");
           $formData = [
             [
               'name' => 'image',
@@ -83,25 +84,30 @@ class AccountController extends Controller
             ]
           ];
 
+          Log::info("Hello - 2");
           // Send request to Python API
           $response = $client->post('http://localhost:5000/verify-student', [
             'multipart' => $formData,
             'timeout' => 30, // Add timeout of 30 seconds
           ]);
 
+          Log::info("Hello - 3");
           // Parse JSON response
           $result = json_decode($response->getBody(), true);
 
           if (!$result || !isset($result['success'])) {
             throw new Exception("Invalid API response");
           }
+          Log::info("Hello - 4");
 
           if (!$result['success']) {
             throw new Exception($result['message']);
           }
 
+          Log::info("Hello - 5");
           // Update isStudent status based on verification result
           $data['isStudent'] = $result['is_valid'] ? 1 : 0;
+          Log::info("Hello - 5");
 
           // If verification failed, throw an exception with the message
           if (!$result['is_valid']) {
@@ -133,17 +139,17 @@ class AccountController extends Controller
   {
     try {
       $user = Auth::user();
-    $YOUR_DOMAIN = $request->getSchemeAndHttpHost();
+      $YOUR_DOMAIN = $request->getSchemeAndHttpHost();
 
-    $amount = $user->isStudent == 1 ? 48000 : 60000;
+      $amount = $user->isStudent == 1 ? 48000 : 60000;
 
-    $data = [
-      "orderCode" => intval(substr(strval(microtime(true) * 10000), -6)),
-      "amount" => $amount,
-      "description" => "Nâng cấp tài khoản",
-      "returnUrl" => $YOUR_DOMAIN . "/accounts/handlePaymentSuccess",
-      "cancelUrl" => $YOUR_DOMAIN . "/account"
-    ];
+      $data = [
+        "orderCode" => intval(substr(strval(microtime(true) * 10000), -6)),
+        "amount" => $amount,
+        "description" => "Nâng cấp tài khoản",
+        "returnUrl" => $YOUR_DOMAIN . "/accounts/handlePaymentSuccess",
+        "cancelUrl" => $YOUR_DOMAIN . "/account"
+      ];
 
       $response = $this->payOS->createPaymentLink($data);
       Log::info("Response from PayOS: " . json_encode($response));

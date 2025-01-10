@@ -72,9 +72,11 @@
         </div>
     @endforeach
     <!-- Button trigger modal -->
-    <button type="button" class="position-absolute btn btn-primary-color rounded-circle p-5" data-bs-toggle="modal"
-        data-bs-target="#addBudget" style="bottom: 50px; right: 50px;">
-        <i class="fa-solid fa-plus" style="font-size: 30px;"></i>
+    <button type="button"
+        class="btn btn-primary-color text-white rounded-circle d-flex align-items-center justify-content-center"
+        data-bs-toggle="modal" data-bs-target="#addBudget"
+        style="position: fixed; bottom: 30px; right: 30px; z-index: 999; width: 60px; height: 60px;">
+        <i class="fa-solid fa-plus" style="font-size: 24px;"></i>
     </button>
 
     <!-- Add budget -->

@@ -8,7 +8,7 @@ import os
 app = Flask(__name__)
 
 # Configure Tesseract path
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'D:\Apps\Tesseract-OCR\tesseract.exe'
 
 def extract_info_from_image(image_file):
     try:

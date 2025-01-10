@@ -81,7 +81,7 @@ class BudgetController extends Controller
       ]);
 
       Log::info("Hello");
-      
+
       // Create repeating budget if enabled
       if ($request->repeat_budget) {
         $nextPeriod = $this->getNextPeriodDates(
@@ -92,7 +92,7 @@ class BudgetController extends Controller
         Budget::create([
           'category_id' => $request->category_id,
           'wallet_id' => $request->wallet_id,
-          'amount' => $request->amount,
+          'amount' => $request->amount / $rate,
           'start_date' => $nextPeriod['start_date'],
           'end_date' => $nextPeriod['end_date'],
           'user_id' => Auth::id()

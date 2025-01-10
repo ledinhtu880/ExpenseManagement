@@ -28,6 +28,7 @@ class ChatbotController extends Controller
     $message = $request->input('message');
     $response = null; // Initialize response variable
 
+    DB::beginTransaction(); // Start transaction at beginning
     // Log user message
     ChatBotLog::create([
       'user_id' => $userId,
@@ -37,12 +38,8 @@ class ChatbotController extends Controller
     ]);
 
     try {
-      DB::beginTransaction(); // Start transaction at beginning
 
-      // Get bot response
       $response = $this->openAIService->processMessage($message);
-
-      // Check if response is transaction related
       if (str_contains($response, 'Transaction generated:')) {
         $transactionData = $this->parseTransactionResponse($response);
 
@@ -50,21 +47,19 @@ class ChatbotController extends Controller
           throw new \Exception("Category không hợp lệ hoặc không tồn tại");
         }
 
-        // Convert amount and apply sign based on category type
         $category = Category::find($transactionData['category_id']);
         if (!$category) {
           throw new \Exception("Không tìm thấy danh mục");
         }
 
         $amount = $transactionData['amount'];
-        if ($category->group_type == 1 || $category->group_type == 3) {
+        if ($category->group_type_id == 1 || $category->group_type_id == 3) {
           $amount = -abs($amount);
         }
 
         $amountInUSD = $amount / $this->getExchangeRate($userCurrency, 'USD');
         $date = Carbon::createFromFormat('Y-m-d', $transactionData['date']);
 
-        // Create transaction
         $transaction = Transaction::create([
           'category_id' => $transactionData['category_id'],
           'wallet_id' => $transactionData['wallet_id'],

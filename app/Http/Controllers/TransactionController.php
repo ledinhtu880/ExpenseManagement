@@ -67,7 +67,7 @@ class TransactionController extends Controller
       DB::commit();
 
       // Redirect or return response (you can adjust this based on your needs)
-      return redirect()->back()->with('message', 'Thêm giao dịch thành côn!')->with('type', 'success');
+      return redirect()->back()->with('message', 'Thêm giao dịch thành công!')->with('type', 'success');
     } catch (\Exception $e) {
       Log::error('Error in TransactionController@store', ['error' => $e->getMessage()]);
 

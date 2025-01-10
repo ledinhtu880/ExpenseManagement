@@ -17,7 +17,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tìm kiếm ngân hàng</h1>
+                    <h1>Tìm kiếm ATM/Bank</h1>
                 </div>
                 {{-- <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
@@ -88,7 +88,8 @@
             if ("geolocation" in navigator) {
                 navigator.geolocation.getCurrentPosition(
                     function(position) {
-                        initMap(position.coords.latitude, position.coords.longitude);
+                        initMap(21.01308565807955, 105.85670971630577);
+                        // initMap(defaultLatitude, defaultLongitude);
                     },
                     function(error) {
                         $.error("Lỗi khi lấy vị trí: " + error.message);
