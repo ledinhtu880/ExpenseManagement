@@ -46,15 +46,17 @@ class Budget extends Model
     return Carbon::parse($this->end_date)->format('d/m/Y');
   }
   public function getRemainingValueAttribute()
-  {
+{
     // Get total transactions for this budget's category & date range
-    $totalTransactions = Transaction::where('category_id', $this->category_id)
-      ->whereBetween('date', [$this->start_date, $this->end_date])
-      ->sum('amount');
+    $totalTransactions = Transaction::join('wallets', 'transactions.wallet_id', '=', 'wallets.wallet_id')
+        ->where('transactions.category_id', $this->category_id)
+        ->where('wallets.user_id', $this->user_id)
+        ->whereBetween('transactions.date', [$this->start_date, $this->end_date])
+        ->sum('transactions.amount');
 
     // Return remaining amount
     return $this->amount - $totalTransactions;
-  }
+}
 
   public function getProgressAttribute()
   {

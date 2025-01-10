@@ -47,4 +47,9 @@ class Wallet extends Model
   {
     return $this->wallet_id;
   }
+  public function getBalanceAfterConvertAttribute()
+  {
+    $rate = $this->getExchangeRate($this->user->currency);
+    return $this->balance * $rate;
+  }
 }

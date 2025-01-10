@@ -23,6 +23,6 @@ class CheckPremium
          }
  
          // Redirect or return unauthorized access
-         return redirect()->route('dashboard')->with('type', 'danger')->with('message', 'Bạn phải nâng cấp tài khoản mới sử dụng được chức năng này!');
+         return redirect()->route('home.dashboard')->with('type', 'danger')->with('message', 'Bạn phải nâng cấp tài khoản mới sử dụng được chức năng này!');
      }
 }

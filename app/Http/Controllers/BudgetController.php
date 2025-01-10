@@ -67,16 +67,21 @@ class BudgetController extends Controller
 
     try {
       DB::beginTransaction();
+      Log::info($request->amount);
       // Create current budget
+      $rate = $this->getExchangeRate(Auth::user()->currency, 'USD');
+      Log::info($rate);
       Budget::create([
         'category_id' => $request->category_id,
         'wallet_id' => $request->wallet_id,
-        'amount' => $this->getExchangeRate($request->amount, 'USD'),
+        'amount' => $request->amount / $rate,
         'start_date' => $request->start_date,
         'end_date' => $request->end_date,
         'user_id' => Auth::id()
       ]);
 
+      Log::info("Hello");
+      
       // Create repeating budget if enabled
       if ($request->repeat_budget) {
         $nextPeriod = $this->getNextPeriodDates(
