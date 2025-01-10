@@ -88,6 +88,10 @@ Route::middleware('checkLogin')->group(function () {
   Route::get('/bank-branches', [BankBranchController::class, 'index'])->name('bank-branches.index');
   Route::post('/bank-branches', [BankBranchController::class, 'search'])->name('bank-branches.search');
 
-  Route::get('/chat', [ChatbotController::class, 'showChat'])->name('chat.show');
-  Route::post('/chatbot/create-transaction', [ChatbotController::class, 'createTransaction'])->name('chat.createTransaction');
+  // Route lien quan den ChatbotController
+  Route::group(['prefix' => 'chat/', 'as' => 'chat.'], function () {
+    Route::get('', [ChatbotController::class, 'showChat'])->name('show');
+    Route::post('create-transaction', [ChatbotController::class, 'createTransaction'])->name('createTransaction');
+    Route::get('history', [ChatBotController::class, 'getChatHistory'])->name('history');
+  });
 });

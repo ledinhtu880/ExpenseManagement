@@ -31,9 +31,10 @@ class ChatbotController extends Controller
   public function createTransaction(Request $request)
   {
     $userId = Auth::user()->user_id;
+    $userCurrency = Auth::user()->currency;
     $message = $request->input('message');
 
-    // Lưu tin nhắn của người dùng
+    // Log user message
     ChatBotLog::create([
       'user_id' => $userId,
       'message' => $message,
@@ -43,6 +44,8 @@ class ChatbotController extends Controller
 
     try {
       DB::beginTransaction();
+
+      // Get bot response
       $response = $this->openAIService->generateTransaction($message);
       $transactionData = $this->parseTransactionResponse($response);
 
@@ -50,46 +53,47 @@ class ChatbotController extends Controller
         throw new \Exception("Category không hợp lệ hoặc không tồn tại");
       }
 
-      // Convert date to Carbon instance for proper database storage
+      // Convert amount and apply sign based on category type
+      $category = Category::find($transactionData['category_id']);
+      $amount = $transactionData['amount'];
+
+      if ($category->group_type == 1 || $category->group_type == 3) {
+        $amount = -abs($amount);
+      }
+
+      $amountInUSD = $amount / $this->getExchangeRate($userCurrency, 'USD');
       $date = Carbon::createFromFormat('Y-m-d', $transactionData['date']);
 
+      // Create transaction ONCE
       $transaction = Transaction::create([
         'category_id' => $transactionData['category_id'],
         'wallet_id' => $transactionData['wallet_id'],
-        'amount' => $transactionData['amount'],
+        'amount' => $amountInUSD,
         'date' => $date,
         'note' => $transactionData['note'],
       ]);
 
-      // Cập nhật số dư của ví
+      // Update wallet balance
       $wallet = Wallet::find($transactionData['wallet_id']);
-      $category = Category::find($transactionData['category_id']);
-
-      if ($category->group_type == 1 || $category->group_type == 3) {
-        // Khoản chi
-        $wallet->balance -= $transactionData['amount'];
-      } else {
-        // Khoản thu
-        $wallet->balance += $transactionData['amount'];
-      }
-
+      $wallet->balance += $amountInUSD;
       $wallet->save();
 
-      // Lưu phản hồi của bot
+      // Log bot response with explicit is_bot = true
+      Log::info("Bot Response: " . $response); // Debug log
       ChatBotLog::create([
         'user_id' => $userId,
         'message' => $response,
-        'is_bot' => true,
+        'is_bot' => true, // Explicitly set to true
         'created_at' => now(),
       ]);
 
       DB::commit();
 
       return response()->json([
-        'message' => "Transaction created successfully",
+        'message' => $response,
         'data' => [
           'id' => $transaction->id,
-          'amount' => $transaction->amount,
+          'amount' => $amountInUSD,
           'date' => $transaction->date->format('Y-m-d')
         ]
       ]);
@@ -135,125 +139,6 @@ class ChatbotController extends Controller
 
     return $parsed;
   }
-
-  private function normalizeCategory($category)
-  {
-    // Loại bỏ khoảng trắng thừa và chuẩn hóa định dạng
-    return trim(strtolower($category));
-  }
-
-  private function translateCategory($category)
-  {
-    $translations = [
-      // Expenses (Khoản chi)
-      'food' => 'Ăn uống',
-      'food & beverage' => 'Ăn uống',
-      'food & drinks' => 'Ăn uống',
-      'meals' => 'Ăn uống',
-      'dining' => 'Ăn uống',
-
-      'shopping' => 'Mua sắm',
-      'purchases' => 'Mua sắm',
-      'buy' => 'Mua sắm',
-
-      'transport' => 'Di chuyển',
-      'transportation' => 'Di chuyển',
-      'travel' => 'Di chuyển',
-      'commute' => 'Di chuyển',
-
-      'education' => 'Giáo dục',
-      'study' => 'Giáo dục',
-      'tuition' => 'Giáo dục',
-      'school' => 'Giáo dục',
-
-      'gift' => 'Quà tặng & Quyên góp',
-      'donation' => 'Quà tặng & Quyên góp',
-      'gifts & donations' => 'Quà tặng & Quyên góp',
-      'charity' => 'Quà tặng & Quyên góp',
-
-      'investment' => 'Đầu tư',
-      'invest' => 'Đầu tư',
-      'investing' => 'Đầu tư',
-
-      'transfer out' => 'Tiền chuyển đi',
-      'money sent' => 'Tiền chuyển đi',
-      'sent money' => 'Tiền chuyển đi',
-
-      'bills' => 'Hóa đơn & Tiện ích',
-      'utilities' => 'Hóa đơn & Tiện ích',
-      'utility bills' => 'Hóa đơn & Tiện ích',
-
-      'family' => 'Gia đình',
-      'household' => 'Gia đình',
-      'home' => 'Gia đình',
-
-      'health' => 'Sức khỏe',
-      'healthcare' => 'Sức khỏe',
-      'medical' => 'Sức khỏe',
-
-      'entertainment' => 'Giải trí',
-      'leisure' => 'Giải trí',
-      'recreation' => 'Giải trí',
-
-      'insurance' => 'Bảo hiểm',
-      'coverage' => 'Bảo hiểm',
-
-      'other expenses' => 'Các chi phí khác',
-      'miscellaneous' => 'Các chi phí khác',
-      'others' => 'Các chi phí khác',
-
-      'interest payment' => 'Trả lãi',
-      'pay interest' => 'Trả lãi',
-
-      // Income (Khoản thu)
-      'salary' => 'Lương',
-      'wages' => 'Lương',
-      'paycheck' => 'Lương',
-
-      'transfer in' => 'Tiền chuyển đến',
-      'money received' => 'Tiền chuyển đến',
-      'received money' => 'Tiền chuyển đến',
-
-      'other income' => 'Thu nhập khác',
-      'misc income' => 'Thu nhập khác',
-
-      'interest income' => 'Thu lãi',
-      'interest earned' => 'Thu lãi',
-
-      // Loans (Khoản vay)
-      'lending' => 'Cho vay',
-      'lend money' => 'Cho vay',
-      'loan given' => 'Cho vay',
-
-      'borrowing' => 'Đi vay',
-      'borrow money' => 'Đi vay',
-      'loan taken' => 'Đi vay',
-
-      // Debts (Khoản nợ)
-      'debt payment' => 'Trả nợ',
-      'pay debt' => 'Trả nợ',
-      'repayment' => 'Trả nợ',
-
-      'debt collection' => 'Thu nợ',
-      'collect debt' => 'Thu nợ',
-      'debt recovery' => 'Thu nợ',
-
-      // Uncategorized
-      'uncategorized' => 'Chưa phân loại',
-      'undefined' => 'Chưa phân loại',
-      'unknown' => 'Chưa phân loại'
-    ];
-
-    $normalizedCategory = $this->normalizeCategory($category);
-
-    if (!isset($translations[$normalizedCategory])) {
-      Log::warning("Danh mục không được định nghĩa trong mảng dịch: " . $category);
-    }
-
-    return $translations[$normalizedCategory] ?? $category;
-  }
-
-
   private function getDefaultWalletId()
   {
     // Fetch the wallet ID with the minimum ID for the authenticated user
@@ -263,7 +148,6 @@ class ChatbotController extends Controller
       ->orderBy('wallet_id', 'asc')
       ->value('wallet_id');
   }
-
   private function getCategoryId($categoryName)
   {
     $categoryId = DB::table('categories')->where('name', $categoryName)->value('category_id');
@@ -273,5 +157,40 @@ class ChatbotController extends Controller
     }
 
     return $categoryId;
+  }
+  protected function getExchangeRate($fromCurrency, $toCurrency)
+  {
+    $exchangeRates = [
+      'USD' => 1,
+      'VND' => 25000,
+      'EUR' => 0.96,
+    ];
+
+    if ($fromCurrency === $toCurrency) {
+      return 1;
+    }
+
+    return $exchangeRates[$fromCurrency] / $exchangeRates[$toCurrency];
+  }
+  public function getChatHistory()
+  {
+    Carbon::setLocale('vi'); // Set Vietnamese locale
+    $userId = Auth::user()->user_id;
+
+    $chatLogs = ChatBotLog::where('user_id', $userId)
+      ->orderBy('created_at', 'asc')
+      ->get()
+      ->map(function ($log) {
+        $createdAt = Carbon::parse($log->created_at);
+        return [
+          'message' => $log->message,
+          'is_bot' => $log->is_bot,
+          'time' => $createdAt->format('H:i'),
+          'date' => $createdAt->translatedFormat('l, d/m/Y'), // Thứ Hai, 01/01/2024
+          'timestamp' => $createdAt->timestamp
+        ];
+      });
+
+    return response()->json($chatLogs);
   }
 }

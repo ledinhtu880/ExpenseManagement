@@ -96,7 +96,7 @@
             let updateBtn = $("#btnUpdateCurrency");
             updateBtn.on("click", function() {
                 $("#formChangeCurrency").submit();
-            })
+            });
 
             $('#chatModal').modal({
                 backdrop: 'static',
@@ -110,53 +110,44 @@
 
                 if (message) {
                     // Add user message
-                    appendMessage('user', message);
+                    appendMessage('user', message, new Date().toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }));
                     $('#message').val('');
 
                     // Send message to server
                     $.ajax({
-                        url: '{{ route('chat.createTransaction') }}',
+                        url: "{{ route('chat.createTransaction') }}",
                         method: 'POST',
                         data: {
                             message: message,
-                            _token: '{{ csrf_token() }}'
+                            _token: "{{ csrf_token() }}"
                         },
                         success: function(response) {
-                            $('#chat-box').append(
-                                `<div class="message bot-message"><strong>Bot:</strong> ${response.message}</div>`
-                            );
+                            appendMessage('bot', response.message, new Date()
+                                .toLocaleTimeString([], {
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                }));
                         },
                         error: function() {
-                            $('#chat-box').append(
-                                `<div class="message bot-message"><strong>Bot:</strong> Something went wrong.</div>`
-                            );
+                            appendMessage('bot', "Something went wrong.", new Date()
+                                .toLocaleTimeString([], {
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                }));
                         }
                     });
 
                     scrollToBottom();
                 }
-            }); // Function to append message
-            function appendMessage(sender, text) {
-                const time = new Date().toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                const messageHTML = `
-            <div class="message-container ${sender}">
-                <div class="message-content">
-                    <div class="message-text">${text}</div>
-                    <div class="message-time">${time}</div>
-                </div>
-            </div>
-        `;
-                $('#chat-box').append(messageHTML);
-                scrollToBottom();
-            }
+            });
 
             // Function to scroll chat to bottom
             function scrollToBottom() {
                 const chatBox = $('#chat-box');
-                chatBox.scrollTop = chatBox.scrollHeight;
+                chatBox.scrollTop(chatBox.prop("scrollHeight"));
             }
 
             // Handle window resize
@@ -174,6 +165,47 @@
                     $('.chat-input').css('width', 'calc(50% - 2rem)');
                 }
             }
-        })
+
+            // Load chat history when modal opens
+            $('#chatModal').on('shown.bs.modal', function() {
+                loadChatHistory();
+            });
+
+            function loadChatHistory() {
+                $.ajax({
+                    url: "{{ route('chat.history') }}",
+                    method: 'GET',
+                    success: function(response) {
+                        $('#chat-box').empty();
+                        response.forEach(function(message) {
+                            console.log(message);
+                            appendMessage(
+                                message.is_bot ? 'bot' : 'user',
+                                message.message,
+                                message.time // Use pre-formatted time from backend
+                            );
+                        });
+                        scrollToBottom();
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        alert('Failed to load chat history');
+                    }
+                });
+            }
+
+            function appendMessage(sender, text, time) {
+                const messageHTML = `
+        <div class="message-container ${sender}">
+            <div class="message-content">
+                <div class="message-text">${text}</div>
+                <div class="message-time">${time}</div> 
+            </div>
+        </div>
+    `;
+                $('#chat-box').append(messageHTML);
+                scrollToBottom();
+            }
+        });
     </script>
 @endpush

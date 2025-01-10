@@ -15,9 +15,9 @@ return new class extends Migration
       $table->unsignedInteger('log_id', true)->primary();
       $table->unsignedInteger('user_id');
       $table->text('message');
-      $table->boolean('is_bot')->default(false); // Thêm cột is_bot
+      $table->boolean('is_bot');
       $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
-      $table->timestamps();
+      $table->dateTime('created_at')->nullable()->useCurrent();
     });
   }
 
