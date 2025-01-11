@@ -39,7 +39,7 @@
                 </li>
                 <li class="nav-item text-center">
                     <a href="{{ route('home.account') }}"
-                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ request()->routeIs('home.account') || request()->routeIs('accounts.*') ? ' active' : '' }}">
+                        class="nav-link rounded-0 py-3 text-white fw-bold text-uppercase{{ (request()->routeIs('home.account') || request()->routeIs('accounts.*') || request()->routeIs('bank-branches.*')) ? ' active' : '' }}">
                         TÀI KHOẢN
                     </a>
                 </li>

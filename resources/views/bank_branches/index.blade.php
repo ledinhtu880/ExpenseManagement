@@ -88,8 +88,8 @@
             if ("geolocation" in navigator) {
                 navigator.geolocation.getCurrentPosition(
                     function(position) {
-                        initMap(21.01308565807955, 105.85670971630577);
-                        // initMap(defaultLatitude, defaultLongitude);
+                        initMap(defaultLatitude, defaultLongitude);
+                        // initMap(position.coords.latitude, position.coords.longitude);
                     },
                     function(error) {
                         $.error("Lỗi khi lấy vị trí: " + error.message);

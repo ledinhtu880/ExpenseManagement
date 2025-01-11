@@ -26,18 +26,18 @@
                 </form>
                 <ul class="nav nav-underline list-transaction nav-fill mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link text-dark active" id="pills-previous-month-tab" data-bs-toggle="pill"
+                        <button class="nav-link text-dark" id="pills-previous-month-tab" data-bs-toggle="pill"
                             data-bs-target="#pills-previous-month" type="button" role="tab"
                             aria-controls="pills-previous-month" aria-selected="false">Tháng trước</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link text-dark" id="pills-current-month-tab" data-bs-toggle="pill"
+                        <button class="nav-link text-dark active" id="pills-current-month-tab" data-bs-toggle="pill"
                             data-bs-target="#pills-current-month" type="button" role="tab"
                             aria-controls="pills-current-month" aria-selected="false">Tháng này</button>
                     </li>
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-previous-month" role="tabpanel"
+                    <div class="tab-pane fade" id="pills-previous-month" role="tabpanel"
                         aria-labelledby="pills-previous-month-tab" tabindex="0">
                         {{-- Opening Balance and Closing Balance --}}
                         <div class="card rounded-3 border-primary-color">
@@ -104,7 +104,7 @@
                         </div>
                         {{-- /.list transaction --}}
                     </div>
-                    <div class="tab-pane fade" id="pills-current-month" role="tabpanel"
+                    <div class="tab-pane fade show active" id="pills-current-month" role="tabpanel"
                         aria-labelledby="pills-current-month-tab" tabindex="0">
                         {{-- Opening Balance and Closing Balance --}}
                         <div class="card rounded-3 border-primary-color">

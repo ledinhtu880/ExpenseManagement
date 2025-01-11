@@ -101,12 +101,6 @@
                 $("#formChangeCurrency").submit();
             });
 
-            $('#chatModal').modal({
-                backdrop: 'static',
-                keyboard: false,
-                show: false
-            });
-
             $('#chat-form').submit(function(e) {
                 e.preventDefault();
                 const message = $('#message').val().trim();
